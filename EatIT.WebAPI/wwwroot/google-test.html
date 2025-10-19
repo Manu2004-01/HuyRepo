@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign-In Test - EatIT</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .google-signin {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .result h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .user-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .api-data {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        .copy-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .copy-btn:hover {
+            background: #45a049;
+        }
+        .test-api {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .curl-command {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Google Sign-In Test - EatIT</h1>
+        
+        <div class="google-signin">
+            <p>Nhấn nút bên dưới để đăng nhập Google và lấy thông tin User ID:</p>
+            <div id="g_id_onload"
+                 data-client_id="440917948717-v8cu51j161v8l9blbv0o97id0gk2bbmb.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-login_uri="https://localhost:7091/google-test.html">
+            </div>
+            <div class="g_id_signin" 
+                 data-type="standard" 
+                 data-size="large" 
+                 data-theme="outline" 
+                 data-text="sign_in_with" 
+                 data-shape="rectangular" 
+                 data-logo_alignment="left">
+            </div>
+        </div>
+
+        <div id="result" style="display: none;">
+            <div class="result">
+                <h3>✅ Thông tin User từ Google:</h3>
+                <div class="user-info">
+                    <p><strong>🔑 Google ID:</strong> <span id="googleId"></span></p>
+                    <p><strong>📧 Email:</strong> <span id="email"></span></p>
+                    <p><strong>👤 Name:</strong> <span id="name"></span></p>
+                    <p><strong>🖼️ Picture:</strong> <span id="picture"></span></p>
+                </div>
+
+                <h3>📋 Dữ liệu JSON để gửi API:</h3>
+                <div class="api-data">
+                    <pre id="jsonData"></pre>
+                    <button class="copy-btn" onclick="copyToClipboard('jsonData')">📋 Copy JSON</button>
+                </div>
+
+                <h3>🧪 Test API ngay:</h3>
+                <div class="test-api">
+                    <p>Bạn có thể test API EatIT ngay với dữ liệu trên:</p>
+                    <button class="copy-btn" onclick="testAPI()">🚀 Test API</button>
+                    <div id="apiResult"></div>
+                </div>
+
+                <h3>💻 Curl Command:</h3>
+                <div class="curl-command">
+                    <pre id="curlCommand"></pre>
+                    <button class="copy-btn" onclick="copyToClipboard('curlCommand')">📋 Copy Curl</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleCredentialResponse(response) {
+            try {
+                // Decode JWT token
+                const responsePayload = decodeJwtResponse(response.credential);
+                
+                console.log("Google User Info:", responsePayload);
+                
+                // Hiển thị thông tin user
+                document.getElementById('googleId').textContent = responsePayload.sub;
+                document.getElementById('email').textContent = responsePayload.email;
+                document.getElementById('name').textContent = responsePayload.name;
+                document.getElementById('picture').textContent = responsePayload.picture;
+                
+                // Tạo JSON data
+                const userData = {
+                    googleId: responsePayload.sub,
+                    email: responsePayload.email,
+                    name: responsePayload.name,
+                    picture: responsePayload.picture
+                };
+                
+                document.getElementById('jsonData').textContent = JSON.stringify(userData, null, 2);
+                
+                // Tạo curl command
+                const curlCommand = `curl -X 'POST' \\
+  'https://localhost:7091/api/Auth/google-register' \\
+  -H 'accept: */*' \\
+  -H 'Content-Type: application/json' \\
+  -d '${JSON.stringify(userData)}'`;
+                
+                document.getElementById('curlCommand').textContent = curlCommand;
+                
+                // Hiển thị result
+                document.getElementById('result').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra: ' + error.message);
+            }
+        }
+
+        function decodeJwtResponse(token) {
+            try {
+                var base64Url = token.split('.')[1];
+                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (error) {
+                throw new Error('Không thể decode JWT token: ' + error.message);
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                alert('✅ Đã copy vào clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                alert('❌ Không thể copy: ' + err);
+            });
+        }
+
+        async function testAPI() {
+            const userData = {
+                googleId: document.getElementById('googleId').textContent,
+                email: document.getElementById('email').textContent,
+                name: document.getElementById('name').textContent,
+                picture: document.getElementById('picture').textContent
+            };
+
+            try {
+                const response = await fetch('https://localhost:7091/api/Auth/google-register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                const result = await response.json();
+                
+                document.getElementById('apiResult').innerHTML = `
+                    <h4>📊 Kết quả API:</h4>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                document.getElementById('apiResult').innerHTML = `
+                    <h4>❌ Lỗi API:</h4>
+                    <p>${error.message}</p>
+                    <p>Đảm bảo server đang chạy tại https://localhost:7091</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

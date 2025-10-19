@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tất cả Restaurants - EatIT Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-box input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 250px;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        #map {
+            height: calc(100vh - 200px);
+            width: 100%;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            margin: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        .restaurant-list {
+            position: absolute;
+            top: 200px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .restaurant-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .restaurant-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .restaurant-item:last-child {
+            border-bottom: none;
+        }
+        
+        .restaurant-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .restaurant-address {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .restaurant-tag {
+            font-size: 11px;
+            background: #e9ecef;
+            color: #495057;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        
+        .toggle-list {
+            position: absolute;
+            top: 250px;
+            right: 20px;
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗺️ Bản đồ tất cả nhà hàng - EatIT</h1>
+        <p>Khám phá các nhà hàng gần bạn</p>
+    </div>
+    
+    <div class="error" id="errorMessage"></div>
+    
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm nhà hàng...">
+            <button class="btn" onclick="searchRestaurants()">Tìm kiếm</button>
+            <button class="btn btn-secondary" onclick="clearSearch()">Xóa</button>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalRestaurants">0</div>
+                <div class="stat-label">Nhà hàng</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="visibleRestaurants">0</div>
+                <div class="stat-label">Hiển thị</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="loading" id="loadingIndicator">
+        <div>🔄 Đang tải dữ liệu...</div>
+    </div>
+    
+    <button class="btn toggle-list" onclick="toggleRestaurantList()" id="toggleListBtn">
+        📋 Danh sách
+    </button>
+    
+    <div class="restaurant-list" id="restaurantList">
+        <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #eee;">
+            <strong>Danh sách nhà hàng</strong>
+        </div>
+        <div id="restaurantListContent"></div>
+    </div>
+    
+    <div id="map"></div>
+
+    <script>
+        let map;
+        let markers = [];
+        let restaurants = [];
+        let infoWindow;
+        let isListVisible = false;
+
+        // Initialize map
+        function initMap() {
+            // Default location (Ho Chi Minh City)
+            const defaultLocation = { lat: 10.762622, lng: 106.660172 };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: defaultLocation,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: [
+                    {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }]
+                    }
+                ]
+            });
+
+            infoWindow = new google.maps.InfoWindow();
+            
+            // Load restaurants data
+            loadRestaurants();
+        }
+
+        // Load restaurants from API
+        async function loadRestaurants(searchTerm = null) {
+            showLoading(true);
+            hideError();
+            
+            try {
+                const url = searchTerm 
+                    ? `/api/restaurant/get-all-restaurants-for-map?search=${encodeURIComponent(searchTerm)}`
+                    : '/api/restaurant/get-all-restaurants-for-map';
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                restaurants = data.restaurants || [];
+                
+                updateStats();
+                updateMap();
+                updateRestaurantList();
+                
+            } catch (error) {
+                console.error('Error loading restaurants:', error);
+                showError('Không thể tải dữ liệu nhà hàng: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Update map with restaurant markers
+        function updateMap() {
+            // Clear existing markers
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            if (restaurants.length === 0) {
+                return;
+            }
+
+            // Create markers for each restaurant
+            restaurants.forEach(restaurant => {
+                const position = {
+                    lat: parseFloat(restaurant.latitude),
+                    lng: parseFloat(restaurant.longitude)
+                };
+
+                const marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: restaurant.resName,
+                    animation: google.maps.Animation.DROP
+                });
+
+                // Create info window content
+                const infoContent = `
+                    <div style="padding: 10px; max-width: 300px;">
+                        <h3 style="margin: 0 0 10px 0; color: #333;">${restaurant.resName}</h3>
+                        <p style="margin: 0 0 8px 0; color: #666; font-size: 14px;">
+                            📍 ${restaurant.resAddress}
+                        </p>
+                        ${restaurant.tagName ? `<p style="margin: 0 0 8px 0;"><span style="background: #e9ecef; color: #495057; padding: 2px 6px; border-radius: 3px; font-size: 12px;">${restaurant.tagName}</span></p>` : ''}
+                        <p style="margin: 0; font-size: 12px; color: #999;">
+                            Tọa độ: ${restaurant.latitude}, ${restaurant.longitude}
+                        </p>
+                        <div style="margin-top: 10px;">
+                            <button onclick="viewRestaurantDetails(${restaurant.id})" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                                Xem chi tiết
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                marker.addListener("click", () => {
+                    infoWindow.setContent(infoContent);
+                    infoWindow.open(map, marker);
+                });
+
+                markers.push(marker);
+            });
+
+            // Fit map to show all markers
+            if (markers.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                markers.forEach(marker => bounds.extend(marker.getPosition()));
+                map.fitBounds(bounds);
+                
+                // Ensure minimum zoom level
+                google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+                    if (map.getZoom() > 15) {
+                        map.setZoom(15);
+                    }
+                });
+            }
+        }
+
+        // Update restaurant list
+        function updateRestaurantList() {
+            const listContent = document.getElementById('restaurantListContent');
+            listContent.innerHTML = '';
+
+            restaurants.forEach(restaurant => {
+                const item = document.createElement('div');
+                item.className = 'restaurant-item';
+                item.onclick = () => focusOnRestaurant(restaurant);
+                
+                item.innerHTML = `
+                    <div class="restaurant-name">${restaurant.resName}</div>
+                    <div class="restaurant-address">${restaurant.resAddress}</div>
+                    ${restaurant.tagName ? `<div class="restaurant-tag">${restaurant.tagName}</div>` : ''}
+                `;
+                
+                listContent.appendChild(item);
+            });
+        }
+
+        // Focus on specific restaurant
+        function focusOnRestaurant(restaurant) {
+            const position = {
+                lat: parseFloat(restaurant.latitude),
+                lng: parseFloat(restaurant.longitude)
+            };
+            
+            map.setCenter(position);
+            map.setZoom(16);
+            
+            // Find and click the marker
+            const marker = markers.find(m => 
+                m.getPosition().lat() === position.lat && 
+                m.getPosition().lng() === position.lng
+            );
+            
+            if (marker) {
+                google.maps.event.trigger(marker, 'click');
+            }
+        }
+
+        // View restaurant details
+        function viewRestaurantDetails(restaurantId) {
+            window.open(`restaurant-map.html?id=${restaurantId}`, '_blank');
+        }
+
+        // Search restaurants
+        function searchRestaurants() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            loadRestaurants(searchTerm);
+        }
+
+        // Clear search
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            loadRestaurants();
+        }
+
+        // Toggle restaurant list
+        function toggleRestaurantList() {
+            const list = document.getElementById('restaurantList');
+            const btn = document.getElementById('toggleListBtn');
+            
+            isListVisible = !isListVisible;
+            list.style.display = isListVisible ? 'block' : 'none';
+            btn.textContent = isListVisible ? '🗺️ Bản đồ' : '📋 Danh sách';
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalRestaurants').textContent = restaurants.length;
+            document.getElementById('visibleRestaurants').textContent = markers.length;
+        }
+
+        // Show/hide loading indicator
+        function showLoading(show) {
+            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Handle Enter key in search input
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRestaurants();
+            }
+        });
+
+        // Initialize when page loads
+        window.onload = function() {
+            // Check if we have a search parameter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const search = urlParams.get('search');
+            
+            if (search) {
+                document.getElementById('searchInput').value = search;
+                loadRestaurants(search);
+            }
+        };
+    </script>
+
+    <!-- Google Maps API -->
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsY85R06SKIDf8kmU6RXjc60jMHs37D80&callback=initMap&libraries=places">
+    </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Map - EatIT</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .restaurant-info {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .restaurant-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .restaurant-address {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .coordinates {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #495057;
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        
+        .controls {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .input-group {
+            margin: 10px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .input-group input {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+        
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗺️ Restaurant Map - EatIT</h1>
+            <p>Xem vị trí nhà hàng trên bản đồ</p>
+        </div>
+        
+        <div class="restaurant-info">
+            <div class="restaurant-name" id="restaurantName">Tên nhà hàng</div>
+            <div class="restaurant-address" id="restaurantAddress">Địa chỉ nhà hàng</div>
+            <div class="coordinates">
+                <strong>Tọa độ:</strong> 
+                <span id="coordinates">Latitude: 0, Longitude: 0</span>
+            </div>
+        </div>
+        
+        <div class="error" id="errorMessage"></div>
+        
+        <div id="map"></div>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label for="latitude">Vĩ độ (Latitude):</label>
+                <input type="number" id="latitude" step="any" placeholder="10.762622">
+                <label for="longitude">Kinh độ (Longitude):</label>
+                <input type="number" id="longitude" step="any" placeholder="106.660172">
+            </div>
+            <button class="btn" onclick="updateMap()">Cập nhật bản đồ</button>
+            <button class="btn btn-secondary" onclick="getCurrentLocation()">Vị trí hiện tại</button>
+            <button class="btn btn-secondary" onclick="centerMap()">Trung tâm bản đồ</button>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let marker;
+        let currentRestaurant = {
+            name: "Nhà hàng mẫu",
+            address: "123 Đường ABC, Quận 1, TP.HCM",
+            latitude: 10.762622,
+            longitude: 106.660172
+        };
+
+        // Initialize map
+        function initMap() {
+            // Default location (Ho Chi Minh City)
+            const defaultLocation = { 
+                lat: currentRestaurant.latitude, 
+                lng: currentRestaurant.longitude 
+            };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: defaultLocation,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: [
+                    {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }]
+                    }
+                ]
+            });
+
+            // Create marker
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                title: currentRestaurant.name,
+                animation: google.maps.Animation.DROP
+            });
+
+            // Create info window
+            const infoWindow = new google.maps.InfoWindow({
+                content: `
+                    <div style="padding: 10px;">
+                        <h3 style="margin: 0 0 10px 0; color: #333;">${currentRestaurant.name}</h3>
+                        <p style="margin: 0 0 5px 0; color: #666;">${currentRestaurant.address}</p>
+                        <p style="margin: 0; font-size: 12px; color: #999;">
+                            Tọa độ: ${currentRestaurant.latitude}, ${currentRestaurant.longitude}
+                        </p>
+                    </div>
+                `
+            });
+
+            marker.addListener("click", () => {
+                infoWindow.open(map, marker);
+            });
+
+            updateRestaurantInfo();
+        }
+
+        // Update restaurant information display
+        function updateRestaurantInfo() {
+            document.getElementById('restaurantName').textContent = currentRestaurant.name;
+            document.getElementById('restaurantAddress').textContent = currentRestaurant.address;
+            document.getElementById('coordinates').textContent = 
+                `Latitude: ${currentRestaurant.latitude}, Longitude: ${currentRestaurant.longitude}`;
+            
+            document.getElementById('latitude').value = currentRestaurant.latitude;
+            document.getElementById('longitude').value = currentRestaurant.longitude;
+        }
+
+        // Update map with new coordinates
+        function updateMap() {
+            const lat = parseFloat(document.getElementById('latitude').value);
+            const lng = parseFloat(document.getElementById('longitude').value);
+            
+            if (isNaN(lat) || isNaN(lng)) {
+                showError('Vui lòng nhập tọa độ hợp lệ');
+                return;
+            }
+            
+            if (lat < -90 || lat > 90) {
+                showError('Vĩ độ phải nằm trong khoảng -90 đến 90');
+                return;
+            }
+            
+            if (lng < -180 || lng > 180) {
+                showError('Kinh độ phải nằm trong khoảng -180 đến 180');
+                return;
+            }
+
+            hideError();
+            
+            const newLocation = { lat: lat, lng: lng };
+            
+            // Update restaurant data
+            currentRestaurant.latitude = lat;
+            currentRestaurant.longitude = lng;
+            
+            // Update map center
+            map.setCenter(newLocation);
+            
+            // Update marker position
+            marker.setPosition(newLocation);
+            
+            // Update info window
+            const infoWindow = new google.maps.InfoWindow({
+                content: `
+                    <div style="padding: 10px;">
+                        <h3 style="margin: 0 0 10px 0; color: #333;">${currentRestaurant.name}</h3>
+                        <p style="margin: 0 0 5px 0; color: #666;">${currentRestaurant.address}</p>
+                        <p style="margin: 0; font-size: 12px; color: #999;">
+                            Tọa độ: ${lat}, ${lng}
+                        </p>
+                    </div>
+                `
+            });
+            
+            marker.addListener("click", () => {
+                infoWindow.open(map, marker);
+            });
+            
+            updateRestaurantInfo();
+        }
+
+        // Get current location
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        document.getElementById('latitude').value = lat;
+                        document.getElementById('longitude').value = lng;
+                        
+                        updateMap();
+                    },
+                    (error) => {
+                        showError('Không thể lấy vị trí hiện tại: ' + error.message);
+                    }
+                );
+            } else {
+                showError('Trình duyệt không hỗ trợ định vị');
+            }
+        }
+
+        // Center map
+        function centerMap() {
+            if (marker) {
+                map.setCenter(marker.getPosition());
+                map.setZoom(15);
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Function to load restaurant data from API (example)
+        function loadRestaurantData(restaurantId) {
+            // This would typically make an API call to get restaurant data
+            // For now, using sample data
+            fetch(`/api/restaurant/${restaurantId}`)
+                .then(response => response.json())
+                .then(data => {
+                    currentRestaurant = {
+                        name: data.resName || "Nhà hàng",
+                        address: data.resAddress || "Địa chỉ không xác định",
+                        latitude: data.latitude || 10.762622,
+                        longitude: data.longitude || 106.660172
+                    };
+                    
+                    updateRestaurantInfo();
+                    updateMap();
+                })
+                .catch(error => {
+                    console.error('Error loading restaurant data:', error);
+                    showError('Không thể tải dữ liệu nhà hàng');
+                });
+        }
+
+        // Initialize when page loads
+        window.onload = function() {
+            // You can get restaurant ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const restaurantId = urlParams.get('id');
+            
+            if (restaurantId) {
+                loadRestaurantData(restaurantId);
+            }
+        };
+    </script>
+
+    <!-- Google Maps API -->
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsY85R06SKIDf8kmU6RXjc60jMHs37D80&callback=initMap&libraries=places">
+    </script>
+</body>
+</html>

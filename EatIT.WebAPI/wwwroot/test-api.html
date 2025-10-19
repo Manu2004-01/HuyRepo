@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API EatIT - Google Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test API EatIT - Google Register</h1>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="googleId">Google ID:</label>
+                <input type="text" id="googleId" value="123456789012345678901" placeholder="Nhập Google ID">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="chegiahuy0640@gmail.com" placeholder="Nhập email">
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" value="HuyChe" placeholder="Nhập tên">
+            </div>
+            
+            <div class="form-group">
+                <label for="picture">Picture URL:</label>
+                <input type="url" id="picture" value="https://example.com/avatar.jpg" placeholder="Nhập URL ảnh">
+            </div>
+            
+            <button type="button" onclick="testGoogleRegister()">🚀 Test Google Register API</button>
+            <button type="button" onclick="testGoogleLogin()">🔑 Test Google Login API</button>
+            <button type="button" onclick="fillSampleData()">📝 Fill Sample Data</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function fillSampleData() {
+            document.getElementById('googleId').value = '108234567890123456789';
+            document.getElementById('email').value = 'testuser@gmail.com';
+            document.getElementById('name').value = 'Test User';
+            document.getElementById('picture').value = 'https://lh3.googleusercontent.com/a/ACg8ocK...';
+        }
+
+        async function testGoogleRegister() {
+            const data = {
+                googleId: document.getElementById('googleId').value,
+                email: document.getElementById('email').value,
+                name: document.getElementById('name').value,
+                picture: document.getElementById('picture').value
+            };
+
+            await testAPI('/api/Auth/google-register', data, 'Google Register');
+        }
+
+        async function testGoogleLogin() {
+            const data = {
+                googleId: document.getElementById('googleId').value,
+                email: document.getElementById('email').value,
+                name: document.getElementById('name').value,
+                picture: document.getElementById('picture').value
+            };
+
+            await testAPI('/api/Auth/google-login-token', data, 'Google Login');
+        }
+
+        async function testAPI(endpoint, data, apiName) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="result">🔄 Đang test API...</div>';
+
+            try {
+                const response = await fetch(`https://localhost:7091${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                let resultClass = response.ok ? 'success' : 'error';
+                let statusIcon = response.ok ? '✅' : '❌';
+                
+                resultDiv.innerHTML = `
+                    <div class="result ${resultClass}">
+                        <h3>${statusIcon} Kết quả ${apiName}:</h3>
+                        <p><strong>Status Code:</strong> ${response.status}</p>
+                        <p><strong>Status Text:</strong> ${response.statusText}</p>
+                        <h4>Response Data:</h4>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                        
+                        <h4>Request Data:</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        
+                        <h4>Curl Command:</h4>
+                        <pre>curl -X 'POST' \\
+  'https://localhost:7091${endpoint}' \\
+  -H 'accept: */*' \\
+  -H 'Content-Type: application/json' \\
+  -d '${JSON.stringify(data)}'</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Lỗi kết nối:</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>Đảm bảo server đang chạy tại https://localhost:7091</p>
+                        <p>Chạy lệnh: <code>cd EatIT.WebAPI && dotnet run</code></p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
