@@ -17,7 +17,13 @@ namespace EatIT.Core.Entities
         public string Password { get; set; } = "";
         public string? PhoneNumber { get; set;}
         public string? UserAddress { get; set; }
-        public string? GoogleId { get; set; }
+
+        public string? Preference { get; set; } //Mon an ua thich
+        public string? Dislike { get; set; } //Mon k thich or k an dc
+        public string? Allergy { get; set; } //Mon di ung
+        public string? Diet { get; set; } //Che do an
+
+
         public string? ResetPasswordToken { get; set; }
         public DateTime? ResetPasswordTokenExpiry { get; set; }
         public float? UserLatitude { get; set; }

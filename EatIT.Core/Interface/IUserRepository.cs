@@ -19,5 +19,6 @@ namespace EatIT.Core.Interface
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateUserLocationAsync(int userId, UpdateUserLocationDTO locationDto);
         Task<UserLocationResponseDTO?> GetUserLocationAsync(int userId);
+        Task<UserProfileDTO?> GetProfileAsync(int userId);
     }
 }

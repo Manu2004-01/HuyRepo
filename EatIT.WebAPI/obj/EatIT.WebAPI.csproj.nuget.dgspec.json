@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPTU\\FA25\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj": {}
+    "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj": {}
   },
   "projects": {
-    "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
+    "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
+        "projectUniqueName": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
         "projectName": "EatIT.Core",
-        "projectPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
+        "projectPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
         "packagesPath": "C:\\Users\\Khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\obj\\",
+        "outputPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -92,14 +92,14 @@
         }
       }
     },
-    "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
+    "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
+        "projectUniqueName": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
         "projectName": "EatIT.Infrastructure",
-        "projectPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
+        "projectPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\obj\\",
+        "outputPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -121,8 +121,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
-                "projectPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj"
+              "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
+                "projectPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj"
               }
             }
           }
@@ -187,6 +187,10 @@
               "target": "Package",
               "version": "[1.0.0, )"
             },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "StackExchange.Redis": {
               "target": "Package",
               "version": "[2.9.11, )"
@@ -220,14 +224,14 @@
         }
       }
     },
-    "D:\\FPTU\\FA25\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj": {
+    "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj",
+        "projectUniqueName": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj",
         "projectName": "EatIT.WebAPI",
-        "projectPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj",
+        "projectPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\EatIT.WebAPI.csproj",
         "packagesPath": "C:\\Users\\Khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.WebAPI\\obj\\",
+        "outputPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -249,8 +253,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
-                "projectPath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj"
+              "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
+                "projectPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj"
               }
             }
           }
@@ -274,6 +278,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[15.0.1, )"
+            },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.72.0, )"
             },
             "Microsoft.AspNetCore.Authentication.Google": {
               "target": "Package",
@@ -301,9 +309,9 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
-            "StackExchange.Redis": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[2.9.11, )"
+              "version": "[8.0.8, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

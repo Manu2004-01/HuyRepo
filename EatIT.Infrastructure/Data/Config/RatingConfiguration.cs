@@ -29,11 +29,11 @@ namespace EatIT.Infrastructure.Data.Config
 
             builder.Property(x => x.Comment)
                 .IsRequired()
-                .HasColumnType("text");
+                .HasColumnType("ntext"); // Changed from "text" for Unicode support
 
             builder.Property(x => x.CreateAt)
                 .IsRequired()
-                .HasColumnType("datetime");
+                .HasColumnType("datetime2"); // Changed from "timestamp"
 
             builder.HasOne(x => x.User)
                 .WithMany(u => u.Ratings)

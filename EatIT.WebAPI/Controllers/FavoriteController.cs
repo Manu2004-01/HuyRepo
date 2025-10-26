@@ -19,7 +19,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-favorites")]
+        [HttpGet("favorites")]
         public async Task<ActionResult> GetAllFavorites()
         {
             try
@@ -34,7 +34,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpGet("get-favorites-by-user/{userId}")]
+        [HttpGet("favorites/{userId}")]
         public async Task<ActionResult> GetFavoritesByUser(int userId)
         {
             try
@@ -52,7 +52,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpGet("get-favorite-by-id/{id}")]
+        [HttpGet("favorites/{id}")]
         public async Task<ActionResult> GetFavoriteById(int id)
         {
             try
@@ -73,7 +73,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPost("add-new-favorite")]
+        [HttpPost("favorites")]
         public async Task<ActionResult> AddNewFavorite([FromForm] CreateFavoriteDTO createFavoriteDTO)
         {
             try
@@ -107,7 +107,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPut("update-existing-favorite/{id}")]
+        [HttpPut("favorites/{id}")]
         public async Task<ActionResult> UpdateFavorite(int id, [FromForm] UpdateFavoriteDTO updateFavoriteDTO)
         {
             try
@@ -130,7 +130,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete-existing-favorite/{id}")]
+        [HttpDelete("favorites/{id}")]
         public async Task<ActionResult> DeleteFavorite(int id)
         {
             try

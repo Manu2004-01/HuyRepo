@@ -25,7 +25,7 @@ namespace EatIT.WebAPI.Controllers
         }
         
         //[Authorize(Roles = "Admin")]
-        [HttpGet("get-all-user-role")]
+        [HttpGet("roles")]
         public async Task<ActionResult> Get() 
         {
             try
@@ -46,8 +46,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("get-user-role-by-id/{id}")]
+        [HttpGet("roles/{id}")]
         public async Task<ActionResult> GetById(int id)
         {
             try
@@ -67,8 +66,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("add-new-user-role")]
+        [HttpPost("roles")]
         public async Task<ActionResult> AddUserRole(UserRoleDTO userRoleDTO)
         {
             try
@@ -89,8 +87,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut("update-existing-user-role-by-id/{id}")]
+        [HttpPut("roles/{id}")]
         public async Task<ActionResult> UpdateUserRole(int id, UserRoleDTO userRoleDTO)
         {
             try
@@ -119,8 +116,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("delete-user-role-by-id/{id}")]
+        [HttpDelete("roles/{id}")]
         public async Task<ActionResult> DeleteUserRole(int id)
         {
             try

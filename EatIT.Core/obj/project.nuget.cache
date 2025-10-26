@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "q1CRrqJxuvU=",
+  "dgSpecHash": "51GvuFHkiC4=",
   "success": true,
-  "projectFilePath": "D:\\FPTU\\FA25\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
+  "projectFilePath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Khanh\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.19\\microsoft.aspnetcore.cryptography.internal.8.0.19.nupkg.sha512",
     "C:\\Users\\Khanh\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.19\\microsoft.aspnetcore.cryptography.keyderivation.8.0.19.nupkg.sha512",

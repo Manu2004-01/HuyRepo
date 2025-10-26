@@ -57,19 +57,7 @@ builder.Services
             RoleClaimType = System.Security.Claims.ClaimTypes.Role,
             NameClaimType = System.Security.Claims.ClaimTypes.Name
         };
-    })
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Google:ClientId"]!;
-        options.ClientSecret = builder.Configuration["Google:ClientSecret"]!;
     });
-
-//Redis DB
-builder.Services.AddSingleton<IConnectionMultiplexer>(i =>
-{
-    var configure = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-    return ConnectionMultiplexer.Connect(configure);
-});
 
 builder.Services.AddSwaggerGen(options =>
 {

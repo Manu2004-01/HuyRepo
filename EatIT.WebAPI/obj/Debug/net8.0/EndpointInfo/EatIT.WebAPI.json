@@ -5,116 +5,116 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "UserName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "Password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "pattern": "^(?=.*\\d)(?=.*[@$!%*?&])[A-Z][A-Za-z\\d@$!%*?&]{5,}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ConfirmPassword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auth/login": {
       "post": {
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
-              }
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Password",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/google-login": {
-      "get": {
-        "tags": [
-          "Auth"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/google-response": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/google-login-token": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/google-register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GoogleLoginDTO"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -127,25 +127,17 @@
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDTO"
-              }
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -158,25 +150,42 @@
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDTO"
-              }
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "NewPassword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "minLength": 6,
+              "type": "string"
+            }
+          },
+          {
+            "name": "ConfirmPassword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -189,25 +198,25 @@
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerifyResetTokenDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerifyResetTokenDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerifyResetTokenDTO"
-              }
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -273,7 +282,7 @@
         }
       }
     },
-    "/api/Dish/get-all-dish": {
+    "/api/Dish/dishes": {
       "get": {
         "tags": [
           "Dish"
@@ -307,9 +316,80 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Dish"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "DishDescription",
+                  "DishName",
+                  "DishPrice"
+                ],
+                "type": "object",
+                "properties": {
+                  "restaurantid": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "dimage": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "DishName": {
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "DishDescription": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "DishPrice": {
+                    "maximum": 10000000,
+                    "minimum": 1000,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "IsVegan": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "encoding": {
+                "restaurantid": {
+                  "style": "form"
+                },
+                "dimage": {
+                  "style": "form"
+                },
+                "DishName": {
+                  "style": "form"
+                },
+                "DishDescription": {
+                  "style": "form"
+                },
+                "DishPrice": {
+                  "style": "form"
+                },
+                "IsVegan": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-    "/api/Dish/get-dish-by-id/{id}": {
+    "/api/Dish/dishes/{id}": {
       "get": {
         "tags": [
           "Dish"
@@ -350,82 +430,7 @@
             }
           }
         }
-      }
-    },
-    "/api/Dish/add-new-dish": {
-      "post": {
-        "tags": [
-          "Dish"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "DishDescription",
-                  "DishName",
-                  "DishPrice"
-                ],
-                "type": "object",
-                "properties": {
-                  "restaurantid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "dimage": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "DishName": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "DishDescription": {
-                    "maxLength": 500,
-                    "type": "string"
-                  },
-                  "DishPrice": {
-                    "maximum": 10000000,
-                    "minimum": 1000,
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "IsVegan": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "encoding": {
-                "restaurantid": {
-                  "style": "form"
-                },
-                "dimage": {
-                  "style": "form"
-                },
-                "DishName": {
-                  "style": "form"
-                },
-                "DishDescription": {
-                  "style": "form"
-                },
-                "DishPrice": {
-                  "style": "form"
-                },
-                "IsVegan": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Dish/update-existing-dish/{id}": {
+      },
       "put": {
         "tags": [
           "Dish"
@@ -507,9 +512,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Dish/delete-existing-dish/{id}": {
+      },
       "delete": {
         "tags": [
           "Dish"
@@ -532,7 +535,7 @@
         }
       }
     },
-    "/api/Favorite/get-all-favorites": {
+    "/api/Favorite/favorites": {
       "get": {
         "tags": [
           "Favorite"
@@ -542,9 +545,53 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Favorite"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dishid": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "userid": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "restaurantid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              },
+              "encoding": {
+                "dishid": {
+                  "style": "form"
+                },
+                "userid": {
+                  "style": "form"
+                },
+                "restaurantid": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-    "/api/Favorite/get-favorites-by-user/{userId}": {
+    "/api/Favorite/favorites/{userId}": {
       "get": {
         "tags": [
           "Favorite"
@@ -567,7 +614,7 @@
         }
       }
     },
-    "/api/Favorite/get-favorite-by-id/{id}": {
+    "/api/Favorite/favorites/{id}": {
       "get": {
         "tags": [
           "Favorite"
@@ -588,55 +635,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Favorite/add-new-favorite": {
-      "post": {
-        "tags": [
-          "Favorite"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dishid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "userid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "restaurantid": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
-              },
-              "encoding": {
-                "dishid": {
-                  "style": "form"
-                },
-                "userid": {
-                  "style": "form"
-                },
-                "restaurantid": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Favorite/update-existing-favorite/{id}": {
+      },
       "put": {
         "tags": [
           "Favorite"
@@ -691,9 +690,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Favorite/delete-existing-favorite/{id}": {
+      },
       "delete": {
         "tags": [
           "Favorite"
@@ -716,7 +713,7 @@
         }
       }
     },
-    "/api/Rating/get-all-ratings": {
+    "/api/Rating/ratings": {
       "get": {
         "tags": [
           "Rating"
@@ -735,52 +732,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Rating/get-rating-by-id/{id}": {
-      "get": {
-        "tags": [
-          "Rating"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Rating/add-new-rating": {
+      },
       "post": {
         "tags": [
           "Rating"
@@ -836,7 +788,48 @@
         }
       }
     },
-    "/api/Rating/update-existing-rating/{id}": {
+    "/api/Rating/ratings/{id}": {
+      "get": {
+        "tags": [
+          "Rating"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": [
           "Rating"
@@ -901,9 +894,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Rating/delete-existing-rating/{id}": {
+      },
       "delete": {
         "tags": [
           "Rating"
@@ -926,7 +917,7 @@
         }
       }
     },
-    "/api/Restaurant/get-all-restaurants": {
+    "/api/Restaurant/restaurants": {
       "get": {
         "tags": [
           "Restaurant"
@@ -945,9 +936,90 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Latitude",
+                  "Longitude",
+                  "OpeningHours",
+                  "ResAddress",
+                  "ResName"
+                ],
+                "type": "object",
+                "properties": {
+                  "tagid": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "rimage": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ResName": {
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "ResAddress": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "maximum": 90,
+                    "minimum": -90,
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "Longitude": {
+                    "maximum": 180,
+                    "minimum": -180,
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "OpeningHours": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "tagid": {
+                  "style": "form"
+                },
+                "rimage": {
+                  "style": "form"
+                },
+                "ResName": {
+                  "style": "form"
+                },
+                "ResAddress": {
+                  "style": "form"
+                },
+                "Latitude": {
+                  "style": "form"
+                },
+                "Longitude": {
+                  "style": "form"
+                },
+                "OpeningHours": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-    "/api/Restaurant/get-restaurant-by-id/{id}": {
+    "/api/Restaurant/restaurants/{id}": {
       "get": {
         "tags": [
           "Restaurant"
@@ -988,91 +1060,22 @@
             }
           }
         }
-      }
-    },
-    "/api/Restaurant/add-new-restaurant": {
-      "post": {
+      },
+      "delete": {
         "tags": [
           "Restaurant"
         ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "Latitude",
-                  "Longitude",
-                  "OpeningHours",
-                  "ResAddress",
-                  "ResName"
-                ],
-                "type": "object",
-                "properties": {
-                  "tagid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "userid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "rimage": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "ResName": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "ResAddress": {
-                    "type": "string"
-                  },
-                  "Latitude": {
-                    "maximum": 90,
-                    "minimum": -90,
-                    "type": "number",
-                    "format": "float"
-                  },
-                  "Longitude": {
-                    "maximum": 180,
-                    "minimum": -180,
-                    "type": "number",
-                    "format": "float"
-                  },
-                  "OpeningHours": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "tagid": {
-                  "style": "form"
-                },
-                "userid": {
-                  "style": "form"
-                },
-                "rimage": {
-                  "style": "form"
-                },
-                "ResName": {
-                  "style": "form"
-                },
-                "ResAddress": {
-                  "style": "form"
-                },
-                "Latitude": {
-                  "style": "form"
-                },
-                "Longitude": {
-                  "style": "form"
-                },
-                "OpeningHours": {
-                  "style": "form"
-                }
-              }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1080,7 +1083,7 @@
         }
       }
     },
-    "/api/Restaurant/update-existing-restsaurant/{id}": {
+    "/api/Restaurant/restsaurants/{id}": {
       "put": {
         "tags": [
           "Restaurant"
@@ -1113,10 +1116,6 @@
                     "type": "integer",
                     "format": "int32"
                   },
-                  "userid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
                   "rimage": {
                     "type": "string",
                     "format": "binary"
@@ -1149,9 +1148,6 @@
                 "tagid": {
                   "style": "form"
                 },
-                "userid": {
-                  "style": "form"
-                },
                 "rimage": {
                   "style": "form"
                 },
@@ -1181,50 +1177,7 @@
         }
       }
     },
-    "/api/Restaurant/get-restaurant-for-map/{id}": {
-      "get": {
-        "tags": [
-          "Restaurant"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseCommentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Restaurant/get-all-restaurants-for-map": {
+    "/api/Restaurant/restaurants-map": {
       "get": {
         "tags": [
           "Restaurant"
@@ -1245,86 +1198,12 @@
         }
       }
     },
-    "/api/Restaurant/delete-existing-restaurant/{id}": {
-      "delete": {
-        "tags": [
-          "Restaurant"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Restaurant/update-user-location-by-id/{userId}": {
-      "post": {
-        "tags": [
-          "Restaurant"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserLocationDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserLocationDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserLocationDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Restaurant/get-nearby-restaurants-by-user-id/{userId}": {
+    "/api/Restaurant/nearby": {
       "get": {
         "tags": [
           "Restaurant"
         ],
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
           {
             "name": "radiusKm",
             "in": "query",
@@ -1338,48 +1217,76 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Restaurant/get-user-location-by-id/{userId}": {
-      "get": {
-        "tags": [
-          "Restaurant"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Restaurant/get-restaurants-with-distance-by-user-id/{userId}": {
-      "get": {
-        "tags": [
-          "Restaurant"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Restaurant/distance": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "parameters": [
           {
             "name": "search",
             "in": "query",
@@ -1391,11 +1298,71 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Tag/get-all-tags": {
+    "/api/Tag/tags": {
       "get": {
         "tags": [
           "Tag"
@@ -1405,9 +1372,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Tag/add-new-tag": {
+      },
       "post": {
         "tags": [
           "Tag"
@@ -1449,7 +1414,7 @@
         }
       }
     },
-    "/api/Tag/delete-existing-tag/{id}": {
+    "/api/Tag/tags/{id}": {
       "delete": {
         "tags": [
           "Tag"
@@ -1472,7 +1437,7 @@
         }
       }
     },
-    "/api/User/get-all-users": {
+    "/api/User/users": {
       "get": {
         "tags": [
           "User"
@@ -1522,9 +1487,111 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Email",
+                  "Password",
+                  "PhoneNumber",
+                  "UserAddress",
+                  "UserName"
+                ],
+                "type": "object",
+                "properties": {
+                  "userroleid": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "UserName": {
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "Password": {
+                    "pattern": "^(?=.*\\d)(?=.*[@$!%*?&])[A-Z][A-Za-z\\d@$!%*?&]{5,}$",
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "pattern": "^\\d{11}$",
+                    "type": "string"
+                  },
+                  "UserAddress": {
+                    "type": "string"
+                  },
+                  "Preference": {
+                    "type": "string"
+                  },
+                  "Dislike": {
+                    "type": "string"
+                  },
+                  "Allergy": {
+                    "type": "string"
+                  },
+                  "Diet": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "userroleid": {
+                  "style": "form"
+                },
+                "image": {
+                  "style": "form"
+                },
+                "UserName": {
+                  "style": "form"
+                },
+                "Email": {
+                  "style": "form"
+                },
+                "Password": {
+                  "style": "form"
+                },
+                "PhoneNumber": {
+                  "style": "form"
+                },
+                "UserAddress": {
+                  "style": "form"
+                },
+                "Preference": {
+                  "style": "form"
+                },
+                "Dislike": {
+                  "style": "form"
+                },
+                "Allergy": {
+                  "style": "form"
+                },
+                "Diet": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-    "/api/User/get-user-by-id/{id}": {
+    "/api/User/users/{id}": {
       "get": {
         "tags": [
           "User"
@@ -1565,89 +1632,7 @@
             }
           }
         }
-      }
-    },
-    "/api/User/add-new-user": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "Email",
-                  "Password",
-                  "PhoneNumber",
-                  "UserAddress",
-                  "UserName"
-                ],
-                "type": "object",
-                "properties": {
-                  "userroleid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "UserName": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "Email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "Password": {
-                    "pattern": "^(?=.*\\d)(?=.*[@$!%*?&])[A-Z][A-Za-z\\d@$!%*?&]{5,}$",
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "pattern": "^\\d{11}$",
-                    "type": "string"
-                  },
-                  "UserAddress": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "userroleid": {
-                  "style": "form"
-                },
-                "image": {
-                  "style": "form"
-                },
-                "UserName": {
-                  "style": "form"
-                },
-                "Email": {
-                  "style": "form"
-                },
-                "Password": {
-                  "style": "form"
-                },
-                "PhoneNumber": {
-                  "style": "form"
-                },
-                "UserAddress": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/User/update-existing-user/{id}": {
+      },
       "put": {
         "tags": [
           "User"
@@ -1702,6 +1687,18 @@
                   },
                   "UserAddress": {
                     "type": "string"
+                  },
+                  "Preference": {
+                    "type": "string"
+                  },
+                  "Dislike": {
+                    "type": "string"
+                  },
+                  "Allergy": {
+                    "type": "string"
+                  },
+                  "Diet": {
+                    "type": "string"
                   }
                 }
               },
@@ -1726,73 +1723,17 @@
                 },
                 "UserAddress": {
                   "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/User/update-profile/{id}": {
-      "put": {
-        "tags": [
-          "User"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "PhoneNumber",
-                  "UserAddress",
-                  "UserName"
-                ],
-                "type": "object",
-                "properties": {
-                  "UserName": {
-                    "maxLength": 100,
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "pattern": "^\\d{11}$",
-                    "type": "string"
-                  },
-                  "UserAddress": {
-                    "type": "string"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "UserName": {
+                },
+                "Preference": {
                   "style": "form"
                 },
-                "PhoneNumber": {
+                "Dislike": {
                   "style": "form"
                 },
-                "UserAddress": {
+                "Allergy": {
                   "style": "form"
                 },
-                "image": {
+                "Diet": {
                   "style": "form"
                 }
               }
@@ -1804,9 +1745,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/User/delete-existing-user/{id}": {
+      },
       "delete": {
         "tags": [
           "User"
@@ -1829,42 +1768,313 @@
         }
       }
     },
-    "/api/UserRole/get-all-user-role": {
-      "get": {
+    "/api/User/profile": {
+      "put": {
         "tags": [
-          "UserRole"
+          "User"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/UserRole/get-user-role-by-id/{id}": {
-      "get": {
-        "tags": [
-          "UserRole"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "UserName": {
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "UserAddress": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "UserName": {
+                  "style": "form"
+                },
+                "UserAddress": {
+                  "style": "form"
+                },
+                "image": {
+                  "style": "form"
+                }
+              }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/location": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserLocationDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserLocationDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserLocationDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseCommentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserRole/roles": {
+      "get": {
+        "tags": [
+          "UserRole"
         ],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/UserRole/add-new-user-role": {
+      },
       "post": {
         "tags": [
           "UserRole"
@@ -1895,7 +2105,28 @@
         }
       }
     },
-    "/api/UserRole/update-existing-user-role-by-id/{id}": {
+    "/api/UserRole/roles/{id}": {
+      "get": {
+        "tags": [
+          "UserRole"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "put": {
         "tags": [
           "UserRole"
@@ -1935,9 +2166,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/UserRole/delete-user-role-by-id/{id}": {
+      },
       "delete": {
         "tags": [
           "UserRole"
@@ -1977,90 +2206,6 @@
         },
         "additionalProperties": false
       },
-      "ForgotPasswordDTO": {
-        "required": [
-          "email"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GoogleLoginDTO": {
-        "required": [
-          "email",
-          "googleId"
-        ],
-        "type": "object",
-        "properties": {
-          "googleId": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "picture": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "LoginDTO": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ResetPasswordDTO": {
-        "required": [
-          "confirmPassword",
-          "email",
-          "newPassword",
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "newPassword": {
-            "minLength": 6,
-            "type": "string"
-          },
-          "confirmPassword": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "UpdateUserLocationDTO": {
         "required": [
           "userLatitude",
@@ -2092,25 +2237,6 @@
           "roleName": {
             "minLength": 1,
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "VerifyResetTokenDTO": {
-        "required": [
-          "email",
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
           }
         },
         "additionalProperties": false

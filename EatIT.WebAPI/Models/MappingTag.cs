@@ -11,7 +11,8 @@ namespace EatIT.WebAPI.Models
         {
             CreateMap<Tags, TagDTO>()
                 .ForMember(t => t.TagID, t => t.MapFrom(x => x.Id))
-                .ForMember(t => t.TagImg, t => t.MapFrom<TagImageUrlResolver>()).ReverseMap();
+                .ForMember(t => t.TagImg, t => t.MapFrom<TagImageUrlResolver>())
+                .ReverseMap();
 
             CreateMap<CreateTagDTO, Tags>()
                 .ForMember(t => t.TagImg, t => t.Ignore()).ReverseMap();

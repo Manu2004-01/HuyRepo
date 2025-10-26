@@ -24,7 +24,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-dish")]
+        [HttpGet("dishes")]
         public async Task<ActionResult> GetAllDish([FromQuery] string? sort = null, [FromQuery] decimal? price = null, [FromQuery] string? search = null)
         {
             try
@@ -46,7 +46,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpGet("get-dish-by-id/{id}")]
+        [HttpGet("dishes/{id}")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetDishById(int id)
@@ -67,7 +67,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPost("add-new-dish")]
+        [HttpPost("dishes")]
         public async Task<ActionResult> AddNewDish([FromForm] CreateDishDTO createDishDTO)
         {
             try
@@ -87,7 +87,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPut("update-existing-dish/{id}")]
+        [HttpPut("dishes/{id}")]
         public async Task<ActionResult> UpdateDish(int id, [FromForm] UpdateDishDTO updateDishDTO)
         {
             try
@@ -109,7 +109,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete-existing-dish/{id}")]
+        [HttpDelete("dishes/{id}")]
         public async Task<ActionResult> DeleteDish(int id)
         {
             try

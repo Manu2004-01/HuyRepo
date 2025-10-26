@@ -7,6 +7,7 @@ using EatIT.WebAPI.MyHelper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EatIT.WebAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace EatIT.WebAPI.Controllers
         }
 
         //[Authorize(Roles = "Người dùng")]
-        [HttpGet("get-all-users")]
+        [HttpGet("users")]
         public async Task<ActionResult> GetAllUser([FromQuery] int pagenumber, [FromQuery] int pazesize, [FromQuery] string? sort = null, [FromQuery] int? roleid = null, [FromQuery] string? search = null)
         {
             try
@@ -51,9 +52,8 @@ namespace EatIT.WebAPI.Controllers
                 return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi đang tìm kiếm người dùng"));
             }
         }
-        
-        [Authorize(Roles = "Admin")]
-        [HttpGet("get-user-by-id/{id}")]
+
+        [HttpGet("users/{id}")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetUserById(int id)
@@ -76,7 +76,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
         
-        [HttpPost("add-new-user")]
+        [HttpPost("users")]
         public async Task<ActionResult> AddNewUser([FromForm]CreateUserDTO createUserDTO)
         {
             try
@@ -101,7 +101,7 @@ namespace EatIT.WebAPI.Controllers
         
         //Update User (Admin only)
         //[Authorize(Roles = "Admin")]
-        [HttpPut("update-existing-user/{id}")]
+        [HttpPut("users/{id}")]
         public async Task<ActionResult> UpdateUser(int id, [FromForm] UpdateUserDTO updateUserDTO)
         {
             try
@@ -124,15 +124,23 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        //Update User Profile (User can update their own profile)
-        //[Authorize]
-        [HttpPut("update-profile/{id}")]
-        public async Task<ActionResult> UpdateUserProfile(int id, [FromForm] UpdateUserProfileDTO updateUserProfileDTO)
+        //Update User Profile (User can update their own profile using JWT token)
+        [Authorize]
+        [HttpPut("profile")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status400BadRequest)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateUserProfile([FromForm] UpdateUserProfileDTO updateUserProfileDTO)
         {
             try
             {
-                if (id <= 0)
-                    return BadRequest(new BaseCommentResponse(400, "ID người dùng không hợp lệ"));
+                // Lấy user ID từ JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+                }
 
                 if (!ModelState.IsValid)
                     return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
@@ -140,7 +148,7 @@ namespace EatIT.WebAPI.Controllers
                 if (updateUserProfileDTO == null)
                     return BadRequest(new BaseCommentResponse(400, "Cần cập nhật dữ liệu"));
 
-                var res = await _unitOfWork.UserRepository.UpdateProfileAsync(id, updateUserProfileDTO);
+                var res = await _unitOfWork.UserRepository.UpdateProfileAsync(userId, updateUserProfileDTO);
                 return res ? Ok(new { message = "Cập nhật thông tin cá nhân thành công", data = updateUserProfileDTO }) : NotFound(new BaseCommentResponse(404, "Không tìm thấy người dùng hoặc cập nhật không thành công"));
             }
             catch (Exception e) 
@@ -150,7 +158,7 @@ namespace EatIT.WebAPI.Controllers
         }
         
         //Delete User
-        [HttpDelete("delete-existing-user/{id}")]
+        [HttpDelete("users/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
             try
@@ -164,6 +172,102 @@ namespace EatIT.WebAPI.Controllers
             catch (Exception e) 
             {
                 return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi xóa người dùng"));
+            }
+        }
+
+        //Get User Profile from JWT Token
+        [Authorize]
+        [HttpGet("profile")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetUserProfile()
+        {
+            try
+            {
+                // Lấy user ID từ JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+                }
+
+                // Lấy thông tin user từ database
+                var user = await _unitOfWork.UserRepository.GetProfileAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy thông tin người dùng"));
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi lấy thông tin người dùng"));
+            }
+        }
+
+        //Update User Location using JWT Token
+        [Authorize]
+        [HttpPut("location")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status400BadRequest)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateUserLocation([FromBody] UpdateUserLocationDTO locationDto)
+        {
+            try
+            {
+                // Lấy user ID từ JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+                }
+
+                if (!ModelState.IsValid)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
+
+                if (locationDto == null)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu vị trí là bắt buộc"));
+
+                var res = await _unitOfWork.UserRepository.UpdateUserLocationAsync(userId, locationDto);
+                return res ? Ok(new { message = "Cập nhật vị trí thành công", location = locationDto }) : NotFound(new BaseCommentResponse(404, "Không tìm thấy người dùng hoặc cập nhật không thành công"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi cập nhật vị trí người dùng"));
+            }
+        }
+
+        //Get User Location using JWT Token
+        [Authorize]
+        [HttpGet("location")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetUserLocation()
+        {
+            try
+            {
+                // Lấy user ID từ JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+                }
+
+                var location = await _unitOfWork.UserRepository.GetUserLocationAsync(userId);
+                if (location == null)
+                {
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy vị trí người dùng"));
+                }
+
+                return Ok(location);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi lấy vị trí người dùng"));
             }
         }
     }

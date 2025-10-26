@@ -22,7 +22,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-ratings")]
+        [HttpGet("ratings")]
         public async Task<ActionResult> GetAllRating([FromQuery] string? sort = null)
         {
             try
@@ -42,7 +42,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpGet("get-rating-by-id/{id}")]
+        [HttpGet("ratings/{id}")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetRatingById(int id)
@@ -65,7 +65,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPost("add-new-rating")]
+        [HttpPost("ratings")]
         public async Task<ActionResult> AddNewRating([FromForm] CreateRatingDTO createRatingDTO)
         {
             try
@@ -88,7 +88,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPut("update-existing-rating/{id}")]
+        [HttpPut("ratings/{id}")]
         public async Task<ActionResult> UpdateRating(int id, [FromForm] UpdateRatingDTO updateRatingDTO)
         {
             try
@@ -111,7 +111,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete-existing-rating/{id}")]
+        [HttpDelete("ratings/{id}")]
         public async Task<ActionResult> DeleteRating(int id)
         {
             try

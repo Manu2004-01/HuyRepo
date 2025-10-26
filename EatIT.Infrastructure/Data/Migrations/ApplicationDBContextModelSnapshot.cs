@@ -35,7 +35,7 @@ namespace EatIT.Infrastructure.Data.Migrations
 
                     b.Property<string>("DishDescription")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("ntext");
 
                     b.Property<string>("DishImage")
                         .IsRequired()
@@ -102,10 +102,10 @@ namespace EatIT.Infrastructure.Data.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("ntext");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
@@ -160,11 +160,14 @@ namespace EatIT.Infrastructure.Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsersId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TagId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("Restaurants");
                 });
@@ -192,115 +195,96 @@ namespace EatIT.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            TagImg = "http",
                             TagName = "Cơm tấm"
                         },
                         new
                         {
                             Id = 2,
-                            TagImg = "http",
                             TagName = "Món nước"
                         },
                         new
                         {
                             Id = 3,
-                            TagImg = "http",
                             TagName = "Trà sữa"
                         },
                         new
                         {
                             Id = 4,
-                            TagImg = "http",
                             TagName = "Thức ăn nhanh"
                         },
                         new
                         {
                             Id = 5,
-                            TagImg = "http",
                             TagName = "Bánh mì"
                         },
                         new
                         {
                             Id = 6,
-                            TagImg = "http",
                             TagName = "Chè & Tráng miệng"
                         },
                         new
                         {
                             Id = 7,
-                            TagImg = "http",
                             TagName = "Cà phê & Nước uống"
                         },
                         new
                         {
                             Id = 8,
-                            TagImg = "http",
                             TagName = "Hải sản"
                         },
                         new
                         {
                             Id = 9,
-                            TagImg = "http",
                             TagName = "Nướng & BBQ"
                         },
                         new
                         {
                             Id = 10,
-                            TagImg = "http",
                             TagName = "Lẩu"
                         },
                         new
                         {
                             Id = 11,
-                            TagImg = "http",
                             TagName = "Quán nhậu/Bia hơi"
                         },
                         new
                         {
                             Id = 12,
-                            TagImg = "http",
                             TagName = "Ăn vặt/Vỉa hè"
                         },
                         new
                         {
                             Id = 13,
-                            TagImg = "http",
                             TagName = "Cơm văn phòng"
                         },
                         new
                         {
                             Id = 14,
-                            TagImg = "http",
                             TagName = "Chay"
                         },
                         new
                         {
                             Id = 15,
-                            TagImg = "http",
                             TagName = "Ẩm thực miền Bắc"
                         },
                         new
                         {
                             Id = 16,
-                            TagImg = "http",
                             TagName = "Ẩm thực miền Trung"
                         },
                         new
                         {
                             Id = 17,
-                            TagImg = "http",
                             TagName = "Ẩm thực miền Nam"
                         },
                         new
                         {
                             Id = 18,
-                            TagImg = "http",
                             TagName = "Ẩm thực Tây Âu"
                         },
                         new
                         {
                             Id = 19,
-                            TagImg = "http",
                             TagName = "Ẩm thực Nhật/Hàn/Trung"
                         });
                 });
@@ -347,15 +331,21 @@ namespace EatIT.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Allergy")
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Diet")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Dislike")
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(250)");
-
-                    b.Property<string>("GoogleId")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -371,8 +361,11 @@ namespace EatIT.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("Preference")
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<string>("ResetPasswordToken")
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("ResetPasswordTokenExpiry")
                         .HasColumnType("datetime");
@@ -418,7 +411,6 @@ namespace EatIT.Infrastructure.Data.Migrations
                             RoleId = 1,
                             UpdateAt = new DateTime(2025, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserAddress = "Thành phố Hồ Chí Minh",
-                            UserImg = "http",
                             UserName = "Admin Huy Che"
                         },
                         new
@@ -432,7 +424,6 @@ namespace EatIT.Infrastructure.Data.Migrations
                             RoleId = 2,
                             UpdateAt = new DateTime(2025, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserAddress = "Hà Nội",
-                            UserImg = "http",
                             UserName = "Huy Che"
                         },
                         new
@@ -446,7 +437,6 @@ namespace EatIT.Infrastructure.Data.Migrations
                             RoleId = 3,
                             UpdateAt = new DateTime(2025, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserAddress = "Đà Nẵng",
-                            UserImg = "http",
                             UserName = "Nhà hàng đồ ăn"
                         });
                 });
@@ -515,15 +505,11 @@ namespace EatIT.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("EatIT.Core.Entities.Users", "User")
+                    b.HasOne("EatIT.Core.Entities.Users", null)
                         .WithMany("Restaurants")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsersId");
 
                     b.Navigation("Tag");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EatIT.Core.Entities.Users", b =>

@@ -40,6 +40,9 @@ namespace EatIT.WebAPI.Models
                 .ForMember(d => d.Favorites, o => o.Ignore())
                 .ForMember(d => d.Ratings, o => o.Ignore())
                 .ForMember(d => d.Restaurants, o => o.Ignore());
+
+            CreateMap<Users, UserProfileDTO>()
+                .ForMember(d => d.UserImage, o => o.MapFrom<ProfileImageUrlResolver>());
         }
     }
 }

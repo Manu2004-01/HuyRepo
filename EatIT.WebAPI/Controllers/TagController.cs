@@ -24,7 +24,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-tags")]
+        [HttpGet("tags")]
         public async Task<ActionResult> GetAllTag()
         {
             try
@@ -40,7 +40,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPost("add-new-tag")]
+        [HttpPost("tags")]
         public async Task<ActionResult> AddNewTag([FromForm] CreateTagDTO createTagDTO)
         {
             try
@@ -64,7 +64,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete-existing-tag/{id}")]
+        [HttpDelete("tags/{id}")]
         public async Task<ActionResult> DeleteTag(int id)
         {
             try

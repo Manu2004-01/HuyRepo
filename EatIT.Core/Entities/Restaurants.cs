@@ -17,8 +17,6 @@ namespace EatIT.Core.Entities
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public string OpeningHours { get; set; }
-
-        public Users User { get; set; }
         public Tags Tag { get; set; }
 
         public ICollection<Rating> Ratings { get; set; } = new HashSet<Rating>();

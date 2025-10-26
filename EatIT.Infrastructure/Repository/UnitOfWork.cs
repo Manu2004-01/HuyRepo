@@ -2,7 +2,6 @@ using AutoMapper;
 using EatIT.Core.Interface;
 using EatIT.Infrastructure.Data;
 using Microsoft.Extensions.FileProviders;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,6 @@ namespace EatIT.Infrastructure.Repository
         private readonly IFileProvider _fileProvider;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConnectionMultiplexer _redis;
 
         public IUserRoleRepository UserRoleRepository {  get; }
 
@@ -35,12 +33,11 @@ namespace EatIT.Infrastructure.Repository
         
         public IFavoriteRepository FavoriteRepository { get; }
 
-        public UnitOfWork(ApplicationDBContext context, IFileProvider fileProvider, IMapper mapper, IConnectionMultiplexer redis)
+        public UnitOfWork(ApplicationDBContext context, IFileProvider fileProvider, IMapper mapper)
         {
             _dbContext = context;
             _fileProvider = fileProvider;
             _mapper = mapper;
-            _redis = redis;
 
             UserRoleRepository = new UserRoleRepository(_dbContext);
             UserRepository = new UserRepository(_dbContext, _fileProvider, _mapper);

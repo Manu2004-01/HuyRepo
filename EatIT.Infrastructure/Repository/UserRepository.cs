@@ -120,10 +120,16 @@ namespace EatIT.Infrastructure.Repository
             var currentUser = await _context.Users.FindAsync(id);
             if (currentUser == null) return false;
 
-            // Only update allowed fields: UserName, PhoneNumber, UserAddress, and UserImg
-            currentUser.UserName = dto.UserName;
-            currentUser.PhoneNumber = dto.PhoneNumber;
-            currentUser.UserAddress = dto.UserAddress;
+            // Only update fields that are provided (not null/empty and not Swagger default placeholder "string")
+            if (!string.IsNullOrWhiteSpace(dto.UserName) && !string.Equals(dto.UserName, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.UserName = dto.UserName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.UserAddress) && !string.Equals(dto.UserAddress, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.UserAddress = dto.UserAddress;
+            }
 
             // Handle image update if provided
             if (dto.image != null)
@@ -286,6 +292,21 @@ namespace EatIT.Infrastructure.Repository
                 };
             }
             catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserProfileDTO> GetProfileAsync(int userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if(user == null) return null;
+
+                return _mapper.Map<UserProfileDTO>(user);
+            }
+            catch(Exception ex)
             {
                 return null;
             }

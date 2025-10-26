@@ -48,6 +48,7 @@ namespace EatIT.Infrastructure.Repository
             }
 
             var restaurant = _mapper.Map<Restaurants>(dto);
+            
             restaurant.RestaurantImg = "/" + relativePath.Replace("\\", "/");
             
             await _context.Restaurants.AddAsync(restaurant);
@@ -59,7 +60,6 @@ namespace EatIT.Infrastructure.Repository
         {
             var queryable = _context.Restaurants
                 .Include(x => x.Tag)
-                .Include(x => x.User)
                 .AsNoTracking()
                 .AsQueryable();
             //Search

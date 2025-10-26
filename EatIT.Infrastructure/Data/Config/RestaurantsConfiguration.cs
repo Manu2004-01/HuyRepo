@@ -15,10 +15,6 @@ namespace EatIT.Infrastructure.Data.Config
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
-
             builder.Property(x => x.ResName)
                 .IsRequired()
                 .HasColumnType("nvarchar(150)");

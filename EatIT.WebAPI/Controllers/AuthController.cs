@@ -1,10 +1,13 @@
 ﻿using EatIT.Core.DTOs;
 using EatIT.Core.Interface;
 using EatIT.Infrastructure.Data;
+using EatIT.Infrastructure.Data.DTOs;
 using EatIT.WebAPI.Errors;
+using EatIT.WebAPI.MyHelper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -20,17 +23,76 @@ namespace EatIT.WebAPI.Controllers
         private readonly ITokenService _tokenService;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthController(ApplicationDBContext db, ITokenService tokenService, IHostEnvironment hostEnvironment, IEmailSender emailSender)
+        public AuthController(ApplicationDBContext db, ITokenService tokenService, IHostEnvironment hostEnvironment, IEmailSender emailSender, IUnitOfWork unitOfWork)
         {
             _db = db;
             _tokenService = tokenService;
             _hostEnvironment = hostEnvironment;
             _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
+        }
+
+        [HttpPost("register")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status400BadRequest)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Register([FromQuery] RegisterDTO dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
+
+                if (dto == null)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đăng ký là bắt buộc"));
+
+                if(dto.Password != dto.ConfirmPassword)
+                {
+                    return BadRequest("Mật khẩu xác nhận không khớp. Vui lòng nhập lại mật khẩu xác minh");
+                }
+
+                // Kiểm tra email đã tồn tại chưa
+                var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+                if (existingUser != null)
+                {
+                    return Conflict(new BaseCommentResponse(409, "Email này đã được sử dụng"));
+                }
+
+                // Kiểm tra username đã tồn tại chưa
+                var existingUsername = await _db.Users.FirstOrDefaultAsync(u => u.UserName == dto.UserName);
+                if (existingUsername != null)
+                {
+                    return Conflict(new BaseCommentResponse(409, "Tên người dùng này đã được sử dụng"));
+                }
+
+                var registerUser = new CreateUserDTO
+                {
+                    UserName = dto.UserName,
+                    Email = dto.Email,
+                    Password = dto.Password,
+                    PhoneNumber = "",
+                    UserAddress = "",
+                    userroleid = 2,
+                    image = null
+                };
+
+                var res = await _unitOfWork.UserRepository.AddAsync(registerUser);
+
+                if (!res)
+                    return BadRequest(new BaseCommentResponse(400, "Không thêm được người dùng. Tải ảnh lên không thành công hoặc tạo người dùng không thành công."));
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi thêm người dùng"));
+            }
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO dto)
+        public async Task<IActionResult> Login([FromQuery] LoginDTO dto)
         {
             try
             {
@@ -60,233 +122,9 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpGet("google-login")]
-        public IActionResult GoogleLogin()
-        {
-            var properties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("GoogleResponse")
-            };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-
-        [HttpGet("google-response")]
-        public async Task<IActionResult> GoogleResponse()
-        {
-            try
-            {
-                var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
-                
-                if (!result.Succeeded)
-                    return BadRequest(new BaseCommentResponse(400, "Đăng nhập Google thất bại"));
-
-                var claims = result.Principal.Claims.ToList();
-                var googleId = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                var email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-                var name = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-                var picture = claims.FirstOrDefault(x => x.Type == "picture")?.Value;
-
-                if (string.IsNullOrEmpty(googleId) || string.IsNullOrEmpty(email))
-                    return BadRequest(new BaseCommentResponse(400, "Không thể lấy thông tin từ Google"));
-
-                // Kiểm tra xem user đã tồn tại chưa
-                var existingUser = await _db.Users.Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.GoogleId == googleId || u.Email == email);
-
-                if (existingUser == null)
-                {
-                    // Tạo user mới với role mặc định là User (RoleId = 2)
-                    existingUser = new EatIT.Core.Entities.Users
-                    {
-                        GoogleId = googleId,
-                        Email = email,
-                        UserName = name ?? email.Split('@')[0],
-                        UserImg = picture,
-                        RoleId = 2, // User role
-                        Password = "", // Không cần password cho Google login
-                        PhoneNumber = "",
-                        UserAddress = "",
-                        CreateAt = DateTime.Now,
-                        UpdateAt = DateTime.Now,
-                        IsActive = true
-                    };
-
-                    _db.Users.Add(existingUser);
-                    await _db.SaveChangesAsync();
-                }
-                else
-                {
-                    // Cập nhật GoogleId nếu chưa có
-                    if (string.IsNullOrEmpty(existingUser.GoogleId))
-                    {
-                        existingUser.GoogleId = googleId;
-                        existingUser.UpdateAt = DateTime.Now;
-                        await _db.SaveChangesAsync();
-                    }
-                }
-
-                var token = _tokenService.CreateToken(existingUser, existingUser.Role?.RoleName ?? string.Empty);
-
-                return Ok(new
-                {
-                    token,
-                    user = new { 
-                        existingUser.Id, 
-                        existingUser.UserName, 
-                        existingUser.Email, 
-                        existingUser.RoleId, 
-                        RoleName = existingUser.Role?.RoleName,
-                        existingUser.UserImg
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new BaseCommentResponse(500, $"Đã xảy ra lỗi máy chủ nội bộ trong quá trình đăng nhập Google: {ex.Message}"));
-            }
-        }
-
-        [HttpPost("google-login-token")]
-        public async Task<IActionResult> GoogleLoginWithToken([FromBody] GoogleLoginDTO dto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
-
-                if (dto == null || string.IsNullOrEmpty(dto.GoogleId) || string.IsNullOrEmpty(dto.Email))
-                    return BadRequest(new BaseCommentResponse(400, "Google ID và Email là bắt buộc"));
-
-                // Kiểm tra xem user đã tồn tại chưa
-                var existingUser = await _db.Users.Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.GoogleId == dto.GoogleId || u.Email == dto.Email);
-
-                bool isNewUser = false;
-
-                if (existingUser == null)
-                {
-                    // Tạo user mới với role mặc định là User (RoleId = 2)
-                    existingUser = new EatIT.Core.Entities.Users
-                    {
-                        GoogleId = dto.GoogleId,
-                        Email = dto.Email,
-                        UserName = dto.Name ?? dto.Email.Split('@')[0],
-                        UserImg = dto.Picture,
-                        RoleId = 2, // User role
-                        Password = "", // Không cần password cho Google login
-                        PhoneNumber = "",
-                        UserAddress = "",
-                        CreateAt = DateTime.Now,
-                        UpdateAt = DateTime.Now,
-                        IsActive = true
-                    };
-
-                    _db.Users.Add(existingUser);
-                    await _db.SaveChangesAsync();
-                    isNewUser = true;
-                }
-                else
-                {
-                    // Cập nhật GoogleId nếu chưa có
-                    if (string.IsNullOrEmpty(existingUser.GoogleId))
-                    {
-                        existingUser.GoogleId = dto.GoogleId;
-                        existingUser.UpdateAt = DateTime.Now;
-                        await _db.SaveChangesAsync();
-                    }
-                }
-
-                var token = _tokenService.CreateToken(existingUser, existingUser.Role?.RoleName ?? string.Empty);
-
-                return Ok(new
-                {
-                    token,
-                    user = new { 
-                        existingUser.Id, 
-                        existingUser.UserName, 
-                        existingUser.Email, 
-                        existingUser.RoleId, 
-                        RoleName = existingUser.Role?.RoleName,
-                        existingUser.UserImg
-                    },
-                    isNewUser = isNewUser,
-                    message = isNewUser ? "Đăng ký tài khoản thành công!" : "Đăng nhập thành công!"
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new BaseCommentResponse(500, $"Đã xảy ra lỗi máy chủ nội bộ trong quá trình đăng nhập Google: {ex.Message}"));
-            }
-        }
-
-        [HttpPost("google-register")]
-        public async Task<IActionResult> GoogleRegister([FromBody] GoogleLoginDTO dto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
-
-                if (dto == null || string.IsNullOrEmpty(dto.GoogleId) || string.IsNullOrEmpty(dto.Email))
-                    return BadRequest(new BaseCommentResponse(400, "Google ID và Email là bắt buộc"));
-
-                // Kiểm tra xem email đã được sử dụng chưa
-                var existingUser = await _db.Users
-                    .FirstOrDefaultAsync(u => u.Email == dto.Email);
-
-                if (existingUser != null)
-                {
-                    return BadRequest(new BaseCommentResponse(400, "Email này đã được sử dụng. Vui lòng đăng nhập thay vì đăng ký."));
-                }
-
-                // Tạo user mới
-                var newUser = new EatIT.Core.Entities.Users
-                {
-                    GoogleId = dto.GoogleId,
-                    Email = dto.Email,
-                    UserName = dto.Name ?? dto.Email.Split('@')[0],
-                    UserImg = dto.Picture,
-                    RoleId = 2, // User role
-                    Password = "", // Không cần password cho Google login
-                    PhoneNumber = "",
-                    UserAddress = "",
-                    CreateAt = DateTime.Now,
-                    UpdateAt = DateTime.Now,
-                    IsActive = true
-                };
-
-                _db.Users.Add(newUser);
-                await _db.SaveChangesAsync();
-
-                // Lấy user với role information
-                var userWithRole = await _db.Users.Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Id == newUser.Id);
-
-                var token = _tokenService.CreateToken(userWithRole, userWithRole.Role?.RoleName ?? string.Empty);
-
-                return Ok(new
-                {
-                    token,
-                    user = new { 
-                        userWithRole.Id, 
-                        userWithRole.UserName, 
-                        userWithRole.Email, 
-                        userWithRole.RoleId, 
-                        RoleName = userWithRole.Role?.RoleName,
-                        userWithRole.UserImg
-                    },
-                    message = "Đăng ký tài khoản thành công!"
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new BaseCommentResponse(500, $"Đã xảy ra lỗi máy chủ nội bộ trong quá trình đăng ký Google: {ex.Message}"));
-            }
-        }
-
         //Forget Password
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
+        public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO dto)
         {
             try
             {
@@ -305,7 +143,7 @@ namespace EatIT.WebAPI.Controllers
                 }
 
                 // Tạo reset token
-                var resetToken = GenerateResetToken();
+                var resetToken = new ResetToken().GenerateResetToken();
                 user.ResetPasswordToken = resetToken;
                 user.ResetPasswordTokenExpiry = DateTime.UtcNow.AddHours(1); // Token hết hạn sau 1 giờ
                 user.UpdateAt = DateTime.Now;
@@ -316,29 +154,6 @@ namespace EatIT.WebAPI.Controllers
     .GetRequiredService<IConfiguration>()["API_url"] ?? "https://localhost:7091/";
                 var resetLink = $"{apiUrl}reset-password?token={Uri.EscapeDataString(resetToken)}&email={Uri.EscapeDataString(user.Email ?? string.Empty)}";
 
-            //    if (!string.IsNullOrEmpty(user.Email) && user.Email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        try
-            //        {
-            //            var subject = "EatIT - Reset mật khẩu";
-            //            var body = $@"
-            //<p>Xin chào,</p>
-            //<p>Bạn vừa yêu cầu đặt lại mật khẩu. Vui lòng bấm vào liên kết bên dưới hoặc dùng token để đặt lại mật khẩu.</p>
-            //<p><a href=""{resetLink}"">{resetLink}</a></p>
-            //<p><strong>Token:</strong> {resetToken}</p>
-            //<p>Token sẽ hết hạn lúc: {user.ResetPasswordTokenExpiry:yyyy-MM-dd HH:mm:ss} UTC</p>
-            //<p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>";
-
-            //            await _emailSender.SendAsync(user.Email, subject, body);
-            //        }
-            //        catch (Exception emailEx)
-            //        {
-            //            // Log lỗi email nhưng vẫn trả về response thành công
-            //            Console.WriteLine($"Failed to send email: {emailEx.Message}");
-            //        }
-            //    }
-
-                //token test
                 if (_hostEnvironment.IsDevelopment())
                 {
                     return Ok(new
@@ -363,7 +178,7 @@ namespace EatIT.WebAPI.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
+        public async Task<IActionResult> ResetPassword([FromQuery] ResetPasswordDTO dto)
         {
             try
             {
@@ -402,7 +217,7 @@ namespace EatIT.WebAPI.Controllers
         }
 
         [HttpPost("verify-reset-token")]
-        public async Task<IActionResult> VerifyResetToken([FromBody] VerifyResetTokenDTO dto)
+        public async Task<IActionResult> VerifyResetToken([FromQuery] VerifyResetTokenDTO dto)
         {
             try
             {
@@ -425,17 +240,6 @@ namespace EatIT.WebAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ trong quá trình xác minh token"));
-            }
-        }
-
-        // Helper method để tạo reset token
-        private string GenerateResetToken()
-        {
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                var bytes = new byte[32];
-                rng.GetBytes(bytes);
-                return Convert.ToBase64String(bytes);
             }
         }
     }

@@ -8,63 +8,11 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.ForgotPasswordDTO",
-        "IsRequired": true
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
-    "Method": "GoogleLogin",
-    "RelativePath": "api/Auth/google-login",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
-    "Method": "GoogleLoginWithToken",
-    "RelativePath": "api/Auth/google-login-token",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.GoogleLoginDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
-    "Method": "GoogleRegister",
-    "RelativePath": "api/Auth/google-register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.GoogleLoginDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
-    "Method": "GoogleResponse",
-    "RelativePath": "api/Auth/google-response",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -76,12 +24,72 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.LoginDTO",
-        "IsRequired": true
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
+      }
+    ]
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
@@ -92,9 +100,24 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.ResetPasswordDTO",
-        "IsRequired": true
+        "Name": "Token",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -108,9 +131,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "EatIT.Core.DTOs.VerifyResetTokenDTO",
-        "IsRequired": true
+        "Name": "Token",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -163,12 +191,115 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.DishController",
+    "Method": "GetAllDish",
+    "RelativePath": "api/Dish/dishes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sort",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "price",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
     "Method": "AddNewDish",
-    "RelativePath": "api/Dish/add-new-dish",
+    "RelativePath": "api/Dish/dishes",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "restaurantid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "dimage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "DishName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DishDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DishPrice",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsVegan",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
+    "Method": "GetDishById",
+    "RelativePath": "api/Dish/dishes/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
+    "Method": "UpdateDish",
+    "RelativePath": "api/Dish/dishes/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
       {
         "Name": "restaurantid",
         "Type": "System.Int32",
@@ -205,7 +336,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.DishController",
     "Method": "DeleteDish",
-    "RelativePath": "api/Dish/delete-existing-dish/{id}",
+    "RelativePath": "api/Dish/dishes/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -219,112 +350,19 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
-    "Method": "GetAllDish",
-    "RelativePath": "api/Dish/get-all-dish",
+    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
+    "Method": "GetAllFavorites",
+    "RelativePath": "api/Favorite/favorites",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "sort",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "price",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
-    "Method": "GetDishById",
-    "RelativePath": "api/Dish/get-dish-by-id/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      }
-    ]
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.DishController",
-    "Method": "UpdateDish",
-    "RelativePath": "api/Dish/update-existing-dish/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "restaurantid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "dimage",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      },
-      {
-        "Name": "DishName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DishDescription",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DishPrice",
-        "Type": "System.Decimal",
-        "IsRequired": false
-      },
-      {
-        "Name": "IsVegan",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
     "Method": "AddNewFavorite",
-    "RelativePath": "api/Favorite/add-new-favorite",
+    "RelativePath": "api/Favorite/favorites",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -349,56 +387,14 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
-    "Method": "DeleteFavorite",
-    "RelativePath": "api/Favorite/delete-existing-favorite/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
-    "Method": "GetAllFavorites",
-    "RelativePath": "api/Favorite/get-all-favorites",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
     "Method": "GetFavoriteById",
-    "RelativePath": "api/Favorite/get-favorite-by-id/{id}",
+    "RelativePath": "api/Favorite/favorites/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
-    "Method": "GetFavoritesByUser",
-    "RelativePath": "api/Favorite/get-favorites-by-user/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -408,7 +404,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
     "Method": "UpdateFavorite",
-    "RelativePath": "api/Favorite/update-existing-favorite/{id}",
+    "RelativePath": "api/Favorite/favorites/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -437,9 +433,57 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
+    "Method": "DeleteFavorite",
+    "RelativePath": "api/Favorite/favorites/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
+    "Method": "GetFavoritesByUser",
+    "RelativePath": "api/Favorite/favorites/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
+    "Method": "GetAllRating",
+    "RelativePath": "api/Rating/ratings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sort",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
     "Method": "AddNewRating",
-    "RelativePath": "api/Rating/add-new-rating",
+    "RelativePath": "api/Rating/ratings",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -469,40 +513,8 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
-    "Method": "DeleteRating",
-    "RelativePath": "api/Rating/delete-existing-rating/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
-    "Method": "GetAllRating",
-    "RelativePath": "api/Rating/get-all-ratings",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "sort",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
     "Method": "GetRatingById",
-    "RelativePath": "api/Rating/get-rating-by-id/{id}",
+    "RelativePath": "api/Rating/ratings/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -533,7 +545,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
     "Method": "UpdateRating",
-    "RelativePath": "api/Rating/update-existing-rating/{id}",
+    "RelativePath": "api/Rating/ratings/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -567,20 +579,145 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
+    "Method": "DeleteRating",
+    "RelativePath": "api/Rating/ratings/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
+    "Method": "GetRestaurantsWithDistance",
+    "RelativePath": "api/Restaurant/distance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
+    "Method": "GetNearbyRestaurants",
+    "RelativePath": "api/Restaurant/nearby",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "radiusKm",
+        "Type": "System.Double",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
+    "Method": "GetAllUser",
+    "RelativePath": "api/Restaurant/restaurants",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
     "Method": "AddNewRestaurant",
-    "RelativePath": "api/Restaurant/add-new-restaurant",
+    "RelativePath": "api/Restaurant/restaurants",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "tagid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "userid",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -619,8 +756,55 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
+    "Method": "GetAllRestaurantsForMap",
+    "RelativePath": "api/Restaurant/restaurants-map",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
+    "Method": "GetRestaurantById",
+    "RelativePath": "api/Restaurant/restaurants/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
     "Method": "DeleteRestaurant",
-    "RelativePath": "api/Restaurant/delete-existing-restaurant/{id}",
+    "RelativePath": "api/Restaurant/restaurants/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -635,160 +819,8 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetAllUser",
-    "RelativePath": "api/Restaurant/get-all-restaurants",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetAllRestaurantsForMap",
-    "RelativePath": "api/Restaurant/get-all-restaurants-for-map",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetNearbyRestaurantsByUserId",
-    "RelativePath": "api/Restaurant/get-nearby-restaurants-by-user-id/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "radiusKm",
-        "Type": "System.Double",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetRestaurantById",
-    "RelativePath": "api/Restaurant/get-restaurant-by-id/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      }
-    ]
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetRestaurantForMap",
-    "RelativePath": "api/Restaurant/get-restaurant-for-map/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      }
-    ]
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetRestaurantsWithDistanceByUserId",
-    "RelativePath": "api/Restaurant/get-restaurants-with-distance-by-user-id/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "GetUserLocationById",
-    "RelativePath": "api/Restaurant/get-user-location-by-id/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
     "Method": "UpdateRestaurant",
-    "RelativePath": "api/Restaurant/update-existing-restsaurant/{id}",
+    "RelativePath": "api/Restaurant/restsaurants/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -804,11 +836,6 @@
         "IsRequired": false
       },
       {
-        "Name": "userid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
         "Name": "rimage",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
@@ -842,30 +869,19 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EatIT.WebAPI.Controllers.RestaurantController",
-    "Method": "UpdateUserLocationById",
-    "RelativePath": "api/Restaurant/update-user-location-by-id/{userId}",
-    "HttpMethod": "POST",
+    "ContainingType": "EatIT.WebAPI.Controllers.TagController",
+    "Method": "GetAllTag",
+    "RelativePath": "api/Tag/tags",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "locationDto",
-        "Type": "EatIT.Infrastructure.Data.DTOs.UpdateUserLocationDTO",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.TagController",
     "Method": "AddNewTag",
-    "RelativePath": "api/Tag/add-new-tag",
+    "RelativePath": "api/Tag/tags",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -886,7 +902,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.TagController",
     "Method": "DeleteTag",
-    "RelativePath": "api/Tag/delete-existing-tag/{id}",
+    "RelativePath": "api/Tag/tags/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -900,50 +916,98 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EatIT.WebAPI.Controllers.TagController",
-    "Method": "GetAllTag",
-    "RelativePath": "api/Tag/get-all-tags",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
-    "Method": "AddNewUser",
-    "RelativePath": "api/User/add-new-user",
-    "HttpMethod": "POST",
+    "Method": "UpdateUserLocation",
+    "RelativePath": "api/User/location",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userroleid",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "locationDto",
+        "Type": "EatIT.Infrastructure.Data.DTOs.UpdateUserLocationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
       },
       {
-        "Name": "image",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserController",
+    "Method": "GetUserLocation",
+    "RelativePath": "api/User/location",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserController",
+    "Method": "UpdateUserProfile",
+    "RelativePath": "api/User/profile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
         "Name": "UserName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Password",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "PhoneNumber",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -951,30 +1015,86 @@
         "Name": "UserAddress",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/User/delete-existing-user/{id}",
-    "HttpMethod": "DELETE",
+    "Method": "GetUserProfile",
+    "RelativePath": "api/User/profile",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
+    "Parameters": [],
+    "ReturnTypes": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
       }
-    ],
-    "ReturnTypes": []
+    ]
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
     "Method": "GetAllUser",
-    "RelativePath": "api/User/get-all-users",
+    "RelativePath": "api/User/users",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1009,8 +1129,74 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
+    "Method": "AddNewUser",
+    "RelativePath": "api/User/users",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userroleid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PhoneNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserAddress",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Preference",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Dislike",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Allergy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Diet",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserController",
     "Method": "GetUserById",
-    "RelativePath": "api/User/get-user-by-id/{id}",
+    "RelativePath": "api/User/users/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1041,7 +1227,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
     "Method": "UpdateUser",
-    "RelativePath": "api/User/update-existing-user/{id}",
+    "RelativePath": "api/User/users/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1085,66 +1271,34 @@
         "Name": "UserAddress",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "Preference",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Dislike",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Allergy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Diet",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
-    "Method": "UpdateUserProfile",
-    "RelativePath": "api/User/update-profile/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "UserName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "PhoneNumber",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "UserAddress",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "image",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
-    "Method": "AddUserRole",
-    "RelativePath": "api/UserRole/add-new-user-role",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userRoleDTO",
-        "Type": "EatIT.Infrastructure.Data.DTOs.UserRoleDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
-    "Method": "DeleteUserRole",
-    "RelativePath": "api/UserRole/delete-user-role-by-id/{id}",
+    "Method": "DeleteUser",
+    "RelativePath": "api/User/users/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1160,7 +1314,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
     "Method": "Get",
-    "RelativePath": "api/UserRole/get-all-user-role",
+    "RelativePath": "api/UserRole/roles",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1169,8 +1323,24 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
+    "Method": "AddUserRole",
+    "RelativePath": "api/UserRole/roles",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userRoleDTO",
+        "Type": "EatIT.Infrastructure.Data.DTOs.UserRoleDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
     "Method": "GetById",
-    "RelativePath": "api/UserRole/get-user-role-by-id/{id}",
+    "RelativePath": "api/UserRole/roles/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1186,7 +1356,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
     "Method": "UpdateUserRole",
-    "RelativePath": "api/UserRole/update-existing-user-role-by-id/{id}",
+    "RelativePath": "api/UserRole/roles/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1199,6 +1369,22 @@
       {
         "Name": "userRoleDTO",
         "Type": "EatIT.Infrastructure.Data.DTOs.UserRoleDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserRoleController",
+    "Method": "DeleteUserRole",
+    "RelativePath": "api/UserRole/roles/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

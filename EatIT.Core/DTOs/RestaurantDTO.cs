@@ -33,7 +33,6 @@ namespace EatIT.Core.DTOs
     {
         public int Id { get; set; }
         public string TagName { get; set; }
-        public string UserName { get; set; }
         public string? RestaurantImg { get; set; }
 
         public double? DistanceFromUser { get; set; }
@@ -43,14 +42,12 @@ namespace EatIT.Core.DTOs
     public class CreateRestaurantDTO : BaseRestaurant
     {
         public int tagid { get; set; }
-        public int userid { get; set; }
         public IFormFile rimage { get; set; }
     }
 
     public class UpdateRestaurantDTO : BaseRestaurant
     {
         public int tagid { get; set; }
-        public int userid { get; set; }
         public IFormFile rimage { get; set; }
     }
 }

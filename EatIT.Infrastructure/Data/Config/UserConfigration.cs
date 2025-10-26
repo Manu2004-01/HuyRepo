@@ -29,7 +29,7 @@ namespace EatIT.Infrastructure.Data.Config
 
             builder.Property(x => x.Email)
                 .IsRequired()
-                .HasColumnType("varchar(250)");
+                .HasColumnType("nvarchar(250)");
 
             builder.Property(x => x.Password)
                 .IsRequired()
@@ -43,17 +43,25 @@ namespace EatIT.Infrastructure.Data.Config
                 .IsRequired()
                 .HasColumnType("nvarchar(250)");
 
-            builder.Property(x => x.GoogleId)
-                .IsRequired(false)
-                .HasColumnType("varchar(100)");
+            builder.Property(u => u.Preference)
+                .HasColumnType("nvarchar(250)");
+
+            builder.Property(u => u.Dislike)
+                .HasColumnType("nvarchar(250)");
+
+            builder.Property(u => u.Allergy)
+                .HasColumnType("nvarchar(250)");
+
+            builder.Property(u => u.Diet)
+                .HasColumnType("nvarchar(250)");
 
             builder.Property(x => x.ResetPasswordToken)
                 .IsRequired(false)
-                .HasColumnType("varchar(500)");
+                .HasColumnType("nvarchar(500)");
 
             builder.Property(x => x.ResetPasswordTokenExpiry)
                 .IsRequired(false)
-                .HasColumnType("datetime");
+                .HasColumnType("datetime"); // Changed from "timestamp"
 
             builder.Property(x => x.UserLatitude)
                 .IsRequired(false)
@@ -65,19 +73,19 @@ namespace EatIT.Infrastructure.Data.Config
 
             builder.Property(x => x.LastLocationUpdate)
                 .IsRequired(false)
-                .HasColumnType("datetime");
+                .HasColumnType("datetime"); // Changed from "timestamp"
 
             builder.Property(x => x.CreateAt)
                 .IsRequired()
-                .HasColumnType("datetime");
+                .HasColumnType("datetime"); // Changed from "timestamp"
 
             builder.Property(x => x.UpdateAt)
                 .IsRequired()
-                .HasColumnType("datetime");
+                .HasColumnType("datetime"); // Changed from "timestamp"
 
             builder.Property(x => x.IsActive)
                 .IsRequired()
-                .HasColumnType("bit");
+                .HasColumnType("bit"); // Changed from "boolean"
 
             builder.HasOne(u => u.Role)
                    .WithMany(r => r.Users)
@@ -89,7 +97,7 @@ namespace EatIT.Infrastructure.Data.Config
                     new Users
                     {
                         Id = 1,
-                        UserImg = "http",
+                        UserImg = null, // Thay đổi từ "http" thành null
                         UserName = "Admin Huy Che",
                         RoleId = 1,
                         Email = "admin@eatit.com",
@@ -104,7 +112,7 @@ namespace EatIT.Infrastructure.Data.Config
                     new Users
                     {
                         Id = 2,
-                        UserImg = "http",
+                        UserImg = null, // Thay đổi từ "http" thành null
                         UserName = "Huy Che",
                         RoleId = 2,
                         Email = "user@eatit.com",
@@ -119,7 +127,7 @@ namespace EatIT.Infrastructure.Data.Config
                     new Users
                     {
                         Id = 3,
-                        UserImg = "http",
+                        UserImg = null, // Thay đổi từ "http" thành null
                         UserName = "Nhà hàng đồ ăn",
                         RoleId = 3,
                         Email = "restaurant@eatit.com",

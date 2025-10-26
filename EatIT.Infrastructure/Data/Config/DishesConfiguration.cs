@@ -24,7 +24,7 @@ namespace EatIT.Infrastructure.Data.Config
                 .HasColumnType("nvarchar(250)");
             builder.Property(x => x.DishDescription)
                 .IsRequired()
-                .HasColumnType("text");
+                .HasColumnType("ntext");
             builder.Property(x => x.DishPrice)
                 .IsRequired()
                 .HasColumnType("decimal(10,2)");
