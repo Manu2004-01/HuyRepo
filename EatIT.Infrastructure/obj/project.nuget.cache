@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Wm8IA1AMg5A=",
+  "dgSpecHash": "wC+hYpUnPBo=",
   "success": true,
-  "projectFilePath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
+  "projectFilePath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Khanh\\.nuget\\packages\\automapper\\15.0.1\\automapper.15.0.1.nupkg.sha512",
     "C:\\Users\\Khanh\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

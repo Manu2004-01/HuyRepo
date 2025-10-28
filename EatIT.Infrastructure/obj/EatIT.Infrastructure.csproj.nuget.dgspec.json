@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {}
+    "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
+    "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
+        "projectUniqueName": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
         "projectName": "EatIT.Core",
-        "projectPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
+        "projectPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj",
         "packagesPath": "C:\\Users\\Khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\obj\\",
+        "outputPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -92,14 +92,14 @@
         }
       }
     },
-    "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
+    "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
+        "projectUniqueName": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
         "projectName": "EatIT.Infrastructure",
-        "projectPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
+        "projectPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\EatIT.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\obj\\",
+        "outputPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -121,8 +121,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
-                "projectPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj"
+              "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj": {
+                "projectPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\EatIT.Core.csproj"
               }
             }
           }
