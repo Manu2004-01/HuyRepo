@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EatIT.WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserRoleController : ControllerBase

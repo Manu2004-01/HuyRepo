@@ -216,8 +216,8 @@ namespace EatIT.Infrastructure.Repository
                     "updatedAt_desc" => queryable.OrderByDescending(x => x.UpdateAt),
                     "updatedAt_asc" => queryable.OrderBy(x => x.UpdateAt),
 
-                    "id_asc" => queryable.OrderBy(x => x.Id),
-                    "id_desc" => queryable.OrderByDescending(x => x.Id),
+                    "id_asc" => queryable.OrderBy(x => x.UserId),
+                    "id_desc" => queryable.OrderByDescending(x => x.UserId),
 
                     _ => queryable.OrderByDescending(x => x.CreateAt)
                 };

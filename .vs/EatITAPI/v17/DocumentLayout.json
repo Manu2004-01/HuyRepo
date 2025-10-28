@@ -1,38 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\",
+  "WorkspaceRootPath": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.core\\dtos\\dishdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\dtos\\dishdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.webapi\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.webapi\\models\\mappingdish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\models\\mappingdish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.webapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CDD0E546-A25A-4C54-A2FF-688E647CA509}|EatIT.Infrastructure\\EatIT.Infrastructure.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDD0E546-A25A-4C54-A2FF-688E647CA509}|EatIT.Infrastructure\\EatIT.Infrastructure.csproj|solutionrelative:eatit.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.core\\entities\\restaurants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\entities\\restaurants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.webapi\\myhelper\\profileimageurlresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\myhelper\\profileimageurlresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.core\\dtos\\restaurantdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\dtos\\restaurantdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.core\\interface\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\interface\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD0E546-A25A-4C54-A2FF-688E647CA509}|EatIT.Infrastructure\\EatIT.Infrastructure.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.infrastructure\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD0E546-A25A-4C54-A2FF-688E647CA509}|EatIT.Infrastructure\\EatIT.Infrastructure.csproj|solutionrelative:eatit.infrastructure\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\22-10\\huyrepo\\eatit.webapi\\models\\mappinguser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\models\\mappinguser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\26-10\\huyrepo\\eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -59,100 +51,80 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DishDTO.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\DTOs\\DishDTO.cs",
-              "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\DishDTO.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\DTOs\\DishDTO.cs",
-              "RelativeToolTip": "EatIT.Core\\DTOs\\DishDTO.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-26T02:23:14.175Z",
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Dockerfile",
+              "RelativeDocumentMoniker": "EatIT.WebAPI\\Dockerfile",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Dockerfile",
+              "RelativeToolTip": "EatIT.WebAPI\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-28T00:39:14.366Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserDTO.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\DTOs\\UserDTO.cs",
-              "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\UserDTO.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\DTOs\\UserDTO.cs",
-              "RelativeToolTip": "EatIT.Core\\DTOs\\UserDTO.cs",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAYwIUAAABCAAAAAAAAAA==",
+              "Title": "MappingDish.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingDish.cs",
+              "RelativeDocumentMoniker": "EatIT.WebAPI\\Models\\MappingDish.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingDish.cs",
+              "RelativeToolTip": "EatIT.WebAPI\\Models\\MappingDish.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAQwAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:01:31.946Z",
+              "WhenOpened": "2025-10-28T00:26:35.291Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApplicationDBContext.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "RelativeDocumentMoniker": "EatIT.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "RelativeToolTip": "EatIT.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "ViewState": "AgIAALAAAAAAAAAAAAAiwLYAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T00:22:25.982Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAjwDQAAABrAAAAAAAAAA==",
+              "Title": "Restaurants.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\Entities\\Restaurants.cs",
+              "RelativeDocumentMoniker": "EatIT.Core\\Entities\\Restaurants.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\Entities\\Restaurants.cs",
+              "RelativeToolTip": "EatIT.Core\\Entities\\Restaurants.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA2wA4AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T04:55:59.731Z"
+              "WhenOpened": "2025-10-28T00:16:54.644Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ProfileImageUrlResolver.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\MyHelper\\ProfileImageUrlResolver.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\MyHelper\\ProfileImageUrlResolver.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\MyHelper\\ProfileImageUrlResolver.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\MyHelper\\ProfileImageUrlResolver.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAzwBAAAABhAAAAAAAAAA==",
+              "Title": "RestaurantDTO.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\DTOs\\RestaurantDTO.cs",
+              "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\RestaurantDTO.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.Core\\DTOs\\RestaurantDTO.cs",
+              "RelativeToolTip": "EatIT.Core\\DTOs\\RestaurantDTO.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAxwC4AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:56:51.821Z"
+              "WhenOpened": "2025-10-28T00:16:52.052Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "IUserRepository.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\Interface\\IUserRepository.cs",
-              "RelativeDocumentMoniker": "EatIT.Core\\Interface\\IUserRepository.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Core\\Interface\\IUserRepository.cs",
-              "RelativeToolTip": "EatIT.Core\\Interface\\IUserRepository.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAQwA8AAAATAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "EatIT.WebAPI\\Program.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\26-10\\HuyRepo\\EatIT.WebAPI\\Program.cs",
+              "RelativeToolTip": "EatIT.WebAPI\\Program.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACEAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:24:42.366Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\Repository\\UserRepository.cs",
-              "RelativeDocumentMoniker": "EatIT.Infrastructure\\Repository\\UserRepository.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.Infrastructure\\Repository\\UserRepository.cs",
-              "RelativeToolTip": "EatIT.Infrastructure\\Repository\\UserRepository.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAUwDgBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:25:02.047Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MappingUser.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingUser.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Models\\MappingUser.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingUser.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Models\\MappingUser.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAiwCwAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:10:17.546Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\UserController.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\22-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\UserController.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\UserController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwEwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T03:00:29.256Z"
+              "WhenOpened": "2025-10-27T15:03:13.986Z",
+              "EditorCaption": ""
             }
           ]
         },

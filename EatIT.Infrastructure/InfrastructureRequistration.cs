@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
-using EatIT.Infrastructure.Data.Config;
 using EatIT.Core.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -30,8 +29,12 @@ namespace EatIT.Infrastructure
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddDbContext<ApplicationDBContext>(option =>
-            { 
-                option.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            {
+                option.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
+                {
+                    npgsqlOptions.CommandTimeout(120); // Tăng timeout lên 120 giây
+                });
+                option.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
             }
             );
             //services.AddIdentity<Users, UserRole>().AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
@@ -47,7 +50,19 @@ namespace EatIT.Infrastructure
         {
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
-            await context.Database.MigrateAsync();
+            
+            // Check if migrations have been applied
+            var canConnect = await context.Database.CanConnectAsync();
+            if (canConnect)
+            {
+                // Database exists and is accessible
+                Console.WriteLine("Database connection successful. Migrations handled separately.");
+            }
+            else
+            {
+                // Database doesn't exist, ensure it's created
+                await context.Database.EnsureCreatedAsync();
+            }
         }
     }
 }

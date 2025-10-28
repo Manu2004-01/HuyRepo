@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EatIT.Infrastructure.Repository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BasicEntity<int>
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ApplicationDBContext _context;
 
@@ -57,14 +57,26 @@ namespace EatIT.Infrastructure.Repository
 
         public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
-            //IQueryable<T> query = _context.Set<T>();
-            IQueryable<T> query = _context.Set<T>().Where(x => x.Id == id);
+            ////IQueryable<T> query = _context.Set<T>();
+            //IQueryable<T> query = _context.Set<T>().Where(x => x.Id == id);
+            //foreach (var item in includes)
+            //{
+            //    query = query.Include(item);
+            //}
+            //return await query.FirstOrDefaultAsync();
+            ////return await((DbSet<T>)query).FindAsync(id);
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, "Id");
+            var constant = Expression.Constant(id);
+            var equal = Expression.Equal(property, constant);
+            var lambda = Expression.Lambda<Func<T, bool>>(equal, parameter);
+
+            IQueryable<T> query = _context.Set<T>().Where(lambda);
             foreach (var item in includes)
             {
                 query = query.Include(item);
             }
             return await query.FirstOrDefaultAsync();
-            //return await((DbSet<T>)query).FindAsync(id);
         }
 
         public async Task UpdateAsync(int id, T entity)

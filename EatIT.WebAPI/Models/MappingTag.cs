@@ -10,7 +10,7 @@ namespace EatIT.WebAPI.Models
         public MappingTag() 
         {
             CreateMap<Tags, TagDTO>()
-                .ForMember(t => t.TagID, t => t.MapFrom(x => x.Id))
+                .ForMember(t => t.TagID, t => t.MapFrom(x => x.TagId))
                 .ForMember(t => t.TagImg, t => t.MapFrom<TagImageUrlResolver>())
                 .ReverseMap();
 

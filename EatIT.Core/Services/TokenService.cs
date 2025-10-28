@@ -23,7 +23,7 @@ namespace EatIT.Core.Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, users.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, users.UserId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, users.Email ?? string.Empty),
                 new Claim(ClaimTypes.Name, users.UserName ?? string.Empty),
                 new Claim(ClaimTypes.Role, roleName ?? string.Empty)

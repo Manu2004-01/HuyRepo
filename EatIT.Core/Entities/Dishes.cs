@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EatIT.Core.Entities
 {
-    public class Dishes : BasicEntity<int>
+    public class Dishes 
     {
-        //public int Id { get; set; }
+        [Key]
+        public int DishId { get; set; }
         public int ResId { get; set; }
         public string DishName { get; set; } = "";
         public string? DishDescription { get; set; }

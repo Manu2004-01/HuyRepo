@@ -113,7 +113,7 @@ namespace EatIT.WebAPI.Controllers
                 return Ok(new
                 {
                     token,
-                    user = new { user.Id, user.UserName, user.Email, user.RoleId, RoleName = user.Role?.RoleName }
+                    user = new { user.UserId, user.UserName, user.Email, user.RoleId, RoleName = user.Role?.RoleName }
                 });
             }
             catch (Exception ex)

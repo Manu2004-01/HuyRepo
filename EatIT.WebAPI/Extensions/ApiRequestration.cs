@@ -4,6 +4,8 @@ using EatIT.WebAPI.Errors;
 using EatIT.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EatIT.WebAPI.Extensions
 {
@@ -12,7 +14,12 @@ namespace EatIT.WebAPI.Extensions
         public static IServiceCollection AddAPIRequestration(this IServiceCollection services)
         {
             //AutoMapper
-            services.AddAutoMapper(cfg => { },
+            services.AddAutoMapper((serviceProvider, cfg) =>
+            {
+                // Configure AutoMapper to use the service provider
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+                cfg.ConstructServicesUsing(serviceProvider.GetService);
+            },
                 typeof(MappingUser).Assembly);
 
             //FileProvider
@@ -45,7 +52,9 @@ namespace EatIT.WebAPI.Extensions
             {
                 opt.AddPolicy("CorsPolicy", pol =>
                 {
-                    pol.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:7091");
+                    pol.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .WithOrigins("https://huyrepo.onrender.com", "https://eatit-two.vercel.app", "https://localhost:7091", "http://localhost:5192", "https://localhost:5192", "http://localhost:7091");
                 });
             });
 

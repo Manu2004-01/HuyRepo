@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace EatIT.Core.Entities
 {
-    public class Users : BasicEntity<int>
+    public class Users 
     {
-        //public int UserId { get; set; }
+        [Key]
+        public int UserId { get; set; }
         public int RoleId { get; set; }
         public string? UserImg { get; set; }
         public string UserName { get; set; } = "";
@@ -26,8 +28,8 @@ namespace EatIT.Core.Entities
 
         public string? ResetPasswordToken { get; set; }
         public DateTime? ResetPasswordTokenExpiry { get; set; }
-        public float? UserLatitude { get; set; }
-        public float? UserLongitude { get; set; }
+        public double? UserLatitude { get; set; }
+        public double? UserLongitude { get; set; }
         public DateTime? LastLocationUpdate { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
@@ -35,6 +37,6 @@ namespace EatIT.Core.Entities
         public virtual UserRole Role { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
         public ICollection<Rating> Ratings { get; set; }
-        public ICollection<Restaurants> Restaurants { get; set; }
+        
     }
 }

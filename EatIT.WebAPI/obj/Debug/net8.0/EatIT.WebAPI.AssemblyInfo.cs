@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EatIT.WebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03e9f3c036332ad5b15fce293ee633ded3dce191")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a22dc7507917586e91c9e21aeea7398fbd7ca83")]
 [assembly: System.Reflection.AssemblyProductAttribute("EatIT.WebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EatIT.WebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

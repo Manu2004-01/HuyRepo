@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EatIT.Core.Interface
 {
-    public interface IGenericRepository<T> where T : BasicEntity<int>
+    public interface IGenericRepository<T> where T : class
     {
         Task<IReadOnlyList<T>> GetAllAsync();
         IEnumerable<T> GetAll();

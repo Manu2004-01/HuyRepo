@@ -130,7 +130,7 @@ namespace EatIT.WebAPI.Controllers
                 // Return simplified data for map markers
                 var mapData = res.Select(r => new
                 {
-                    id = r.Id,
+                    id = r.ResId,
                     resName = r.ResName,
                     resAddress = r.ResAddress,
                     latitude = r.Latitude,

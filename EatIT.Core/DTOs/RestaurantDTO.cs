@@ -19,11 +19,11 @@ namespace EatIT.Core.DTOs
 
         [Required(ErrorMessage = "Vĩ độ là bắt buộc")]
         [Range(-90, 90, ErrorMessage = "Vĩ độ phải nằm trong khoảng -90 đến 90")]
-        public float Latitude { get; set; }
+        public double Latitude { get; set; }
 
         [Required(ErrorMessage = "Kinh độ là bắt buộc")]
         [Range(-180, 180, ErrorMessage = "Kinh độ phải nằm trong khoảng -180 đến 180")]
-        public float Longitude { get; set; }
+        public double Longitude { get; set; }
 
         [Required(ErrorMessage = "Thời gian mở cửa của nhà hàng là bắt buộc")]
         public string OpeningHours { get; set; }
@@ -34,6 +34,8 @@ namespace EatIT.Core.DTOs
         public int Id { get; set; }
         public string TagName { get; set; }
         public string? RestaurantImg { get; set; }
+        public double StarRating { get; set; } 
+        public long? ResPhoneNumber { get; set; }
 
         public double? DistanceFromUser { get; set; }
         public string? DistanceDisplay { get; set; }
@@ -42,12 +44,18 @@ namespace EatIT.Core.DTOs
     public class CreateRestaurantDTO : BaseRestaurant
     {
         public int tagid { get; set; }
-        public IFormFile rimage { get; set; }
+        public IFormFile? rimage { get; set; }
+        [Range(0, 5, ErrorMessage = "Đánh giá sao phải nằm trong khoảng 0 đến 5")]
+        public double StarRating { get; set; }
+        public long? ResPhoneNumber { get; set; }
     }
 
     public class UpdateRestaurantDTO : BaseRestaurant
     {
         public int tagid { get; set; }
-        public IFormFile rimage { get; set; }
+        public IFormFile? rimage { get; set; }
+        [Range(0, 5, ErrorMessage = "Đánh giá sao phải nằm trong khoảng 0 đến 5")]
+        public double StarRating { get; set; }
+        public long? ResPhoneNumber { get; set; }
     }
 }

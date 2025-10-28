@@ -71,12 +71,12 @@ namespace EatIT.Infrastructure.Repository
                 {
                     "price_desc" => queryable.OrderByDescending(x => x.DishPrice),
                     "price_asc" => queryable.OrderBy(x => x.DishPrice),
-                    _ => queryable.OrderByDescending(x => x.Id)
+                    _ => queryable.OrderByDescending(x => x.DishId)
                 };
             }
             else
             {
-                queryable = queryable.OrderByDescending(x => x.Id);
+                queryable = queryable.OrderByDescending(x => x.DishId);
             }
 
             //Filter by Dish price

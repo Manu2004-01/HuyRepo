@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EatIT.WebAPI.Controllers
 {
-    [Route("errors/{statusCode}")]
+    [Route("errors")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
-        [HttpGet("Error")]
+        [HttpGet("{statusCode}")]
         public IActionResult Error(int statusCode)
         {
             return new ObjectResult(new BaseCommentResponse(statusCode));

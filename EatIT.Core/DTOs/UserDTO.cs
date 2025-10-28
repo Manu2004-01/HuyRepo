@@ -73,17 +73,17 @@ namespace EatIT.Infrastructure.Data.DTOs
     {
         [Required(ErrorMessage = "Vĩ độ user là bắt buộc")]
         [Range(-90, 90, ErrorMessage = "Vĩ độ phải nằm trong khoảng -90 đến 90")]
-        public float UserLatitude { get; set; }
+        public double UserLatitude { get; set; }
 
         [Required(ErrorMessage = "Kinh độ user là bắt buộc")]
         [Range(-180, 180, ErrorMessage = "Kinh độ phải nằm trong khoảng -180 đến 180")]
-        public float UserLongitude { get; set; }
+        public double UserLongitude { get; set; }
     }
 
     public class UserLocationResponseDTO
     {
-        public float UserLatitude { get; set; }
-        public float UserLongitude { get; set; }
+        public double UserLatitude { get; set; }
+        public double UserLongitude { get; set; }
         public DateTime LastLocationUpdate { get; set; }
     }
 
@@ -94,11 +94,11 @@ namespace EatIT.Infrastructure.Data.DTOs
 
         [Required(ErrorMessage = "Vĩ độ user là bắt buộc")]
         [Range(-90, 90, ErrorMessage = "Vĩ độ phải nằm trong khoảng -90 đến 90")]
-        public float UserLatitude { get; set; }
+        public double UserLatitude { get; set; }
 
         [Required(ErrorMessage = "Kinh độ user là bắt buộc")]
         [Range(-180, 180, ErrorMessage = "Kinh độ phải nằm trong khoảng -180 đến 180")]
-        public float UserLongitude { get; set; }
+        public double UserLongitude { get; set; }
     }
 
     // User Profile Response DTO

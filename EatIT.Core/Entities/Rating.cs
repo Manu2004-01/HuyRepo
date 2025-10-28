@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EatIT.Core.Entities
 {
-    public class Rating : BasicEntity<int>
+    public class Rating 
     {
-        //public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int RestaurantId { get; set; }
         public int Star { get; set; }

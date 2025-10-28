@@ -10,6 +10,7 @@ namespace EatIT.WebAPI.Models
         public MappingUser() 
         {
             CreateMap<Users, UserDTO>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId))
                 .ForMember(d => d.RoleName, o => o.MapFrom(s => s.Role.RoleName))
                 .ForMember(d => d.UserImage, o => o.MapFrom<UserImageUrlResolver>())
                 .ReverseMap();
@@ -28,7 +29,7 @@ namespace EatIT.WebAPI.Models
                 .ForMember(d => d.IsActive, o => o.Ignore());
 
             CreateMap<UpdateUserProfileDTO, Users>()
-                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.UserId, o => o.Ignore())
                 .ForMember(d => d.RoleId, o => o.Ignore())
                 .ForMember(d => d.Email, o => o.Ignore())
                 .ForMember(d => d.Password, o => o.Ignore())
@@ -38,8 +39,8 @@ namespace EatIT.WebAPI.Models
                 .ForMember(d => d.IsActive, o => o.Ignore())
                 .ForMember(d => d.Role, o => o.Ignore())
                 .ForMember(d => d.Favorites, o => o.Ignore())
-                .ForMember(d => d.Ratings, o => o.Ignore())
-                .ForMember(d => d.Restaurants, o => o.Ignore());
+                .ForMember(d => d.Ratings, o => o.Ignore());
+                
 
             CreateMap<Users, UserProfileDTO>()
                 .ForMember(d => d.UserImage, o => o.MapFrom<ProfileImageUrlResolver>());

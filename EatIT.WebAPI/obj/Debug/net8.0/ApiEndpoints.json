@@ -727,6 +727,16 @@
         "IsRequired": false
       },
       {
+        "Name": "StarRating",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "ResPhoneNumber",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
         "Name": "ResName",
         "Type": "System.String",
         "IsRequired": false
@@ -738,12 +748,12 @@
       },
       {
         "Name": "Latitude",
-        "Type": "System.Single",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
         "Name": "Longitude",
-        "Type": "System.Single",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
@@ -841,6 +851,16 @@
         "IsRequired": false
       },
       {
+        "Name": "StarRating",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "ResPhoneNumber",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
         "Name": "ResName",
         "Type": "System.String",
         "IsRequired": false
@@ -852,12 +872,12 @@
       },
       {
         "Name": "Latitude",
-        "Type": "System.Single",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
         "Name": "Longitude",
-        "Type": "System.Single",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {

@@ -49,3 +49,16 @@ D:\FPTU\FA25\22-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.dll
 D:\FPTU\FA25\22-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\refint\EatIT.Core.dll
 D:\FPTU\FA25\22-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.pdb
 D:\FPTU\FA25\22-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\ref\EatIT.Core.dll
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\bin\Debug\net8.0\EatIT.Core.deps.json
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\bin\Debug\net8.0\EatIT.Core.dll
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\bin\Debug\net8.0\EatIT.Core.pdb
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.csproj.AssemblyReference.cache
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.AssemblyInfoInputs.cache
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.AssemblyInfo.cs
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.csproj.CoreCompileInputs.cache
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.sourcelink.json
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.dll
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\refint\EatIT.Core.dll
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\EatIT.Core.pdb
+D:\FPTU\FA25\26-10\HuyRepo\EatIT.Core\obj\Debug\net8.0\ref\EatIT.Core.dll
