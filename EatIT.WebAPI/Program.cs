@@ -109,11 +109,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
@@ -125,6 +122,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseStaticFiles();
+app.MapGet("/", () => Results.Redirect("/swagger"));
 app.MapControllers();
 await InfrastructureRequistration.InfrastructureConfigMiddleware(app);
 app.Run();
