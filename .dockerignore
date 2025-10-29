@@ -1,0 +1,14 @@
+# Exclude local build artifacts and IDE files from Docker context
+**/bin/
+**/obj/
+.vs/
+.git/
+*.user
+*.suo
+*.cache
+*.dtbcache*
+*.local.json
+
+# OS junk
+.DS_Store
+Thumbs.db

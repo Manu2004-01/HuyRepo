@@ -16,6 +16,9 @@ COPY EatIT.Core/ EatIT.Core/
 COPY EatIT.Infrastructure/ EatIT.Infrastructure/
 COPY EatIT.WebAPI/ EatIT.WebAPI/
 
+# Re-restore after copying sources to ensure Linux-generated assets
+RUN dotnet restore
+
 # Build
 WORKDIR /src/EatIT.WebAPI
 RUN dotnet publish -c Release -o /app/publish
