@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace EatIT.WebAPI.Controllers
 {
@@ -135,8 +136,7 @@ namespace EatIT.WebAPI.Controllers
         {
             try
             {
-                // Lấy user ID từ JWT token
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
                 {
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
@@ -185,8 +185,7 @@ namespace EatIT.WebAPI.Controllers
         {
             try
             {
-                // Lấy user ID từ JWT token
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
                 {
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
@@ -219,8 +218,8 @@ namespace EatIT.WebAPI.Controllers
             try
             {
                 // Lấy user ID từ JWT token
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                var userId = Locations.GetCurrentUserId(User);
+                if (userId <= 0)
                 {
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
                 }
@@ -251,8 +250,8 @@ namespace EatIT.WebAPI.Controllers
             try
             {
                 // Lấy user ID từ JWT token
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                var userId = Locations.GetCurrentUserId(User);
+                if (userId <= 0)
                 {
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
                 }

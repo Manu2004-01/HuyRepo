@@ -74,10 +74,6 @@ namespace EatIT.Infrastructure.Repository
                     _ => queryable.OrderByDescending(x => x.DishId)
                 };
             }
-            else
-            {
-                queryable = queryable.OrderByDescending(x => x.DishId);
-            }
 
             //Filter by Dish price
             if (dishParams.DishPrice.HasValue)

@@ -10,7 +10,7 @@ namespace EatIT.Core.DTOs
     public class BaseRating
     {
         [Required]
-        public int Star { get; set; }
+        public double Star { get; set; }
 
         [MaxLength(100, ErrorMessage = "Comment không được vượt quá 100 ký tự")]
         public string? Comment { get; set; }

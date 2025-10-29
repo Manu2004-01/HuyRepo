@@ -260,10 +260,14 @@ namespace EatIT.Infrastructure.Repository
                 user.UserLatitude = locationDto.UserLatitude;
                 user.UserLongitude = locationDto.UserLongitude;
                 user.LastLocationUpdate = DateTime.UtcNow;
-                user.UpdateAt = DateTime.UtcNow; // Cập nhật thời gian sửa đổi
+                user.UpdateAt = DateTime.UtcNow;
 
-                // Lưu thay đổi
-                _context.Users.Update(user);
+                var entry = _context.Users.Attach(user);
+                entry.Property(x => x.UserLatitude).IsModified = true;
+                entry.Property(x => x.UserLongitude).IsModified = true;
+                entry.Property(x => x.LastLocationUpdate).IsModified = true;
+                entry.Property(x => x.UpdateAt).IsModified = true;
+
                 await _context.SaveChangesAsync();
 
                 return true;

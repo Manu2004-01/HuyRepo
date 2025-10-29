@@ -57,26 +57,19 @@ namespace EatIT.Infrastructure.Repository
 
         public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
-            ////IQueryable<T> query = _context.Set<T>();
-            //IQueryable<T> query = _context.Set<T>().Where(x => x.Id == id);
-            //foreach (var item in includes)
-            //{
-            //    query = query.Include(item);
-            //}
-            //return await query.FirstOrDefaultAsync();
-            ////return await((DbSet<T>)query).FindAsync(id);
+            var entityType = _context.Model.FindEntityType(typeof(T));
+            var keyName = entityType.FindPrimaryKey().Properties[0].Name;
             var parameter = Expression.Parameter(typeof(T), "x");
-            var property = Expression.Property(parameter, "Id");
+            var property = Expression.Property(parameter, keyName);
             var constant = Expression.Constant(id);
             var equal = Expression.Equal(property, constant);
-            var lambda = Expression.Lambda<Func<T, bool>>(equal, parameter);
-
-            IQueryable<T> query = _context.Set<T>().Where(lambda);
-            foreach (var item in includes)
+            var predicate = Expression.Lambda<Func<T, bool>>(equal, parameter);
+            IQueryable<T> query = _context.Set<T>();
+            foreach (var include in includes)
             {
-                query = query.Include(item);
+                query = query.Include(include);
             }
-            return await query.FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync(predicate);
         }
 
         public async Task UpdateAsync(int id, T entity)

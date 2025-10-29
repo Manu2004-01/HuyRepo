@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Globalization;
 
 namespace EatIT.WebAPI.MyHelper
 {
@@ -16,6 +17,11 @@ namespace EatIT.WebAPI.MyHelper
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
+                userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            }
+
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
                 userIdClaim = user.FindFirst("UserId")?.Value;
             }
 
@@ -25,9 +31,9 @@ namespace EatIT.WebAPI.MyHelper
         public static string FormatDistance(double distanceKm)
         {
             if (distanceKm < 1)
-                return $"{(distanceKm * 1000):0} m";
+                return string.Format(CultureInfo.InvariantCulture, "{0:0} m", distanceKm * 1000);
             else
-                return $"{distanceKm:0.1} km";
+                return string.Format(CultureInfo.InvariantCulture, "{0:0.00} km", distanceKm);
         }
     }
 }

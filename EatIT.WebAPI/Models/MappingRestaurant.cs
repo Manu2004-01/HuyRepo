@@ -16,6 +16,12 @@ namespace EatIT.WebAPI.Models
                 .ForMember(d => d.TagName, o => o.MapFrom(s => s.Tag.TagName))
                 .ForMember(d => d.RestaurantImg, o => o.MapFrom<RestaurantImageUrlResolver>());
 
+            CreateMap<Restaurants, RestaurantDetailDTO>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.ResId))
+                .ForMember(d => d.TagName, o => o.MapFrom(s => s.Tag.TagName))
+                .ForMember(d => d.RestaurantImg, o => o.MapFrom<RestaurantDetailImageUrlResolver>())
+                .ForMember(d => d.Dishes, o => o.MapFrom(s => s.Dishes));
+
             // Map CreateRestaurantDTO -> Restaurants
             CreateMap<CreateRestaurantDTO, Restaurants>()
                 .ForMember(d => d.ResId, o => o.Ignore())

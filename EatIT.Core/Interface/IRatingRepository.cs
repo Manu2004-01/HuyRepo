@@ -12,6 +12,7 @@ namespace EatIT.Core.Interface
     public interface IRatingRepository : IGenericRepository<Rating>
     {
         Task<IEnumerable<Rating>> GetAllAsync(RatingParams ratingParams);
+        Task<IEnumerable<Rating>> GetByRestaurantAsync(int restaurantId, RatingParams ratingParams);
         Task<bool> AddAsync(CreateRatingDTO dto);
         Task<bool> UpdateAsync(int id, UpdateRatingDTO dto);
         Task<bool> DeleteAsync(int id);

@@ -28,7 +28,6 @@ namespace EatIT.Core.DTOs
     public class DishDTO : BaseDish
     {
         public int Id { get; set; }
-        public string RestaurantName { get; set; }
         public string DishName { get; set; }
         public string DishImage { get; set; }
         public string DishDescription { get; set; }
@@ -36,6 +35,16 @@ namespace EatIT.Core.DTOs
         public bool IsVegan { get; set; }
         //public DateTime CreateAt { get; set; }
         //public DateTime UpdateAt { get; set; }
+    }
+
+    public class DishBasicDTO
+    {
+        public int Id { get; set; }
+        public string DishName { get; set; }
+        public string DishImage { get; set; }
+        public string DishDescription { get; set; }
+        public decimal DishPrice { get; set; }
+        public bool IsVegan { get; set; }
     }
 
     public class CreateDishDTO : BaseDish

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace EatIT.WebAPI.Controllers
 {
@@ -59,11 +60,11 @@ namespace EatIT.WebAPI.Controllers
                 if (id <= 0)
                     return BadRequest(new BaseCommentResponse(400, "ID nhà hàng không hợp lệ"));
 
-                var res = await _unitOfWork.RestaurantRepository.GetByIdAsync(id, x => x.Tag);
+                var res = await _unitOfWork.RestaurantRepository.GetByIdAsync(id, x => x.Tag, x => x.Dishes);
                 if (res == null)
                     return NotFound(new BaseCommentResponse(404, "Không tìm thấy nhà hàng"));
 
-                var result = _mapper.Map<RestaurantDTO>(res);
+                var result = _mapper.Map<RestaurantDetailDTO>(res);
                 return Ok(result);
             }
             catch (Exception)
@@ -176,7 +177,7 @@ namespace EatIT.WebAPI.Controllers
             try
             {
                 // Lấy user ID từ JWT token
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
                 {
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
@@ -214,8 +215,8 @@ namespace EatIT.WebAPI.Controllers
                         );
 
                         var restaurantDto = _mapper.Map<RestaurantDTO>(r);
-                        restaurantDto.DistanceFromUser = Math.Round(distance, 3);
-                        restaurantDto.DistanceDisplay = Locations.FormatDistance(distance);
+                        restaurantDto.DistanceFromUser = Math.Round(distance, 2);
+                        restaurantDto.DistanceDisplay = Locations.FormatDistance(restaurantDto.DistanceFromUser.Value);
 
                         return restaurantDto;
                     })
@@ -278,7 +279,7 @@ namespace EatIT.WebAPI.Controllers
 
                     var restaurantDto = _mapper.Map<RestaurantDTO>(r);
                     restaurantDto.DistanceFromUser = Math.Round(distance, 2);
-                    restaurantDto.DistanceDisplay = Locations.FormatDistance(distance);
+                    restaurantDto.DistanceDisplay = Locations.FormatDistance(restaurantDto.DistanceFromUser.Value);
 
                     return restaurantDto;
                 }).OrderBy(r => r.DistanceFromUser).ToList();

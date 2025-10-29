@@ -5,6 +5,9 @@ using EatIT.Infrastructure.Data.DTOs;
 using EatIT.WebAPI.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using StackExchange.Redis;
 
 namespace EatIT.WebAPI.Controllers
@@ -65,22 +68,32 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        [HttpPost("ratings")]
-        public async Task<ActionResult> AddNewRating([FromForm] CreateRatingDTO createRatingDTO)
+        [Authorize]
+        [HttpPost("restaurants/{restaurantId:int}/ratings")]
+        public async Task<ActionResult> AddRestaurantRating(int restaurantId, [FromBody] BaseRating body)
         {
             try
             {
+                if (restaurantId <= 0)
+                    return BadRequest(new BaseCommentResponse(400, "ID nhà hàng không hợp lệ"));
+
                 if (!ModelState.IsValid)
                     return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
 
-                if (createRatingDTO == null)
-                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu bài đánh giá là bắt buộc"));
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
 
-                var ok = await _unitOfWork.RatingRepository.AddAsync(createRatingDTO);
-                if (!ok)
-                    return BadRequest(new BaseCommentResponse(400, "Không thêm được bài đánh giá"));
+                var dto = new CreateRatingDTO
+                {
+                    userid = userId,
+                    restaurantid = restaurantId,
+                    Star = body.Star,
+                    Comment = body.Comment
+                };
 
-                return Ok(ok);
+                var ok = await _unitOfWork.RatingRepository.AddAsync(dto);
+                return ok ? Ok(new { message = "Đã thêm đánh giá" }) : BadRequest(new BaseCommentResponse(400, "Không thêm được bài đánh giá"));
             }
             catch (Exception ex)
             {
@@ -88,6 +101,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("ratings/{id}")]
         public async Task<ActionResult> UpdateRating(int id, [FromForm] UpdateRatingDTO updateRatingDTO)
         {
@@ -111,6 +125,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("ratings/{id}")]
         public async Task<ActionResult> DeleteRating(int id)
         {
@@ -125,6 +140,28 @@ namespace EatIT.WebAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi xóa bài đánh giá"));
+            }
+        }
+
+        [HttpGet("restaurants/{restaurantId:int}/ratings")]
+        public async Task<ActionResult> GetRatingsForRestaurant(int restaurantId, [FromQuery] string? sort = null)
+        {
+            try
+            {
+                if (restaurantId <= 0)
+                    return BadRequest(new BaseCommentResponse(400, "ID nhà hàng không hợp lệ"));
+
+                var res = await _unitOfWork.RatingRepository.GetByRestaurantAsync(restaurantId, new Core.Sharing.RatingParams
+                {
+                    Sorting = sort
+                });
+
+                var result = _mapper.Map<List<RatingDTO>>(res);
+                return Ok(new { totalIteams = result.Count, result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi đang tìm kiếm bài đánh giá"));
             }
         }
     }

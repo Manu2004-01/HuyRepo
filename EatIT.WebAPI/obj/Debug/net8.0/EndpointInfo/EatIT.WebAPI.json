@@ -535,6 +535,18 @@
         }
       }
     },
+    "/": {
+      "get": {
+        "tags": [
+          "EatIT.WebAPI"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Favorite/favorites": {
       "get": {
         "tags": [
@@ -713,6 +725,18 @@
         }
       }
     },
+    "/api/FoodSuggestion": {
+      "post": {
+        "tags": [
+          "FoodSuggestion"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Rating/ratings": {
       "get": {
         "tags": [
@@ -727,60 +751,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Rating"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "Star"
-                ],
-                "type": "object",
-                "properties": {
-                  "userid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "restaurantid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Star": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Comment": {
-                    "maxLength": 100,
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "userid": {
-                  "style": "form"
-                },
-                "restaurantid": {
-                  "style": "form"
-                },
-                "Star": {
-                  "style": "form"
-                },
-                "Comment": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -863,8 +833,8 @@
                     "format": "int32"
                   },
                   "Star": {
-                    "type": "integer",
-                    "format": "int32"
+                    "type": "number",
+                    "format": "double"
                   },
                   "Comment": {
                     "maxLength": 100,
@@ -917,6 +887,76 @@
         }
       }
     },
+    "/api/Rating/restaurants/{restaurantId}/ratings": {
+      "post": {
+        "tags": [
+          "Rating"
+        ],
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRating"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRating"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseRating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Rating"
+        ],
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Restaurant/restaurants": {
       "get": {
         "tags": [
@@ -948,7 +988,6 @@
                 "required": [
                   "Latitude",
                   "Longitude",
-                  "OpeningHours",
                   "ResAddress",
                   "ResName"
                 ],
@@ -963,14 +1002,8 @@
                     "format": "binary"
                   },
                   "StarRating": {
-                    "maximum": 5,
-                    "minimum": 0,
                     "type": "number",
                     "format": "double"
-                  },
-                  "ResPhoneNumber": {
-                    "type": "integer",
-                    "format": "int64"
                   },
                   "ResName": {
                     "maxLength": 100,
@@ -978,6 +1011,10 @@
                   },
                   "ResAddress": {
                     "type": "string"
+                  },
+                  "ResPhoneNumber": {
+                    "type": "integer",
+                    "format": "int64"
                   },
                   "Latitude": {
                     "maximum": 90,
@@ -1006,13 +1043,13 @@
                 "StarRating": {
                   "style": "form"
                 },
-                "ResPhoneNumber": {
-                  "style": "form"
-                },
                 "ResName": {
                   "style": "form"
                 },
                 "ResAddress": {
+                  "style": "form"
+                },
+                "ResPhoneNumber": {
                   "style": "form"
                 },
                 "Latitude": {
@@ -1122,7 +1159,6 @@
                 "required": [
                   "Latitude",
                   "Longitude",
-                  "OpeningHours",
                   "ResAddress",
                   "ResName"
                 ],
@@ -1137,14 +1173,8 @@
                     "format": "binary"
                   },
                   "StarRating": {
-                    "maximum": 5,
-                    "minimum": 0,
                     "type": "number",
                     "format": "double"
-                  },
-                  "ResPhoneNumber": {
-                    "type": "integer",
-                    "format": "int64"
                   },
                   "ResName": {
                     "maxLength": 100,
@@ -1152,6 +1182,10 @@
                   },
                   "ResAddress": {
                     "type": "string"
+                  },
+                  "ResPhoneNumber": {
+                    "type": "integer",
+                    "format": "int64"
                   },
                   "Latitude": {
                     "maximum": 90,
@@ -1180,13 +1214,13 @@
                 "StarRating": {
                   "style": "form"
                 },
-                "ResPhoneNumber": {
-                  "style": "form"
-                },
                 "ResName": {
                   "style": "form"
                 },
                 "ResAddress": {
+                  "style": "form"
+                },
+                "ResPhoneNumber": {
                   "style": "form"
                 },
                 "Latitude": {
@@ -2232,6 +2266,24 @@
             "format": "int32"
           },
           "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BaseRating": {
+        "required": [
+          "star"
+        ],
+        "type": "object",
+        "properties": {
+          "star": {
+            "type": "number",
+            "format": "double"
+          },
+          "comment": {
+            "maxLength": 100,
             "type": "string",
             "nullable": true
           }

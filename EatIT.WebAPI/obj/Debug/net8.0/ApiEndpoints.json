@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_5",
+    "RelativePath": "",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
     "Method": "ForgotPassword",
     "RelativePath": "api/Auth/forgot-password",
@@ -465,6 +481,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EatIT.WebAPI.Controllers.FoodSuggestionController",
+    "Method": "GetSuggestion",
+    "RelativePath": "api/FoodSuggestion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
     "Method": "GetAllRating",
     "RelativePath": "api/Rating/ratings",
@@ -474,37 +500,6 @@
     "Parameters": [
       {
         "Name": "sort",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
-    "Method": "AddNewRating",
-    "RelativePath": "api/Rating/ratings",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "restaurantid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Star",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Comment",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -567,7 +562,7 @@
       },
       {
         "Name": "Star",
-        "Type": "System.Int32",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
@@ -590,6 +585,48 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
+    "Method": "AddRestaurantRating",
+    "RelativePath": "api/Rating/restaurants/{restaurantId}/ratings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "body",
+        "Type": "EatIT.Core.DTOs.BaseRating",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.RatingController",
+    "Method": "GetRatingsForRestaurant",
+    "RelativePath": "api/Rating/restaurants/{restaurantId}/ratings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "sort",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -728,12 +765,7 @@
       },
       {
         "Name": "StarRating",
-        "Type": "System.Double",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResPhoneNumber",
-        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -744,6 +776,11 @@
       {
         "Name": "ResAddress",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ResPhoneNumber",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -852,12 +889,7 @@
       },
       {
         "Name": "StarRating",
-        "Type": "System.Double",
-        "IsRequired": false
-      },
-      {
-        "Name": "ResPhoneNumber",
-        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -868,6 +900,11 @@
       {
         "Name": "ResAddress",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ResPhoneNumber",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {

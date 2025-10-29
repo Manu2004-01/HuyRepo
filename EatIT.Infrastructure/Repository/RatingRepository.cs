@@ -30,6 +30,7 @@ namespace EatIT.Infrastructure.Repository
         public async Task<bool> AddAsync(CreateRatingDTO dto)
         {
             var rating = _mapper.Map<Rating>(dto);
+            rating.CreateAt = DateTime.UtcNow;
             await _context.Ratings.AddAsync(rating);
             await _context.SaveChangesAsync();
             return true;
@@ -61,6 +62,32 @@ namespace EatIT.Infrastructure.Repository
             return list;
         }
 
+        public async Task<IEnumerable<Rating>> GetByRestaurantAsync(int restaurantId, RatingParams ratingParams)
+        {
+            var queryable = _context.Ratings
+                .Include(x => x.User)
+                .Include(x => x.Restaurant)
+                .AsNoTracking()
+                .Where(x => x.RestaurantId == restaurantId)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(ratingParams.Sorting))
+            {
+                queryable = ratingParams.Sorting switch
+                {
+                    "createdAt_desc" => queryable.OrderByDescending(x => x.CreateAt),
+                    "createdAt_asc" => queryable.OrderBy(x => x.CreateAt),
+                    _ => queryable.OrderByDescending(x => x.CreateAt)
+                };
+            }
+            else
+            {
+                queryable = queryable.OrderByDescending(x => x.CreateAt);
+            }
+
+            return await queryable.ToListAsync();
+        }
+
         public async Task<bool> UpdateAsync(int id, UpdateRatingDTO dto)
         {
             var currentRating = await _context.Ratings.FindAsync(id);
@@ -76,7 +103,7 @@ namespace EatIT.Infrastructure.Repository
         public async Task<bool> DeleteAsync(int id)
         {
             var currentRating = await _context.Ratings.FindAsync(id);
-
+            if (currentRating == null) return false;
             _context.Ratings.Remove(currentRating);
             await _context.SaveChangesAsync(); 
             return true;
