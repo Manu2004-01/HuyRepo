@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using EatIT.Core.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Hosting;
 
 namespace EatIT.Infrastructure
 {
@@ -32,7 +33,8 @@ namespace EatIT.Infrastructure
             {
                 option.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
                 {
-                    npgsqlOptions.CommandTimeout(120); // Tăng timeout lên 120 giây
+                    npgsqlOptions.CommandTimeout(120);
+                    npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorCodesToAdd: null);
                 });
                 option.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
             }
@@ -50,18 +52,21 @@ namespace EatIT.Infrastructure
         {
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
-            
-            // Check if migrations have been applied
-            var canConnect = await context.Database.CanConnectAsync();
-            if (canConnect)
+            var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
+            try
             {
-                // Database exists and is accessible
-                Console.WriteLine("Database connection successful. Migrations handled separately.");
+                var canConnect = await context.Database.CanConnectAsync();
+                if (!canConnect && env.IsDevelopment())
+                {
+                    await context.Database.EnsureCreatedAsync();
+                }
             }
-            else
+            catch
             {
-                // Database doesn't exist, ensure it's created
-                await context.Database.EnsureCreatedAsync();
+                if (env.IsDevelopment())
+                {
+                    await context.Database.EnsureCreatedAsync();
+                }
             }
         }
     }
