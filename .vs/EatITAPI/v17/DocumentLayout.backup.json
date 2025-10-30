@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\foodsuggestioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\foodsuggestioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.core\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\foodsuggestioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\foodsuggestioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CDD0E546-A25A-4C54-A2FF-688E647CA509}|EatIT.Infrastructure\\EatIT.Infrastructure.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.infrastructure\\repository\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\myhelper\\locations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\myhelper\\locations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.core\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\dishcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -88,27 +84,27 @@
               "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\UserDTO.cs",
               "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\DTOs\\UserDTO.cs",
               "RelativeToolTip": "EatIT.Core\\DTOs\\UserDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAQwBEAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-29T03:17:58.903Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "FoodSuggestionController.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\FoodSuggestionController.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\FoodSuggestionController.cs",
               "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\FoodSuggestionController.cs",
               "RelativeToolTip": "EatIT.WebAPI\\Controllers\\FoodSuggestionController.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAhwGAAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAnwB8AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-29T03:04:17.594Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Program.cs",
@@ -116,8 +112,7 @@
               "RelativeToolTip": "EatIT.WebAPI\\Program.cs",
               "ViewState": "AgIAAH0AAAAAAAAAAAAowIAAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T03:03:06.005Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T03:03:06.005Z"
             },
             {
               "$type": "Document",
@@ -129,8 +124,7 @@
               "RelativeToolTip": "EatIT.Core\\Entities\\Rating.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAA3wBEAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T02:05:33.545Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T02:05:33.545Z"
             },
             {
               "$type": "Document",
@@ -142,20 +136,20 @@
               "RelativeToolTip": "EatIT.Infrastructure\\Repository\\RatingRepository.cs",
               "ViewState": "AgIAAGgAAAAAAAAAAAAAACwAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T14:33:39.423Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-28T14:33:39.423Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "Users.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\Entities\\Users.cs",
               "RelativeDocumentMoniker": "EatIT.Core\\Entities\\Users.cs",
               "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\Entities\\Users.cs",
               "RelativeToolTip": "EatIT.Core\\Entities\\Users.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAwwBkAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T12:48:22.106Z"
+              "WhenOpened": "2025-10-28T12:48:22.106Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -183,20 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\appsettings.json",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\appsettings.json",
-              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\appsettings.json",
-              "RelativeToolTip": "EatIT.WebAPI\\appsettings.json",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAiwBkAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-28T12:25:43.737Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "DishDTO.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\DTOs\\DishDTO.cs",
               "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\DishDTO.cs",
@@ -208,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "DishController.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\DishController.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\DishController.cs",
@@ -220,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "MappingDish.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingDish.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Models\\MappingDish.cs",
@@ -232,7 +213,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "MappingRestaurant.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Models\\MappingRestaurant.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Models\\MappingRestaurant.cs",
@@ -244,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "UserController.cs",
               "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\UserController.cs",

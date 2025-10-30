@@ -156,6 +156,8 @@ namespace EatIT.Infrastructure.Data
             modelBuilder.Entity<Users>()
                 .Property(u => u.UpdateAt).HasColumnName("update_at");
             modelBuilder.Entity<Users>()
+                .Property(u => u.IsVegetarian).HasColumnName("is_vegetarian");
+            modelBuilder.Entity<Users>()
                 .Property(u => u.IsActive).HasColumnName("is_active");
             
             // Tags

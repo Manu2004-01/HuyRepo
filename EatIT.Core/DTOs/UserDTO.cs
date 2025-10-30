@@ -42,6 +42,7 @@ namespace EatIT.Infrastructure.Data.DTOs
         public string UserImage { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
+        public bool IsVegetarian { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -65,6 +66,12 @@ namespace EatIT.Infrastructure.Data.DTOs
         public string? UserName { get; set; }
 
         public string? UserAddress { get; set; }
+
+        public string? Preference { get; set; }
+        public string? Dislike { get; set; }
+        public string? Allergy { get; set; }
+        public string? Diet { get; set; }
+        public bool? IsVegetarian { get; set; }
 
         public IFormFile? image { get; set; }
     }
@@ -114,7 +121,10 @@ namespace EatIT.Infrastructure.Data.DTOs
         public string? Dislike { get; set; } //Mon k thich or k an dc
         public string? Allergy { get; set; } //Mon di ung
         public string? Diet { get; set; } //Che do an
+        public bool IsVegetarian { get; set; }
     }
+
+    
 
     public class RegisterDTO 
     {

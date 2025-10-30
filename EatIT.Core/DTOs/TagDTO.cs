@@ -20,6 +20,25 @@ namespace EatIT.Core.DTOs
         public int TagID { get; set; }
         public string TagName { get; set; }
         public string TagImg { get; set; }
+
+        public class TagByIdRestaurantDTO
+        {
+            public int Id { get; set; }
+            public string RestaurantImg { get; set; }
+            public double? StarRating { get; set; }
+            public string ResName { get; set; }
+            public string ResAddress { get; set; }
+            public long? ResPhoneNumber { get; set; }
+            public string? OpeningHours { get; set; }
+        }
+
+        public class TagByIdDTO
+        {
+            public int TagID { get; set; }
+            public string TagName { get; set; }
+            public string TagImg { get; set; }
+            public List<TagByIdRestaurantDTO> Restaurants { get; set; }
+        }
     }
 
     public class CreateTagDTO : BaseTag

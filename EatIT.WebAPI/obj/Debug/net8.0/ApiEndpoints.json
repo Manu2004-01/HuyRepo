@@ -958,6 +958,22 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.TagController",
+    "Method": "GetTagById",
+    "RelativePath": "api/Tag/tags/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.TagController",
     "Method": "DeleteTag",
     "RelativePath": "api/Tag/tags/{id}",
     "HttpMethod": "DELETE",
@@ -1071,6 +1087,31 @@
       {
         "Name": "UserAddress",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Preference",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Dislike",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Allergy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Diet",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsVegetarian",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {

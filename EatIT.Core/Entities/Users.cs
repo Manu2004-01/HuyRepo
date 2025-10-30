@@ -33,6 +33,7 @@ namespace EatIT.Core.Entities
         public DateTime? LastLocationUpdate { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
+        public bool IsVegetarian { get; set; }
         public bool IsActive { get; set; }
         public virtual UserRole Role { get; set; }
         public ICollection<Favorites> Favorites { get; set; }

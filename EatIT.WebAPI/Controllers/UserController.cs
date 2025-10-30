@@ -157,6 +157,8 @@ namespace EatIT.WebAPI.Controllers
             }
         }
         
+        
+
         //Delete User
         [HttpDelete("users/{id}")]
         public async Task<ActionResult> DeleteUser(int id)

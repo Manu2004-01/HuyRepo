@@ -24,6 +24,27 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("tags/{id}")]
+        public async Task<ActionResult> GetTagById(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest(new BaseCommentResponse(400, "ID nhãn nhà hàng không hợp lệ"));
+
+                var tag = await _unitOfWork.TagRepository.GetByIdAsync(id, x => x.Restaurants);
+                if (tag == null)
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy nhãn nhà hàng"));
+
+                var result = _mapper.Map<TagDTO.TagByIdDTO>(tag);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi lấy nhãn nhà hàng theo ID"));
+            }
+        }
+
         [HttpGet("tags")]
         public async Task<ActionResult> GetAllTag()
         {

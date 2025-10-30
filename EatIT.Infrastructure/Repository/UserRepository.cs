@@ -109,7 +109,6 @@ namespace EatIT.Infrastructure.Repository
             // RoleId remains unchanged (ignored by mapping)
             currentUser.UpdateAt = DateTime.UtcNow;
 
-            _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -129,6 +128,31 @@ namespace EatIT.Infrastructure.Repository
             if (!string.IsNullOrWhiteSpace(dto.UserAddress) && !string.Equals(dto.UserAddress, "string", StringComparison.OrdinalIgnoreCase))
             {
                 currentUser.UserAddress = dto.UserAddress;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Preference) && !string.Equals(dto.Preference, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.Preference = dto.Preference;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Dislike) && !string.Equals(dto.Dislike, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.Dislike = dto.Dislike;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Allergy) && !string.Equals(dto.Allergy, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.Allergy = dto.Allergy;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Diet) && !string.Equals(dto.Diet, "string", StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser.Diet = dto.Diet;
+            }
+
+            if (dto.IsVegetarian.HasValue)
+            {
+                currentUser.IsVegetarian = dto.IsVegetarian.Value;
             }
 
             // Handle image update if provided
@@ -165,10 +189,11 @@ namespace EatIT.Infrastructure.Repository
             // Update timestamp
             currentUser.UpdateAt = DateTime.UtcNow;
 
-            _context.Users.Update(currentUser);
             await _context.SaveChangesAsync();
             return true;
         }
+
+        
 
         //Delete User
         public async Task<bool> DeleteAsync(int id)
