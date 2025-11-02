@@ -21,7 +21,22 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure SSL certificate validation for development
+// This allows connections to APIs with SSL certificate issues in development environment
+if (builder.Environment.IsDevelopment())
+{
+    // Global SSL certificate validation bypass for development
+    ServicePointManager.ServerCertificateValidationCallback = 
+        (sender, certificate, chain, sslPolicyErrors) => true;
+    
+    // Also set AppContext switch for .NET Core compatibility
+    AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+}
 
 // Add services to the container.
 
@@ -99,6 +114,8 @@ builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
 
 builder.Services.AddScoped<IDistanceCalculationService, DistanceCalculationService>();
 
+builder.Services.AddScoped<EatIT.Core.Interface.IPaymentService, EatIT.Core.Services.PaymentService>();
+
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -106,7 +123,19 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
-builder.Services.AddHttpClient();
+// Configure HttpClient with SSL certificate validation bypass for development
+// Note: Global ServicePointManager setting above handles this, but we configure HttpClientFactory for consistency
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHttpClient("default").ConfigurePrimaryHttpMessageHandler((serviceProvider) => new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+    });
+}
+else
+{
+    builder.Services.AddHttpClient();
+}
 
 var app = builder.Build();
 

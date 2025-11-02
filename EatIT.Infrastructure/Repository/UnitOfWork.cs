@@ -33,6 +33,8 @@ namespace EatIT.Infrastructure.Repository
         
         public IFavoriteRepository FavoriteRepository { get; }
 
+        public IPaymentRepository PaymentRepository { get; }
+
         public UnitOfWork(ApplicationDBContext context, IFileProvider fileProvider, IMapper mapper)
         {
             _dbContext = context;
@@ -46,6 +48,7 @@ namespace EatIT.Infrastructure.Repository
             RestaurantRepository = new RestaurantRepository(_dbContext, _fileProvider, _mapper);
             RatingRepository = new RatingRepository(context, _fileProvider, _mapper);
             FavoriteRepository = new FavoriteRepository(context, _mapper);
+            PaymentRepository = new PaymentRepository(_dbContext);
         }
     }
 }

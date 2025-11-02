@@ -31,6 +31,18 @@ namespace EatIT.WebAPI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> GetSuggestion()
         {
+			double ToRad(double x) => x * Math.PI / 180d;
+			double DistKm(double aLat, double aLng, double bLat, double bLng)
+			{
+				var dLat = ToRad(bLat - aLat);
+				var dLng = ToRad(bLng - aLng);
+				var rLat1 = ToRad(aLat);
+				var rLat2 = ToRad(bLat);
+				var s = Math.Sin(dLat / 2d) * Math.Sin(dLat / 2d) + Math.Cos(rLat1) * Math.Cos(rLat2) * Math.Sin(dLng / 2d) * Math.Sin(dLng / 2d);
+				var c = 2d * Math.Atan2(Math.Sqrt(s), Math.Sqrt(1d - s));
+				return 6371d * c;
+			}
+
 			double? lat = null;
 			double? lng = null;
 			var currentUserId = Locations.GetCurrentUserId(User);
@@ -51,21 +63,13 @@ namespace EatIT.WebAPI.Controllers
 				var restaurants = await _unitOfWork.RestaurantRepository.GetAllAsync(new RestaurantParams());
 				if (restaurants.Any())
 				{
-					double ToRad(double x) => x * Math.PI / 180d;
-					double DistKm(double aLat, double aLng, double bLat, double bLng)
-					{
-						var dLat = ToRad(bLat - aLat);
-						var dLng = ToRad(bLng - aLng);
-						var rLat1 = ToRad(aLat);
-						var rLat2 = ToRad(bLat);
-						var s = Math.Sin(dLat / 2d) * Math.Sin(dLat / 2d) + Math.Cos(rLat1) * Math.Cos(rLat2) * Math.Sin(dLng / 2d) * Math.Sin(dLng / 2d);
-						var c = 2d * Math.Atan2(Math.Sqrt(s), Math.Sqrt(1d - s));
-						return 6371d * c;
-					}
-
-					var ordered = restaurants
+					const double radiusKm = 5.0;
+					var nearbyRestaurants = restaurants
+						.Where(r => DistKm(lat.Value, lng.Value, r.Latitude, r.Longitude) <= radiusKm)
 						.OrderBy(r => DistKm(lat.Value, lng.Value, r.Latitude, r.Longitude))
 						.ToList();
+
+					var ordered = nearbyRestaurants;
 
 					List<DishOption> BuildLimitedForRes(int resId) => dishes
 						.Where(d => d.ResId == resId)
@@ -74,10 +78,14 @@ namespace EatIT.WebAPI.Controllers
 						.ToList();
 
 					limited = new List<DishOption>();
+					int restaurantCount = 0;
 					foreach (var res in ordered)
 					{
-						limited = BuildLimitedForRes(res.ResId);
-						if (limited.Count > 0) break;
+						var dishesFromRes = BuildLimitedForRes(res.ResId);
+						limited.AddRange(dishesFromRes);
+						restaurantCount++;
+						if (restaurantCount >= 5 || limited.Count >= 50)
+							break;
 					}
 				}
 				else
@@ -92,6 +100,14 @@ namespace EatIT.WebAPI.Controllers
 
 			var dishMap = dishes.ToDictionary(d => d.DishId);
 			var profile = currentUserId > 0 ? await _unitOfWork.UserRepository.GetProfileAsync(currentUserId) : null;
+			var hasPremium = false;
+			
+			if (currentUserId > 0)
+			{
+				var activePremium = await _unitOfWork.PaymentRepository.GetActivePremiumByUserIdAsync(currentUserId);
+				hasPremium = activePremium != null;
+			}
+
 			IEnumerable<string> SplitTerms(string s) => (s ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim().ToLowerInvariant()).Where(x => x.Length > 0);
 			bool Match(string text, IEnumerable<string> terms)
 			{
@@ -107,79 +123,61 @@ namespace EatIT.WebAPI.Controllers
 				{
 					limited = limited.Where(x => dishMap.TryGetValue(x.DishId, out var d) && d.IsVegan).ToList();
 				}
-				var dislikeTerms = SplitTerms(profile.Dislike ?? string.Empty);
-				var allergyTerms = SplitTerms(profile.Allergy ?? string.Empty);
-				if (dislikeTerms.Any() || allergyTerms.Any())
+
+				if (hasPremium)
 				{
-					limited = limited.Where(x =>
+					var dislikeTerms = SplitTerms(profile.Dislike ?? string.Empty);
+					var allergyTerms = SplitTerms(profile.Allergy ?? string.Empty);
+					if (dislikeTerms.Any() || allergyTerms.Any())
 					{
-						if (!dishMap.TryGetValue(x.DishId, out var d)) return false;
-						var name = d.DishName ?? string.Empty;
-						var desc = d.DishDescription ?? string.Empty;
-						if (Match(name, dislikeTerms) || Match(desc, dislikeTerms)) return false;
-						if (Match(name, allergyTerms) || Match(desc, allergyTerms)) return false;
-						return true;
-					}).ToList();
-				}
-				var prefTerms = SplitTerms(profile.Preference ?? string.Empty);
-				if (prefTerms.Any())
-				{
-					limited = limited
-						.OrderByDescending(x =>
+						limited = limited.Where(x =>
 						{
-							if (!dishMap.TryGetValue(x.DishId, out var d)) return 0;
+							if (!dishMap.TryGetValue(x.DishId, out var d)) return false;
 							var name = d.DishName ?? string.Empty;
 							var desc = d.DishDescription ?? string.Empty;
-							return Match(name, prefTerms) || Match(desc, prefTerms) ? 1 : 0;
-						})
-						.Take(50)
-						.ToList();
+							if (Match(name, dislikeTerms) || Match(desc, dislikeTerms)) return false;
+							if (Match(name, allergyTerms) || Match(desc, allergyTerms)) return false;
+							return true;
+						}).ToList();
+					}
+					var prefTerms = SplitTerms(profile.Preference ?? string.Empty);
+					if (prefTerms.Any())
+					{
+						limited = limited
+							.OrderByDescending(x =>
+							{
+								if (!dishMap.TryGetValue(x.DishId, out var d)) return 0;
+								var name = d.DishName ?? string.Empty;
+								var desc = d.DishDescription ?? string.Empty;
+								return Match(name, prefTerms) || Match(desc, prefTerms) ? 1 : 0;
+							})
+							.Take(50)
+							.ToList();
+					}
 				}
 			}
 
 			if (limited.Count == 0)
 			{
-				string fallbackPrompt = "Hãy gợi ý cho tôi một món ăn ở quán gần tôi nhất";
-
-				var fallbackBody = new
-				{
-					contents = new[]
-					{
-						new
-						{
-							parts = new[]
-							{
-								new { text = fallbackPrompt }
-							}
-						}
-					}
-				};
-
-				var fallbackJson = JsonSerializer.Serialize(fallbackBody);
-				var fallbackContent = new StringContent(fallbackJson, Encoding.UTF8, "application/json");
-				var fallbackUrl = $"https://generativelanguage.googleapis.com/v1/models/{_model}:generateContent?key={_apiKey}";
-				var fallbackResponse = await _httpClient.PostAsync(fallbackUrl, fallbackContent);
-				var fallbackText = await fallbackResponse.Content.ReadAsStringAsync();
-				if (!fallbackResponse.IsSuccessStatusCode)
-					return StatusCode((int)fallbackResponse.StatusCode, fallbackText);
-				var fallbackJsonResult = JObject.Parse(fallbackText);
-                string fallbackSuggestion = fallbackJsonResult["candidates"]?[0]?["content"]?["parts"]?[0]?["text"]?.ToString()
-                                ?? "Không thể gợi ý món ăn lúc này.";
-                return Ok(new { suggestion = fallbackSuggestion, restaurantImg = (string)null, resName = (string)null, resAddress = (string)null, distanceDisplay = (string)null });
+				return Ok(new { suggestions = new List<object>() });
 			}
 
 			var optionsList = string.Join("\n", limited.Select(x => $"{x.DishId}\t{x.DishName}"));
 			var promptBuilder = new StringBuilder()
-				.AppendLine("Hãy chọn duy nhất 1 món trong danh sách sau.")
-				.AppendLine("Trả về đúng JSON với dạng {\"id\": <DishId>} không kèm giải thích.")
+				.AppendLine("Hãy chọn từ 5 đến 10 món ăn trong danh sách sau, ưu tiên các món từ nhà hàng gần nhất.")
+				.AppendLine("Trả về đúng JSON với dạng {\"ids\": [<DishId1>, <DishId2>, ...]} không kèm giải thích.")
 				.AppendLine("Ưu tiên tuân thủ sở thích và hạn chế của người dùng nếu có.");
 			if (profile != null)
 			{
 				if (profile.IsVegetarian) promptBuilder.AppendLine("Người dùng ăn chay.");
-				if (!string.IsNullOrWhiteSpace(profile.Preference)) promptBuilder.AppendLine($"Ưu tiên: {profile.Preference}");
-				if (!string.IsNullOrWhiteSpace(profile.Dislike)) promptBuilder.AppendLine($"Tránh: {profile.Dislike}");
-				if (!string.IsNullOrWhiteSpace(profile.Allergy)) promptBuilder.AppendLine($"Dị ứng: {profile.Allergy}");
-				if (!string.IsNullOrWhiteSpace(profile.Diet)) promptBuilder.AppendLine($"Chế độ ăn: {profile.Diet}");
+				
+				if (hasPremium)
+				{
+					if (!string.IsNullOrWhiteSpace(profile.Preference)) promptBuilder.AppendLine($"Ưu tiên: {profile.Preference}");
+					if (!string.IsNullOrWhiteSpace(profile.Dislike)) promptBuilder.AppendLine($"Tránh: {profile.Dislike}");
+					if (!string.IsNullOrWhiteSpace(profile.Allergy)) promptBuilder.AppendLine($"Dị ứng: {profile.Allergy}");
+					if (!string.IsNullOrWhiteSpace(profile.Diet)) promptBuilder.AppendLine($"Chế độ ăn: {profile.Diet}");
+				}
 			}
 			var prompt = promptBuilder
 				.AppendLine("Danh sách (id\tname):")
@@ -213,30 +211,43 @@ namespace EatIT.WebAPI.Controllers
 
 			var jsonResult = JObject.Parse(responseText);
 			var text = jsonResult["candidates"]?[0]?["content"]?["parts"]?[0]?["text"]?.ToString();
-			int dishId;
+			List<int> dishIds = new List<int>();
 			try
 			{
 				var parsed = JObject.Parse(text ?? "{}");
-				dishId = parsed["id"]?.ToObject<int?>() ?? 0;
+				var idsArray = parsed["ids"]?.ToObject<int[]>();
+				if (idsArray != null && idsArray.Length > 0)
+				{
+					dishIds = idsArray.ToList();
+				}
 			}
 			catch
 			{
-				dishId = 0;
 			}
 
-			var selected = dishId != 0 ? limited.FirstOrDefault(x => x.DishId == dishId) : limited.First();
+			if (dishIds.Count == 0)
+			{
+				dishIds = limited.Take(Math.Min(5, limited.Count)).Select(x => x.DishId).ToList();
+			}
 
-			string distanceDisplay = null;
-			string resImg = null;
-			string resName = null;
-			string resAddress = null;
+			var selectedDishes = limited.Where(x => dishIds.Contains(x.DishId)).ToList();
+			if (selectedDishes.Count == 0)
+			{
+				selectedDishes = limited.Take(Math.Min(5, limited.Count)).ToList();
+			}
 
-			if (selected != null)
+			var suggestions = new List<object>();
+			foreach (var selected in selectedDishes)
 			{
 				var fullDish = dishes.FirstOrDefault(d => d.DishId == selected.DishId);
 				if (fullDish != null)
 				{
 					var restaurant = await _unitOfWork.RestaurantRepository.GetByIdAsync(fullDish.ResId);
+					string distanceDisplay = null;
+					string resImg = null;
+					string resName = null;
+					string resAddress = null;
+
 					if (restaurant != null)
 					{
 						resImg = restaurant.RestaurantImg;
@@ -244,26 +255,24 @@ namespace EatIT.WebAPI.Controllers
 						resAddress = restaurant.ResAddress;
 						if (lat.HasValue && lng.HasValue)
 						{
-							double ToRad(double x) => x * Math.PI / 180d;
-							double DistKm(double aLat, double aLng, double bLat, double bLng)
-							{
-								var dLat = ToRad(bLat - aLat);
-								var dLng = ToRad(bLng - aLng);
-								var rLat1 = ToRad(aLat);
-								var rLat2 = ToRad(bLat);
-								var s = Math.Sin(dLat / 2d) * Math.Sin(dLat / 2d) + Math.Cos(rLat1) * Math.Cos(rLat2) * Math.Sin(dLng / 2d) * Math.Sin(dLng / 2d);
-								var c = 2d * Math.Atan2(Math.Sqrt(s), Math.Sqrt(1d - s));
-								return 6371d * c;
-							}
-
 							var km = DistKm(lat.Value, lng.Value, restaurant.Latitude, restaurant.Longitude);
 							distanceDisplay = Locations.FormatDistance(km);
 						}
 					}
+
+					suggestions.Add(new
+					{
+						dishId = selected.DishId,
+						dishName = selected.DishName,
+						restaurantImg = resImg,
+						resName = resName,
+						resAddress = resAddress,
+						distanceDisplay = distanceDisplay
+					});
 				}
 			}
 
-			return Ok(new { suggestion = selected?.DishName ?? "Không thể gợi ý món ăn lúc này.", restaurantImg = resImg, resName, resAddress, distanceDisplay });
+			return Ok(new { suggestions = suggestions });
         }
     }
 }

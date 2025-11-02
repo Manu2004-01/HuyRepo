@@ -72,6 +72,30 @@ namespace EatIT.Infrastructure.Repository
             return list;
         }
 
+        public async Task<IEnumerable<Restaurants>> GetRestaurantsByDishSearchAsync(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return Enumerable.Empty<Restaurants>();
+
+            var searchLower = searchTerm.ToLower();
+            var restaurantIds = await _context.Dishes
+                .Where(x => x.DishName.ToLower().Contains(searchLower))
+                .Select(x => x.ResId)
+                .Distinct()
+                .ToListAsync();
+
+            if (!restaurantIds.Any())
+                return Enumerable.Empty<Restaurants>();
+
+            var restaurants = await _context.Restaurants
+                .Include(x => x.Tag)
+                .Where(x => restaurantIds.Contains(x.ResId))
+                .AsNoTracking()
+                .ToListAsync();
+
+            return restaurants;
+        }
+
         public async Task<bool> UpdateAsync(int id, UpdateRestaurantDTO dto)
         {
             var currentRestaurant = await _context.Restaurants.FindAsync(id);

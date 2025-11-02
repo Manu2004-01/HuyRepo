@@ -54,7 +54,27 @@ namespace EatIT.WebAPI.Extensions
                 {
                     pol.AllowAnyHeader()
                        .AllowAnyMethod()
-                       .WithOrigins("https://huyrepo.onrender.com", "https://eatit-two.vercel.app", "https://localhost:7091", "http://localhost:5192", "https://localhost:5192", "http://localhost:7091");
+                       .AllowCredentials()
+                       .WithOrigins(
+                           "https://huyrepo.onrender.com",
+                           "https://eatit-two.vercel.app",
+                           "https://localhost:7091",
+                           "http://localhost:7091",
+                           "https://localhost:5192",
+                           "http://localhost:5192",
+                           "http://localhost:3000",
+                           "https://localhost:3000",
+                           "http://localhost:5173",
+                           "https://localhost:5173",
+                           "http://localhost:5174",
+                           "https://localhost:5174",
+                           "http://localhost:8080",
+                           "https://localhost:8080",
+                           "http://localhost:4200",
+                           "https://localhost:4200",
+                           "http://localhost:5175",
+                           "https://localhost:5175"
+                       );
                 });
             });
 

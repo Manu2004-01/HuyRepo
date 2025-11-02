@@ -29,6 +29,7 @@ namespace EatIT.Infrastructure
             services.AddScoped<IFavoriteRepository, FavoriteRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddDbContext<ApplicationDBContext>(option =>
             {
                 option.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>

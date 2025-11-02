@@ -15,5 +15,6 @@ namespace EatIT.Core.Interface
         public IRestaurantRepository RestaurantRepository { get; }
         public IRatingRepository RatingRepository { get; }
         public IFavoriteRepository FavoriteRepository { get; }
+        public IPaymentRepository PaymentRepository { get; }
     }
 }

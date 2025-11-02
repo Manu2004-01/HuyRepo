@@ -27,12 +27,22 @@ namespace EatIT.WebAPI.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"This Error come from Exception Middleware {ex.Message}");
+                
+                if (context.Response.HasStarted)
+                {
+                    await _next(context);
+                    return;
+                }
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
-                var payload = JsonSerializer.Serialize(new BaseCommentResponse(context.Response.StatusCode));
+                
+                var errorMessage = _hostEnvironment.IsDevelopment() 
+                    ? $"{ex.Message}. StackTrace: {ex.StackTrace}" 
+                    : ex.Message;
+                
+                var payload = JsonSerializer.Serialize(new BaseCommentResponse(context.Response.StatusCode, errorMessage));
                 await context.Response.WriteAsync(payload);
-
             }
         }
     }

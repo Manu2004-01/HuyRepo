@@ -18,11 +18,13 @@ namespace EatIT.WebAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPaymentService _paymentService;
 
-        public UserController(IUnitOfWork UnitOfWork, IMapper mapper)
+        public UserController(IUnitOfWork UnitOfWork, IMapper mapper, IPaymentService paymentService)
         {
             _unitOfWork = UnitOfWork;
             _mapper = mapper;
+            _paymentService = paymentService;
         }
 
         //[Authorize(Roles = "Người dùng")]
@@ -131,6 +133,7 @@ namespace EatIT.WebAPI.Controllers
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status400BadRequest)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status403Forbidden)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateUserProfile([FromForm] UpdateUserProfileDTO updateUserProfileDTO)
         {
@@ -147,6 +150,20 @@ namespace EatIT.WebAPI.Controllers
 
                 if (updateUserProfileDTO == null)
                     return BadRequest(new BaseCommentResponse(400, "Cần cập nhật dữ liệu"));
+
+                bool hasPremiumFields = !string.IsNullOrWhiteSpace(updateUserProfileDTO.Preference) ||
+                                      !string.IsNullOrWhiteSpace(updateUserProfileDTO.Dislike) ||
+                                      !string.IsNullOrWhiteSpace(updateUserProfileDTO.Allergy) ||
+                                      !string.IsNullOrWhiteSpace(updateUserProfileDTO.Diet);
+
+                if (hasPremiumFields)
+                {
+                    bool hasPremium = await _paymentService.HasActivePremiumAsync(userId);
+                    if (!hasPremium)
+                    {
+                        return StatusCode(403, new BaseCommentResponse(403, "Bạn cần đăng ký gói Premium để sử dụng tính năng tùy chỉnh Preference, Dislike, Allergy và Diet. Vui lòng nâng cấp tại /api/payment/premium"));
+                    }
+                }
 
                 var res = await _unitOfWork.UserRepository.UpdateProfileAsync(userId, updateUserProfileDTO);
                 return res ? Ok(new { message = "Cập nhật thông tin cá nhân thành công", data = updateUserProfileDTO }) : NotFound(new BaseCommentResponse(404, "Không tìm thấy người dùng hoặc cập nhật không thành công"));
@@ -269,6 +286,29 @@ namespace EatIT.WebAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi lấy vị trí người dùng"));
+            }
+        }
+
+        [Authorize]
+        [HttpGet("premium-check")]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> CheckPremiumStatus()
+        {
+            try
+            {
+                var userId = Locations.GetCurrentUserId(User);
+                if (userId <= 0)
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+                }
+
+                bool hasPremium = await _paymentService.HasActivePremiumAsync(userId);
+                return Ok(new { hasPremium });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi kiểm tra Premium"));
             }
         }
     }

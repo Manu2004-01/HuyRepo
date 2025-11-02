@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_5",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_7",
     "RelativePath": "",
     "HttpMethod": "GET",
     "IsController": false,
@@ -14,6 +14,32 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Auth/change-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "OldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
@@ -50,6 +76,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.AuthController",
+    "Method": "Logout",
+    "RelativePath": "api/Auth/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -484,6 +520,89 @@
     "ContainingType": "EatIT.WebAPI.Controllers.FoodSuggestionController",
     "Method": "GetSuggestion",
     "RelativePath": "api/FoodSuggestion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "PaymentCancel",
+    "RelativePath": "api/Payment/cancel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "GetPaymentHistory",
+    "RelativePath": "api/Payment/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "CreatePremiumPayment",
+    "RelativePath": "api/Payment/premium",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ReturnUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CancelUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "GetPremiumStatus",
+    "RelativePath": "api/Payment/premium-status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "PaymentSuccess",
+    "RelativePath": "api/Payment/success",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "Webhook",
+    "RelativePath": "api/Payment/webhook",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1073,6 +1192,31 @@
   },
   {
     "ContainingType": "EatIT.WebAPI.Controllers.UserController",
+    "Method": "CheckPremiumStatus",
+    "RelativePath": "api/User/premium-check",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.UserController",
     "Method": "UpdateUserProfile",
     "RelativePath": "api/User/profile",
     "HttpMethod": "PUT",
@@ -1143,6 +1287,15 @@
           "text/json"
         ],
         "StatusCode": 401
+      },
+      {
+        "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 403
       },
       {
         "Type": "EatIT.WebAPI.Errors.BaseCommentResponse",

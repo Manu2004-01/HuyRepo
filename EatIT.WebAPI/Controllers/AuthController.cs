@@ -6,6 +6,7 @@ using EatIT.WebAPI.Errors;
 using EatIT.WebAPI.MyHelper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -122,7 +123,74 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
-        //Forget Password
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                    ?? User.FindFirst("sub")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim))
+                {
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ"));
+                }
+
+                return Ok(new BaseCommentResponse(200, "Đăng xuất thành công"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ trong quá trình đăng xuất"));
+            }
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromQuery] ChangePasswordDTO dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
+
+                if (dto == null || string.IsNullOrEmpty(dto.OldPassword) || 
+                    string.IsNullOrEmpty(dto.NewPassword) || string.IsNullOrEmpty(dto.ConfirmPassword))
+                    return BadRequest(new BaseCommentResponse(400, "Tất cả các trường là bắt buộc"));
+
+                if (dto.NewPassword != dto.ConfirmPassword)
+                    return BadRequest(new BaseCommentResponse(400, "Mật khẩu xác nhận không khớp"));
+
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                    ?? User.FindFirst("sub")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ"));
+
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+                if (user == null)
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy người dùng"));
+
+                if (user.Password != dto.OldPassword)
+                    return Unauthorized(new BaseCommentResponse(401, "Mật khẩu cũ không đúng"));
+
+                if (user.Password == dto.NewPassword)
+                    return BadRequest(new BaseCommentResponse(400, "Mật khẩu mới phải khác mật khẩu cũ"));
+
+                user.Password = dto.NewPassword;
+                user.UpdateAt = DateTime.UtcNow;
+
+                await _db.SaveChangesAsync();
+
+                return Ok(new BaseCommentResponse(200, "Đổi mật khẩu thành công"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ trong quá trình đổi mật khẩu"));
+            }
+        }
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO dto)
         {

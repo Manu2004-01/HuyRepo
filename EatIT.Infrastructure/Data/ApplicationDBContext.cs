@@ -22,6 +22,7 @@ namespace EatIT.Infrastructure.Data
         public virtual DbSet<Tags> Tags { get; set; }
         public virtual DbSet<Favorites> Favorites { get; set; }
         public virtual DbSet<Restaurants> Restaurants { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +36,8 @@ namespace EatIT.Infrastructure.Data
             modelBuilder.Entity<Rating>().ToTable("rating");
             modelBuilder.Entity<Tags>().ToTable("tags");
             modelBuilder.Entity<UserRole>().ToTable("user_roles");
-            
+            modelBuilder.Entity<Payment>().ToTable("payments");
+
             // Configure column names to use snake_case (PostgreSQL convention)
             ConfigureColumnNames(modelBuilder);
             
@@ -91,6 +93,12 @@ namespace EatIT.Infrastructure.Data
                 .HasOne(r => r.Restaurant)
                 .WithMany(r => r.Ratings)
                 .HasForeignKey(r => r.RestaurantId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -233,6 +241,29 @@ namespace EatIT.Infrastructure.Data
                 .Property(f => f.UserId).HasColumnName("user_id");
             modelBuilder.Entity<Favorites>()
                 .Property(f => f.RestaurantId).HasColumnName("restaurant_id");
+            
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PaymentId).HasColumnName("payment_id");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.UserId).HasColumnName("user_id");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.OrderCode).HasColumnName("order_code");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PaymentLinkId).HasColumnName("payment_link_id");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount).HasColumnName("amount");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Description).HasColumnName("description");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Status).HasColumnName("status");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PaymentType).HasColumnName("payment_type");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PremiumExpiryDate).HasColumnName("premium_expiry_date");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.CreatedAt).HasColumnName("created_at");
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PaidAt).HasColumnName("paid_at");
         }
 
         private void ApplyTimeStamps()

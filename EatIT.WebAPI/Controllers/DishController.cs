@@ -29,6 +29,14 @@ namespace EatIT.WebAPI.Controllers
         {
             try
             {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    var restaurants = await _unitOfWork.RestaurantRepository.GetRestaurantsByDishSearchAsync(search);
+                    var totalItems = restaurants.Count();
+                    var restaurantResult = _mapper.Map<List<RestaurantDTO>>(restaurants);
+                    return Ok(new { totalItems, result = restaurantResult });
+                }
+
                 var res = await _unitOfWork.DishRepository.GetAllAsync(new Core.Sharing.DishParams
                 {
                     Sorting = sort,
@@ -37,8 +45,8 @@ namespace EatIT.WebAPI.Controllers
                 });
 
                 var totalIteams = res.Count();
-                var result = _mapper.Map<List<DishDTO>>(res);
-                return Ok(new { totalIteams, result });
+                var dishResult = _mapper.Map<List<DishDTO>>(res);
+                return Ok(new { totalIteams, result = dishResult });
             }
             catch (Exception ex)
             {

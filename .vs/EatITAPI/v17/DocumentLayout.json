@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\tagcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\tagcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.core\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\restaurantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\restaurantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,27 +35,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RestaurantController.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\RestaurantController.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\RestaurantController.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\RestaurantController.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\RestaurantController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAgwEIAAAA8AAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "EatIT.WebAPI\\Program.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Program.cs",
+              "RelativeToolTip": "EatIT.WebAPI\\Program.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAowIEAAABiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T02:02:25.766Z",
+              "WhenOpened": "2025-11-02T03:23:56.991Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TagController.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\TagController.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\TagController.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\TagController.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\TagController.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAYwCcAAAAQAAAAAAAAAA==",
+              "Title": "PaymentService.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\Services\\PaymentService.cs",
+              "RelativeDocumentMoniker": "EatIT.Core\\Services\\PaymentService.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\Services\\PaymentService.cs",
+              "RelativeToolTip": "EatIT.Core\\Services\\PaymentService.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAAAUwLUAAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T02:01:21.107Z",
+              "WhenOpened": "2025-11-01T12:43:10.732Z",
               "EditorCaption": ""
             }
           ]

@@ -13,6 +13,7 @@ namespace EatIT.Core.Interface
     public interface IRestaurantRepository : IGenericRepository<Restaurants>
     {
         Task<IEnumerable<Restaurants>> GetAllAsync(RestaurantParams restaurantParams);
+        Task<IEnumerable<Restaurants>> GetRestaurantsByDishSearchAsync(string searchTerm);
         Task<bool> AddAsync(CreateRestaurantDTO dto);
         Task<bool> UpdateAsync(int id, UpdateRestaurantDTO dto);
         Task<bool> DeleteAsync(int id);
