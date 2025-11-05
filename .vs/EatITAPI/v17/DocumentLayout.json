@@ -63,8 +63,7 @@
               "RelativeToolTip": "EatIT.Core\\DTOs\\FavoriteDTO.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T08:47:16.362Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T08:47:16.362Z"
             },
             {
               "$type": "Document",
@@ -76,8 +75,7 @@
               "RelativeToolTip": "EatIT.WebAPI\\Controllers\\FavoriteController.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T08:46:47.788Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T08:46:47.788Z"
             },
             {
               "$type": "Document",
@@ -89,8 +87,7 @@
               "RelativeToolTip": "EatIT.WebAPI\\Models\\MappingFavorite.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwA0AAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T08:46:22.198Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T08:46:22.198Z"
             }
           ]
         },

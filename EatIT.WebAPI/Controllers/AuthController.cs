@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -25,14 +26,16 @@ namespace EatIT.WebAPI.Controllers
         private readonly IHostEnvironment _hostEnvironment;
         private readonly IEmailSender _emailSender;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(ApplicationDBContext db, ITokenService tokenService, IHostEnvironment hostEnvironment, IEmailSender emailSender, IUnitOfWork unitOfWork)
+        public AuthController(ApplicationDBContext db, ITokenService tokenService, IHostEnvironment hostEnvironment, IEmailSender emailSender, IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _db = db;
             _tokenService = tokenService;
             _hostEnvironment = hostEnvironment;
             _emailSender = emailSender;
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -218,9 +221,36 @@ namespace EatIT.WebAPI.Controllers
 
                 await _db.SaveChangesAsync();
 
-                var apiUrl = HttpContext.RequestServices
-    .GetRequiredService<IConfiguration>()["API_url"] ?? "https://localhost:7091/";
+                var apiUrl = _configuration["API_url"] ?? "https://localhost:7091/";
                 var resetLink = $"{apiUrl}reset-password?token={Uri.EscapeDataString(resetToken)}&email={Uri.EscapeDataString(user.Email ?? string.Empty)}";
+
+                // Gửi email reset password
+                try
+                {
+                    var emailSubject = "Đặt lại mật khẩu - EatIT";
+                    var emailBody = $@"
+                        <html>
+                        <body style='font-family: Arial, sans-serif;'>
+                            <h2>Yêu cầu đặt lại mật khẩu</h2>
+                            <p>Xin chào,</p>
+                            <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản EatIT của mình.</p>
+                            <p>Vui lòng click vào link sau để đặt lại mật khẩu (link có hiệu lực trong 1 giờ):</p>
+                            <p><a href='{resetLink}' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>Đặt lại mật khẩu</a></p>
+                            <p>Hoặc copy link sau vào trình duyệt:</p>
+                            <p style='word-break: break-all;'>{resetLink}</p>
+                            <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+                            <p>Trân trọng,<br/>Đội ngũ EatIT</p>
+                        </body>
+                        </html>";
+
+                    await _emailSender.SendAsync(user.Email ?? string.Empty, emailSubject, emailBody);
+                }
+                catch (Exception emailEx)
+                {
+                    // Log lỗi nhưng vẫn trả về thành công để không tiết lộ thông tin
+                    // Trong production, có thể log vào file hoặc logging service
+                    // Console.WriteLine($"Lỗi gửi email: {emailEx.Message}");
+                }
 
                 if (_hostEnvironment.IsDevelopment())
                 {
@@ -231,6 +261,7 @@ namespace EatIT.WebAPI.Controllers
                         {
                             email = user.Email,
                             resetToken = resetToken,
+                            resetLink = resetLink,
                             expiry = user.ResetPasswordTokenExpiry,
                             note = "Thông tin này chỉ hiển thị trong môi trường development"
                         }
