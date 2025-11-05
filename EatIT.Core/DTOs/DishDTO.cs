@@ -35,6 +35,13 @@ namespace EatIT.Core.DTOs
         public bool IsVegan { get; set; }
         //public DateTime CreateAt { get; set; }
         //public DateTime UpdateAt { get; set; }
+        
+        // Restaurant information
+        public string? RestaurantImg { get; set; }
+        public string? ResName { get; set; }
+        public string? ResAddress { get; set; }
+        public long? ResPhoneNumber { get; set; }
+        public string? OpeningHours { get; set; }
     }
 
     public class DishBasicDTO

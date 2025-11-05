@@ -29,7 +29,13 @@ namespace EatIT.WebAPI.Controllers
         {
             try
             {
-                var favorites = await _unitOfWork.FavoriteRepository.GetAllAsync();
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
+                // Chỉ lấy favorites của user đang đăng nhập
+                var favorites = await _unitOfWork.FavoriteRepository.GetFavoritesByUserIdAsync(userId);
                 var result = _mapper.Map<List<FavoriteDTO>>(favorites);
                 return Ok(result);
             }
@@ -47,6 +53,15 @@ namespace EatIT.WebAPI.Controllers
             {
                 if (userId <= 0)
                     return BadRequest(new BaseCommentResponse(400, "ID người dùng không hợp lệ"));
+
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int currentUserId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
+                // Chỉ cho phép user xem favorites của chính họ
+                if (userId != currentUserId)
+                    return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền xem favorites của người dùng khác"));
 
                 var favorites = await _unitOfWork.FavoriteRepository.GetFavoritesByUserIdAsync(userId);
                 var result = _mapper.Map<List<FavoriteDTO>>(favorites);
@@ -67,9 +82,18 @@ namespace EatIT.WebAPI.Controllers
                 if (id <= 0)
                     return BadRequest(new BaseCommentResponse(400, "ID yêu thích không hợp lệ"));
 
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int currentUserId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
                 var favorite = await _unitOfWork.FavoriteRepository.GetByIdAsync(id, x => x.User, x => x.Dish, x => x.Restaurant);
                 if (favorite == null)
                     return NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích"));
+
+                // Chỉ cho phép user xem favorite của chính họ
+                if (favorite.UserId != currentUserId)
+                    return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền xem favorite này"));
 
                 var result = _mapper.Map<FavoriteDTO>(favorite);
                 return Ok(result);
@@ -157,6 +181,14 @@ namespace EatIT.WebAPI.Controllers
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
                     return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
 
+                // Kiểm tra favorite có thuộc về user này không
+                var favorite = await _unitOfWork.FavoriteRepository.GetByIdAsync(id);
+                if (favorite == null)
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích"));
+
+                if (favorite.UserId != userId)
+                    return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền cập nhật favorite này"));
+
                 // Map từ request DTO sang internal DTO với userId từ token
                 var updateFavoriteDTO = new UpdateFavoriteDTO
                 {
@@ -182,6 +214,19 @@ namespace EatIT.WebAPI.Controllers
             {
                 if (id <= 0)
                     return BadRequest(new BaseCommentResponse(400, "ID yêu thích không hợp lệ"));
+
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
+                // Kiểm tra favorite có thuộc về user này không
+                var favorite = await _unitOfWork.FavoriteRepository.GetByIdAsync(id);
+                if (favorite == null)
+                    return NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích"));
+
+                if (favorite.UserId != userId)
+                    return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền xóa favorite này"));
 
                 var res = await _unitOfWork.FavoriteRepository.DeleteAsync(id);
                 return res ? Ok(new { message = "Mục yêu thích đã bị xóa thành công", id }) : NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích"));

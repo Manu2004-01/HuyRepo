@@ -13,6 +13,11 @@ namespace EatIT.WebAPI.Models
             CreateMap<Dishes, DishDTO>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.DishId))
                 .ForMember(d => d.DishImage, o => o.MapFrom<DishImageUrlResolver>())
+                .ForMember(d => d.RestaurantImg, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.RestaurantImg : null))
+                .ForMember(d => d.ResName, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.ResName : null))
+                .ForMember(d => d.ResAddress, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.ResAddress : null))
+                .ForMember(d => d.ResPhoneNumber, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.ResPhoneNumber : null))
+                .ForMember(d => d.OpeningHours, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.OpeningHours : null))
                 .ReverseMap();
 
             CreateMap<Dishes, DishBasicDTO>()
