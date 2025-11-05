@@ -195,7 +195,7 @@ namespace EatIT.WebAPI.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO dto)
+        public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO dto, [FromQuery] bool includeToken = false)
         {
             try
             {
@@ -252,7 +252,8 @@ namespace EatIT.WebAPI.Controllers
                     // Console.WriteLine($"Lỗi gửi email: {emailEx.Message}");
                 }
 
-                if (_hostEnvironment.IsDevelopment())
+                // Hiển thị token nếu là development hoặc nếu includeToken=true (cho testing)
+                if (_hostEnvironment.IsDevelopment() || includeToken)
                 {
                     return Ok(new
                     {
@@ -263,7 +264,9 @@ namespace EatIT.WebAPI.Controllers
                             resetToken = resetToken,
                             resetLink = resetLink,
                             expiry = user.ResetPasswordTokenExpiry,
-                            note = "Thông tin này chỉ hiển thị trong môi trường development"
+                            note = _hostEnvironment.IsDevelopment() 
+                                ? "Thông tin này chỉ hiển thị trong môi trường development" 
+                                : "Thông tin này được hiển thị vì includeToken=true (chỉ dùng cho testing)"
                         }
                     });
                 }
