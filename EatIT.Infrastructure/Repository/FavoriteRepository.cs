@@ -51,17 +51,14 @@ namespace EatIT.Infrastructure.Repository
                 }
                 
                 // Kiểm tra sự tồn tại của restaurant
-                var restaurant = await _context.Restaurants.FindAsync(dto.restaurantid);
+                if (!dto.restaurantid.HasValue)
+                {
+                    return false; // Restaurant ID là bắt buộc
+                }
+                var restaurant = await _context.Restaurants.FindAsync(dto.restaurantid.Value);
                 if (restaurant == null)
                 {
                     return false; // Restaurant không tồn tại
-                }
-                
-                // Kiểm tra sự tồn tại của user
-                var user = await _context.Users.FindAsync(dto.userid);
-                if (user == null)
-                {
-                    return false; // User không tồn tại
                 }
                 
                 var favorite = _mapper.Map<Favorites>(dto);

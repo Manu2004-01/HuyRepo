@@ -25,6 +25,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("ratings")]
         public async Task<ActionResult> GetAllRating([FromQuery] string? sort = null)
         {
@@ -45,6 +46,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("ratings/{id}")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(typeof(BaseCommentResponse), StatusCodes.Status404NotFound)]
@@ -143,6 +145,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("restaurants/{restaurantId:int}/ratings")]
         public async Task<ActionResult> GetRatingsForRestaurant(int restaurantId, [FromQuery] string? sort = null)
         {

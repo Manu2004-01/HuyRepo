@@ -10,6 +10,7 @@ namespace EatIT.WebAPI.Models
         public MappingFavorite()
         {
             CreateMap<Favorites, FavoriteDTO>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.FavorId))
                 .ForMember(d => d.DishName, o => o.MapFrom(s => s.Dish != null ? s.Dish.DishName : null))
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.User != null ? s.User.UserName : null))
                 .ForMember(d => d.RestaurantName, o => o.MapFrom(s => s.Restaurant != null ? s.Restaurant.ResName : null))
@@ -18,13 +19,14 @@ namespace EatIT.WebAPI.Models
             CreateMap<CreateFavoriteDTO, Favorites>()
                 .ForMember(d => d.DishId, o => o.MapFrom(s => s.dishid))
                 .ForMember(d => d.UserId, o => o.MapFrom(s => s.userid))
-                .ForMember(d => d.RestaurantId, o => o.MapFrom(s => s.restaurantid))
+                .ForMember(d => d.RestaurantId, o => o.MapFrom(s => s.restaurantid.HasValue ? s.restaurantid.Value : 0))
+                .ForMember(d => d.FavorId, o => o.Ignore())
                 .ReverseMap();
 
             CreateMap<UpdateFavoriteDTO, Favorites>()
-                .ForMember(d => d.DishId, o => o.Ignore())
-                .ForMember(d => d.UserId, o => o.Ignore())
-                .ForMember(d => d.RestaurantId, o => o.Ignore());
+                .ForMember(d => d.DishId, o => o.MapFrom(s => s.dishid))
+                .ForMember(d => d.UserId, o => o.MapFrom(s => s.userid))
+                .ForMember(d => d.RestaurantId, o => o.MapFrom(s => s.restaurantid ?? 0));
         }
     }
 }

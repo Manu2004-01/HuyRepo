@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using EatIT.Core.Interface;
 using EatIT.Core.Sharing;
+using EatIT.Core.DTOs;
 using EatIT.WebAPI.MyHelper;
 using Microsoft.AspNetCore.Authorization;
 
@@ -29,7 +30,7 @@ namespace EatIT.WebAPI.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public async Task<IActionResult> GetSuggestion()
+		public async Task<IActionResult> GetSuggestion([FromBody] FoodSuggestionDTO request = null)
         {
 			double ToRad(double x) => x * Math.PI / 180d;
 			double DistKm(double aLat, double aLng, double bLat, double bLng)
@@ -41,6 +42,15 @@ namespace EatIT.WebAPI.Controllers
 				var s = Math.Sin(dLat / 2d) * Math.Sin(dLat / 2d) + Math.Cos(rLat1) * Math.Cos(rLat2) * Math.Sin(dLng / 2d) * Math.Sin(dLng / 2d);
 				var c = 2d * Math.Atan2(Math.Sqrt(s), Math.Sqrt(1d - s));
 				return 6371d * c;
+			}
+
+			// Lấy bán kính từ request, mặc định là 5 km nếu không được cung cấp
+			double radiusKm = request?.RadiusKm ?? 5.0;
+			
+			// Validate radius: phải lớn hơn 0 và không quá 100 km
+			if (radiusKm <= 0 || radiusKm > 100)
+			{
+				return BadRequest(new { message = "Bán kính phải lớn hơn 0 và không quá 100 km" });
 			}
 
 			double? lat = null;
@@ -63,7 +73,6 @@ namespace EatIT.WebAPI.Controllers
 				var restaurants = await _unitOfWork.RestaurantRepository.GetAllAsync(new RestaurantParams());
 				if (restaurants.Any())
 				{
-					const double radiusKm = 5.0;
 					var nearbyRestaurants = restaurants
 						.Where(r => DistKm(lat.Value, lng.Value, r.Latitude, r.Longitude) <= radiusKm)
 						.OrderBy(r => DistKm(lat.Value, lng.Value, r.Latitude, r.Longitude))

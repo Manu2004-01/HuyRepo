@@ -73,7 +73,7 @@ namespace EatIT.Infrastructure.Data
             
             modelBuilder.Entity<Favorites>()
                 .HasOne(f => f.Dish)
-                .WithMany()
+                .WithMany(d => d.Favorites)
                 .HasForeignKey(f => f.DishId)
                 .OnDelete(DeleteBehavior.Restrict);
             

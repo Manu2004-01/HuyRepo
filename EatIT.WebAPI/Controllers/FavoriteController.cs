@@ -2,7 +2,11 @@
 using EatIT.Core.DTOs;
 using EatIT.Core.Interface;
 using EatIT.WebAPI.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace EatIT.WebAPI.Controllers
 {
@@ -19,6 +23,7 @@ namespace EatIT.WebAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("favorites")]
         public async Task<ActionResult> GetAllFavorites()
         {
@@ -34,6 +39,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("favorites/{userId}")]
         public async Task<ActionResult> GetFavoritesByUser(int userId)
         {
@@ -52,6 +58,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("favorites/{id}")]
         public async Task<ActionResult> GetFavoriteById(int id)
         {
@@ -73,28 +80,50 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("favorites")]
-        public async Task<ActionResult> AddNewFavorite([FromForm] CreateFavoriteDTO createFavoriteDTO)
+        public async Task<ActionResult> AddNewFavorite([FromForm] CreateFavoriteRequestDTO requestDTO)
         {
             try
             {
+                if (requestDTO == null)
+                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu yêu thích là bắt buộc"));
+
                 if (!ModelState.IsValid)
                     return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
 
-                if (createFavoriteDTO == null)
-                    return BadRequest(new BaseCommentResponse(400, "Dữ liệu yêu thích là bắt buộc"));
-                
-                // Kiểm tra nếu dishid null hoặc 0
-                if (!createFavoriteDTO.dishid.HasValue || createFavoriteDTO.dishid.Value == 0)
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
+                // Map từ request DTO sang internal DTO với userId từ token
+                var createFavoriteDTO = new CreateFavoriteDTO
                 {
-                    return BadRequest(new BaseCommentResponse(400, "Phải chọn một món ăn"));
-                }
+                    dishid = requestDTO.dishid,
+                    restaurantid = requestDTO.restaurantid,
+                    userid = userId // Tự động lấy từ JWT token
+                };
 
                 var ok = await _unitOfWork.FavoriteRepository.AddAsync(createFavoriteDTO);
                 if (!ok)
-                    return BadRequest(new BaseCommentResponse(400, "Không thêm được mục yêu thích. Món ăn, combo, nhà hàng hoặc người dùng không tồn tại"));
+                    return BadRequest(new BaseCommentResponse(400, "Không thêm được mục yêu thích. Món ăn, nhà hàng hoặc người dùng không tồn tại, hoặc bạn đã yêu thích món này rồi"));
 
                 return Ok(ok);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                Console.WriteLine($"Database error in AddNewFavorite: {dbEx.Message}");
+                if (dbEx.InnerException != null)
+                {
+                    Console.WriteLine($"Inner exception: {dbEx.InnerException.Message}");
+                    // Kiểm tra duplicate key error
+                    if (dbEx.InnerException.Message.Contains("duplicate") || dbEx.InnerException.Message.Contains("UNIQUE"))
+                    {
+                        return BadRequest(new BaseCommentResponse(400, "Bạn đã yêu thích món này rồi"));
+                    }
+                }
+                return StatusCode(500, new BaseCommentResponse(500, $"Lỗi cơ sở dữ liệu: {dbEx.InnerException?.Message ?? dbEx.Message}"));
             }
             catch (Exception ex)
             {
@@ -102,27 +131,42 @@ namespace EatIT.WebAPI.Controllers
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                    Console.WriteLine($"StackTrace: {ex.StackTrace}");
                 }
-                return StatusCode(500, new BaseCommentResponse(500, "Đã xảy ra lỗi máy chủ nội bộ khi thêm mục yêu thích"));
+                return StatusCode(500, new BaseCommentResponse(500, $"Đã xảy ra lỗi máy chủ nội bộ: {ex.Message}"));
             }
         }
 
+        [Authorize]
         [HttpPut("favorites/{id}")]
-        public async Task<ActionResult> UpdateFavorite(int id, [FromForm] UpdateFavoriteDTO updateFavoriteDTO)
+        public async Task<ActionResult> UpdateFavorite(int id, [FromForm] UpdateFavoriteRequestDTO requestDTO)
         {
             try
             {
                 if (id <= 0)
                     return BadRequest(new BaseCommentResponse(400, "ID yêu thích không hợp lệ"));
 
+                if (requestDTO == null)
+                    return BadRequest(new BaseCommentResponse(400, "Cần cập nhật dữ liệu"));
+
                 if (!ModelState.IsValid)
                     return BadRequest(new BaseCommentResponse(400, "Dữ liệu đầu vào không hợp lệ"));
 
-                if (updateFavoriteDTO == null)
-                    return BadRequest(new BaseCommentResponse(400, "Cần cập nhật dữ liệu"));
+                // Lấy userId từ JWT token
+                var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ hoặc không chứa thông tin người dùng"));
+
+                // Map từ request DTO sang internal DTO với userId từ token
+                var updateFavoriteDTO = new UpdateFavoriteDTO
+                {
+                    dishid = requestDTO.dishid,
+                    restaurantid = requestDTO.restaurantid,
+                    userid = userId // Tự động lấy từ JWT token
+                };
 
                 var res = await _unitOfWork.FavoriteRepository.UpdateAsync(id, updateFavoriteDTO);
-                return res ? Ok(updateFavoriteDTO) : NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích hoặc cập nhật không thành công"));
+                return res ? Ok(new { message = "Cập nhật mục yêu thích thành công" }) : NotFound(new BaseCommentResponse(404, "Không tìm thấy mục yêu thích hoặc cập nhật không thành công"));
             }
             catch (Exception ex)
             {
@@ -130,6 +174,7 @@ namespace EatIT.WebAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("favorites/{id}")]
         public async Task<ActionResult> DeleteFavorite(int id)
         {

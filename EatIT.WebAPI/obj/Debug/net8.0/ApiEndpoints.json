@@ -421,11 +421,6 @@
     "Parameters": [
       {
         "Name": "dishid",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "userid",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -472,13 +467,8 @@
         "IsRequired": false
       },
       {
-        "Name": "userid",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
         "Name": "restaurantid",
-        "Type": "System.Int32",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -523,7 +513,13 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EatIT.Core.DTOs.FoodSuggestionDTO",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

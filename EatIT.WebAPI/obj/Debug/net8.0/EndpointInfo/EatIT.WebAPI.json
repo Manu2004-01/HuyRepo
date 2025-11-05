@@ -617,13 +617,13 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "dishid",
+                  "restaurantid"
+                ],
                 "type": "object",
                 "properties": {
                   "dishid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "userid": {
                     "type": "integer",
                     "format": "int32"
                   },
@@ -635,9 +635,6 @@
               },
               "encoding": {
                 "dishid": {
-                  "style": "form"
-                },
-                "userid": {
                   "style": "form"
                 },
                 "restaurantid": {
@@ -724,10 +721,6 @@
                     "type": "integer",
                     "format": "int32"
                   },
-                  "userid": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
                   "restaurantid": {
                     "type": "integer",
                     "format": "int32"
@@ -736,9 +729,6 @@
               },
               "encoding": {
                 "dishid": {
-                  "style": "form"
-                },
-                "userid": {
                   "style": "form"
                 },
                 "restaurantid": {
@@ -781,6 +771,25 @@
         "tags": [
           "FoodSuggestion"
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodSuggestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodSuggestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodSuggestionDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -2545,6 +2554,17 @@
           "comment": {
             "maxLength": 100,
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FoodSuggestionDTO": {
+        "type": "object",
+        "properties": {
+          "radiusKm": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         },

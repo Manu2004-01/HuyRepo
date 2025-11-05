@@ -15,17 +15,36 @@ namespace EatIT.Core.DTOs
         public string RestaurantName { get; set; }
     }
 
-    public class CreateFavoriteDTO 
+    // DTO dành cho client request (không có userid - sẽ lấy từ JWT token)
+    public class CreateFavoriteRequestDTO 
     {
-        public int? dishid { get; set; }
-        public int userid { get; set; }
+        [Required(ErrorMessage = "Món ăn là bắt buộc")]
+        public int dishid { get; set; }
+        
+        [Required(ErrorMessage = "Nhà hàng là bắt buộc")]
         public int restaurantid { get; set; }
     }
 
+    // DTO dành cho client request (không có userid - sẽ lấy từ JWT token)
+    public class UpdateFavoriteRequestDTO 
+    {
+        public int? dishid { get; set; }
+        public int? restaurantid { get; set; }
+    }
+
+    // DTO nội bộ (sử dụng trong repository)
+    public class CreateFavoriteDTO 
+    {
+        public int? dishid { get; set; }
+        public int userid { get; set; } // Được set từ JWT token trong controller
+        public int? restaurantid { get; set; }
+    }
+
+    // DTO nội bộ (sử dụng trong repository)
     public class UpdateFavoriteDTO 
     {
         public int? dishid { get; set; }
-        public int userid { get; set; }
-        public int restaurantid { get; set; }
+        public int userid { get; set; } // Được set từ JWT token trong controller
+        public int? restaurantid { get; set; }
     }
 }
