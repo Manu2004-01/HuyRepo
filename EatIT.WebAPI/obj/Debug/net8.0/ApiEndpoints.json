@@ -53,6 +53,11 @@
         "Name": "Email",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "includeToken",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -542,6 +547,16 @@
     "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
     "Method": "GetPaymentHistory",
     "RelativePath": "api/Payment/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EatIT.WebAPI.Controllers.PaymentController",
+    "Method": "GetAllPayments",
+    "RelativePath": "api/Payment/payments",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

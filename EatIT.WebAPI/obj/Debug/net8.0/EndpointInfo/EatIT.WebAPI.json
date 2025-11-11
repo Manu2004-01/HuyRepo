@@ -187,6 +187,14 @@
               "type": "string",
               "format": "email"
             }
+          },
+          {
+            "name": "includeToken",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -838,6 +846,18 @@
       }
     },
     "/api/Payment/history": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Payment/payments": {
       "get": {
         "tags": [
           "Payment"

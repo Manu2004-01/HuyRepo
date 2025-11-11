@@ -28,33 +28,61 @@ namespace EatIT.Infrastructure.Repository
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Lấy premium đang hoạt động của user.
+        /// Premium được coi là active khi:
+        /// - PaymentType == "Premium"
+        /// - Status == "PAID"
+        /// - PremiumExpiryDate != null và PremiumExpiryDate > DateTime.UtcNow (chưa hết hạn)
+        /// Premium sẽ tự động hết hạn sau 1 tháng từ ngày thanh toán (PaidAt + 1 tháng)
+        /// </summary>
         public async Task<Payment?> GetActivePremiumByUserIdAsync(int userId)
         {
             return await _context.Payments
                 .Where(p => p.UserId == userId 
                     && p.PaymentType == "Premium" 
                     && p.Status == "PAID"
-                    && (p.PremiumExpiryDate == null || p.PremiumExpiryDate > DateTime.UtcNow))
+                    && p.PremiumExpiryDate != null
+                    && p.PremiumExpiryDate > DateTime.UtcNow)
                 .OrderByDescending(p => p.CreatedAt)
                 .FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Cập nhật trạng thái thanh toán.
+        /// Khi status = "PAID" và PaymentType = "Premium":
+        /// - Set PremiumExpiryDate = PaidAt + 1 tháng
+        /// - Premium sẽ tự động hết hạn sau 1 tháng, user sẽ không thể sử dụng premium features nữa
+        /// </summary>
         public async Task<bool> UpdatePaymentStatusAsync(long orderCode, string status, DateTime? paidAt = null)
         {
             var payment = await GetByOrderCodeAsync(orderCode);
             if (payment == null) return false;
 
             payment.Status = status;
-            if (paidAt.HasValue)
+            
+            if (status == "PAID")
             {
-                payment.PaidAt = paidAt.Value;
-            }
-            else if (status == "PAID")
-            {
-                payment.PaidAt = DateTime.UtcNow;
-                if (payment.PaymentType == "Premium")
+                // Set PaidAt từ tham số hoặc dùng thời gian hiện tại
+                if (paidAt.HasValue)
                 {
-                    payment.PremiumExpiryDate = DateTime.UtcNow.AddMonths(1);
+                    payment.PaidAt = paidAt.Value;
+                    // Nếu là Premium, set PremiumExpiryDate = PaidAt + 1 tháng
+                    // Sau 1 tháng, premium sẽ tự động hết hạn và không còn sử dụng được
+                    if (payment.PaymentType == "Premium")
+                    {
+                        payment.PremiumExpiryDate = paidAt.Value.AddMonths(1);
+                    }
+                }
+                else
+                {
+                    payment.PaidAt = DateTime.UtcNow;
+                    // Nếu là Premium, set PremiumExpiryDate = DateTime.UtcNow + 1 tháng
+                    // Sau 1 tháng, premium sẽ tự động hết hạn và không còn sử dụng được
+                    if (payment.PaymentType == "Premium")
+                    {
+                        payment.PremiumExpiryDate = DateTime.UtcNow.AddMonths(1);
+                    }
                 }
             }
 

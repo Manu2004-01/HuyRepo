@@ -9,6 +9,7 @@ namespace EatIT.Core.DTOs
     public class PaymentHistoryDTO
     {
         public int PaymentId { get; set; }
+        public int UserId { get; set; }
         public long OrderCode { get; set; }
         public int Amount { get; set; }
         public string Description { get; set; } = string.Empty;

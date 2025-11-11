@@ -94,6 +94,7 @@ namespace EatIT.WebAPI.Controllers
                 var history = payments.Select(p => new PaymentHistoryDTO
                 {
                     PaymentId = p.PaymentId,
+                    UserId = p.UserId,
                     OrderCode = p.OrderCode,
                     Amount = p.Amount,
                     Description = p.Description,
@@ -109,6 +110,38 @@ namespace EatIT.WebAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new BaseCommentResponse(500, $"Lỗi khi lấy lịch sử thanh toán: {ex.Message}"));
+            }
+        }
+
+        [Authorize]
+        [HttpGet("payments")]
+        public async Task<IActionResult> GetAllPayments()
+        {
+            try
+            {
+                var payments = await _paymentRepository.GetAllAsync();
+
+                var paymentList = payments.Select(p => new PaymentHistoryDTO
+                {
+                    PaymentId = p.PaymentId,
+                    UserId = p.UserId,
+                    OrderCode = p.OrderCode,
+                    Amount = p.Amount,
+                    Description = p.Description,
+                    Status = p.Status,
+                    PaymentType = p.PaymentType,
+                    PremiumExpiryDate = p.PremiumExpiryDate,
+                    CreatedAt = p.CreatedAt,
+                    PaidAt = p.PaidAt
+                }).OrderByDescending(p => p.CreatedAt).ToList();
+
+                var totalItems = paymentList.Count;
+
+                return Ok(new { totalItems, payments = paymentList });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BaseCommentResponse(500, $"Lỗi khi lấy danh sách thanh toán: {ex.Message}"));
             }
         }
 
