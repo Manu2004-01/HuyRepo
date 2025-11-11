@@ -14,11 +14,13 @@ namespace EatIT.WebAPI.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PaymentController(IPaymentService paymentService, IPaymentRepository paymentRepository)
+        public PaymentController(IPaymentService paymentService, IPaymentRepository paymentRepository, IUnitOfWork unitOfWork)
         {
             _paymentService = paymentService;
             _paymentRepository = paymentRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [Authorize]
@@ -119,6 +121,20 @@ namespace EatIT.WebAPI.Controllers
         {
             try
             {
+                // Lấy userId từ JWT token
+                var currentUserId = Locations.GetCurrentUserId(User);
+                if (currentUserId <= 0)
+                    return Unauthorized(new BaseCommentResponse(401, "Token không hợp lệ"));
+
+                // Lấy thông tin user từ database để kiểm tra RoleId
+                var user = await _unitOfWork.UserRepository.GetByIdAsync(currentUserId);
+                if (user == null)
+                    return Unauthorized(new BaseCommentResponse(401, "Không tìm thấy người dùng"));
+
+                // Chỉ cho phép admin (RoleId = 1) truy cập endpoint này
+                if (user.RoleId != 1)
+                    return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền truy cập endpoint này. Chỉ admin mới được xem tất cả payments."));
+
                 var payments = await _paymentRepository.GetAllAsync();
 
                 var paymentList = payments.Select(p => new PaymentHistoryDTO
