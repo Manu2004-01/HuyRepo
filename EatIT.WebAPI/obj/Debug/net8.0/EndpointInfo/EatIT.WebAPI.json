@@ -659,7 +659,7 @@
         }
       }
     },
-    "/api/Favorite/favorites/{userId}": {
+    "/api/Favorite/users/{userId}/favorites": {
       "get": {
         "tags": [
           "Favorite"

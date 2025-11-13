@@ -498,7 +498,7 @@
   {
     "ContainingType": "EatIT.WebAPI.Controllers.FavoriteController",
     "Method": "GetFavoritesByUser",
-    "RelativePath": "api/Favorite/favorites/{userId}",
+    "RelativePath": "api/Favorite/users/{userId}/favorites",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

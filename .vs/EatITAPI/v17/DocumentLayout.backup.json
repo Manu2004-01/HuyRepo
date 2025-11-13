@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\ratingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\ratingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.core\\dtos\\favoritedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5FCA855B-5DF9-4D6E-981F-5732AF599860}|EatIT.Core\\EatIT.Core.csproj|solutionrelative:eatit.core\\dtos\\favoritedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|d:\\fptu\\fa25\\28-10\\huyrepo\\eatit.webapi\\controllers\\favoritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB6CB39A-E5B0-480E-A002-F3373A85B45A}|EatIT.WebAPI\\EatIT.WebAPI.csproj|solutionrelative:eatit.webapi\\controllers\\favoritecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,15 +34,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RatingController.cs",
-              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\RatingController.cs",
-              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\RatingController.cs",
-              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\RatingController.cs",
-              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\RatingController.cs",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "FavoriteController.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\FavoriteController.cs",
+              "RelativeDocumentMoniker": "EatIT.WebAPI\\Controllers\\FavoriteController.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.WebAPI\\Controllers\\FavoriteController.cs",
+              "RelativeToolTip": "EatIT.WebAPI\\Controllers\\FavoriteController.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAgwGEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T12:57:01.285Z",
+              "WhenOpened": "2025-11-13T00:30:32.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FavoriteDTO.cs",
+              "DocumentMoniker": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\DTOs\\FavoriteDTO.cs",
+              "RelativeDocumentMoniker": "EatIT.Core\\DTOs\\FavoriteDTO.cs",
+              "ToolTip": "D:\\FPTU\\FA25\\28-10\\HuyRepo\\EatIT.Core\\DTOs\\FavoriteDTO.cs",
+              "RelativeToolTip": "EatIT.Core\\DTOs\\FavoriteDTO.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAswA4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T00:30:10.912Z",
               "EditorCaption": ""
             }
           ]

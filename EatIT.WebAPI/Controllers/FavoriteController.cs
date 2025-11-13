@@ -46,7 +46,7 @@ namespace EatIT.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("favorites/{userId}")]
+        [HttpGet("users/{userId}/favorites")]
         public async Task<ActionResult> GetFavoritesByUser(int userId)
         {
             try
@@ -95,7 +95,7 @@ namespace EatIT.WebAPI.Controllers
                 if (favorite.UserId != currentUserId)
                     return StatusCode(403, new BaseCommentResponse(403, "Bạn không có quyền xem favorite này"));
 
-                var result = _mapper.Map<FavoriteDTO>(favorite);
+                var result = _mapper.Map<FavoriteByIdDTO>(favorite);
                 return Ok(result);
             }
             catch (Exception ex)

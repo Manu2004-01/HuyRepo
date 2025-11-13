@@ -10,9 +10,21 @@ namespace EatIT.Core.DTOs
     public class FavoriteDTO 
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
         public string DishName { get; set; }
         public string RestaurantName { get; set; }
+        public string? DishImg { get; set; }
+    }
+
+    public class FavoriteByIdDTO
+    {
+        public int Id { get; set; }
+        public string DishName { get; set; }
+        public string RestaurantName { get; set; }
+        public string? RestaurantImg { get; set; }
+        public string? ResAddress { get; set; }
+        public double? StarRating { get; set; }
+        public long? ResPhoneNumber { get; set; }
+        public string? OpeningHours { get; set; }
     }
 
     // DTO dành cho client request (không có userid - sẽ lấy từ JWT token)

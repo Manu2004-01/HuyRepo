@@ -14,10 +14,11 @@ namespace EatIT.WebAPI.Controllers
     [ApiController]
     public class FoodSuggestionController : Controller
     {
-        private readonly HttpClient _httpClient;
+		private readonly HttpClient _httpClient;
 		private readonly string _apiKey;
 		private readonly string _model;
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IConfiguration _configuration;
 		private class DishOption { public int DishId { get; set; } public string DishName { get; set; } }
 
 		public FoodSuggestionController(IHttpClientFactory httpClientFactory, IConfiguration config, IUnitOfWork unitOfWork)
@@ -26,6 +27,7 @@ namespace EatIT.WebAPI.Controllers
 			_apiKey = config["Gemini:ApiKey"];
 			_model = config["Gemini:Model"] ?? "gemini-2.5-flash";
 			_unitOfWork = unitOfWork;
+			_configuration = config;
         }
 
 		[Authorize]
@@ -253,13 +255,12 @@ namespace EatIT.WebAPI.Controllers
 				{
 					var restaurant = await _unitOfWork.RestaurantRepository.GetByIdAsync(fullDish.ResId);
 					string distanceDisplay = null;
-					string resImg = null;
+					string dishImage = ImageUrlHelper.ResolveImageUrl(fullDish, _configuration, nameof(EatIT.Core.Entities.Dishes.DishImage));
 					string resName = null;
 					string resAddress = null;
 
 					if (restaurant != null)
 					{
-						resImg = restaurant.RestaurantImg;
 						resName = restaurant.ResName;
 						resAddress = restaurant.ResAddress;
 						if (lat.HasValue && lng.HasValue)
@@ -273,7 +274,7 @@ namespace EatIT.WebAPI.Controllers
 					{
 						dishId = selected.DishId,
 						dishName = selected.DishName,
-						restaurantImg = resImg,
+						dishImage = dishImage,
 						resName = resName,
 						resAddress = resAddress,
 						distanceDisplay = distanceDisplay
